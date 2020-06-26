@@ -1,0 +1,6 @@
+bus;axis;position;norm_per_contr;min_limit;max_limit
+0;1;110.0004182525;1.0;None;None
+1;1;0.0;1.0;None;None
+1;2;0.0;1.0;None;None
+2;1;0.1672527311;1.0;None;None
+2;2;244.9910216426;1.0;None;None

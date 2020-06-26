@@ -1,0 +1,7 @@
+Motor Name;Bus;Axe;Mit Initiatoren(0 oder 1);Einheiten;Einheiten pro Schritt;Lauffrequenz;Stoppstrom;Laufstrom;Booststrom;Initiatortyp
+MirrorX;0;1;1;;;4000;1;2;2;
+MirrorY;0;2;1;;;4000;1;2;2;
+Seite;1;1;0;;;4000;1;2;2;
+Hoche;1;2;0;;;4000;1;2;2;
+Fokus;2;1;1;;;4000;1;2;2;
+TestMotor;2;2;1;;;4000;5;11;18;

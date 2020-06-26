@@ -1,0 +1,7 @@
+Motor Name;Bus;Achse;Mit Initiatoren(0 oder 1);Einheiten;Umrechnungsfaktor;Lauffrequenz;Stoppstrom;Laufstrom;Booststrom;Initiatortyp
+TestMotor0;0;1;1;einh1;22.222;1000;1;2;3;1
+TestMotor1;0;2;0;einh2;33.333;2000;2;3;4;1
+TestMotor2;1;1;0;einh3;44.444;3000;3;4;5;0
+TestMotor3;1;2;1;einh4;55.555;4000;4;5;6;1
+TestMotor4;2;1;1;einh4;55.555;4000;4;5;6;1
+TestMotor4;2;2;1;einh4;55.555;4000;4;5;6;1

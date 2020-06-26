@@ -1,0 +1,5 @@
+Motor Name;Bus;Achse;Mit Initiatoren(0 oder 1);Einheiten;Umrechnungsfaktor;Lauffrequenz;Stoppstrom;Laufstrom;Booststrom;Initiatortyp;Umrechnungsfaktor(Contr)
+Motor0.1;0;1;;;;;;;;;
+Motor0.2;0;2;;;;;;;;;
+Motor1.1;1;1;;;;;;;;;
+Motor1.2;1;2;;;;;;;;;
