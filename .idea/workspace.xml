@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="" />
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/motor_controller" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JupyterTrust" id="736faef9-ff6d-4135-b2e7-d8f1dcabffb2" />
   <component name="ProjectId" id="1drqDVcKayTzO4pKDiVijAfsgm3" />
@@ -116,33 +118,67 @@
       <updated>1593193439359</updated>
       <workItem from="1593193440544" duration="2782000" />
       <workItem from="1593197288030" duration="25000" />
+      <workItem from="1593197322777" duration="307000" />
+      <workItem from="1593201682309" duration="5000" />
     </task>
+    <task id="LOCAL-00001" summary="init commit">
+      <created>1593197450933</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1593197450933</updated>
+    </task>
+    <task id="LOCAL-00002" summary="build">
+      <created>1593197588155</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1593197588155</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init commit" />
+    <MESSAGE value="build" />
+    <option name="LAST_COMMIT_MESSAGE" value="build" />
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1572" height="258" key="GridCell.Tab.0.bottom" timestamp="1593197280449">
+    <state x="369" y="87" key="CommitChangelistDialog2" timestamp="1593197588065">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state width="1572" height="258" key="GridCell.Tab.0.bottom/0.23.1680.966@0.23.1680.966" timestamp="1593197280449" />
-    <state width="1572" height="258" key="GridCell.Tab.0.center" timestamp="1593197280448">
+    <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.966@0.23.1680.966" timestamp="1593197588065" />
+    <state x="689" y="407" key="Github.ShareDialog" timestamp="1593197509139">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state width="1572" height="258" key="GridCell.Tab.0.center/0.23.1680.966@0.23.1680.966" timestamp="1593197280448" />
-    <state width="1572" height="258" key="GridCell.Tab.0.left" timestamp="1593197280448">
+    <state x="689" y="407" key="Github.ShareDialog/0.23.1680.966@0.23.1680.966" timestamp="1593197509139" />
+    <state width="1572" height="258" key="GridCell.Tab.0.bottom" timestamp="1593197629776">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state width="1572" height="258" key="GridCell.Tab.0.left/0.23.1680.966@0.23.1680.966" timestamp="1593197280448" />
-    <state width="1572" height="258" key="GridCell.Tab.0.right" timestamp="1593197280448">
+    <state width="1572" height="258" key="GridCell.Tab.0.bottom/0.23.1680.966@0.23.1680.966" timestamp="1593197629776" />
+    <state width="1572" height="258" key="GridCell.Tab.0.center" timestamp="1593197629775">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
-    <state width="1572" height="258" key="GridCell.Tab.0.right/0.23.1680.966@0.23.1680.966" timestamp="1593197280448" />
+    <state width="1572" height="258" key="GridCell.Tab.0.center/0.23.1680.966@0.23.1680.966" timestamp="1593197629775" />
+    <state width="1572" height="258" key="GridCell.Tab.0.left" timestamp="1593197629775">
+      <screen x="0" y="23" width="1680" height="966" />
+    </state>
+    <state width="1572" height="258" key="GridCell.Tab.0.left/0.23.1680.966@0.23.1680.966" timestamp="1593197629775" />
+    <state width="1572" height="258" key="GridCell.Tab.0.right" timestamp="1593197629776">
+      <screen x="0" y="23" width="1680" height="966" />
+    </state>
+    <state width="1572" height="258" key="GridCell.Tab.0.right/0.23.1680.966@0.23.1680.966" timestamp="1593197629776" />
     <state x="158" y="267" key="SettingsEditor" timestamp="1593196962926">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="158" y="267" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1593196962926" />
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2" timestamp="1593197610853">
+      <screen x="0" y="23" width="1680" height="966" />
+    </state>
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.966@0.23.1680.966" timestamp="1593197610853" />
     <state x="509" y="371" key="git4idea.rebase.GitRebaseDialog" timestamp="1593197159639">
       <screen x="0" y="23" width="1680" height="966" />
     </state>

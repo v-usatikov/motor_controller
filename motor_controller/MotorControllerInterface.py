@@ -506,7 +506,7 @@ class Motor:
                             'display_units': 'Schritte',
                             'norm_per_contr': 1.0,
                             'displ_per_contr': 1.0,
-                            'displ_null': 0.0,  # Anzeiger Null in normierte Einheiten
+                            'displ_null': 500.0,  # Anzeiger Null in normierte Einheiten
                             'null_position': 0.0  # Position von Anfang in Controller Einheiten
                             }
 
