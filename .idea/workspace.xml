@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/MotorControllerInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/MotorControllerInterface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +121,8 @@
       <workItem from="1593197288030" duration="25000" />
       <workItem from="1593197322777" duration="307000" />
       <workItem from="1593201682309" duration="5000" />
+      <workItem from="1596560253160" duration="779000" />
+      <workItem from="1596982278332" duration="337000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -135,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593197588155</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="displ_null zu Mitte geändert">
+      <created>1596560403262</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1596560403262</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,12 +154,14 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init commit" />
     <MESSAGE value="build" />
-    <option name="LAST_COMMIT_MESSAGE" value="build" />
+    <MESSAGE value="displ_null zu Mitte geändert" />
+    <option name="LAST_COMMIT_MESSAGE" value="displ_null zu Mitte geändert" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="369" y="87" key="CommitChangelistDialog2" timestamp="1593197588065">
-      <screen x="0" y="23" width="1680" height="966" />
+    <state x="369" y="87" key="CommitChangelistDialog2" timestamp="1596560403125">
+      <screen x="0" y="23" width="1680" height="965" />
     </state>
+    <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.965@0.23.1680.965" timestamp="1596560403125" />
     <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.966@0.23.1680.966" timestamp="1593197588065" />
     <state x="689" y="407" key="Github.ShareDialog" timestamp="1593197509139">
       <screen x="0" y="23" width="1680" height="966" />
@@ -175,9 +187,10 @@
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="158" y="267" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1593196962926" />
-    <state x="442" y="243" key="Vcs.Push.Dialog.v2" timestamp="1593197610853">
-      <screen x="0" y="23" width="1680" height="966" />
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2" timestamp="1596560433725">
+      <screen x="0" y="23" width="1680" height="965" />
     </state>
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.965@0.23.1680.965" timestamp="1596560433725" />
     <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.966@0.23.1680.966" timestamp="1593197610853" />
     <state x="509" y="371" key="git4idea.rebase.GitRebaseDialog" timestamp="1593197159639">
       <screen x="0" y="23" width="1680" height="966" />

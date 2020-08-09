@@ -595,7 +595,7 @@ class Motor:
 
         shift = float(shift)
         if (self.soft_limits != (None, None) and not calibrate) or wait or check:
-            shift = self.transform_units(shift, units, to='norm')
+            shift = self.transform_units(shift, units, to='norm', rel=True)
             position = self.position('norm')
             destination = position + shift
             return self.go_to(destination, 'norm', wait, check, stop_indicator, reporter)
@@ -603,6 +603,7 @@ class Motor:
         shift = self.transform_units(shift, units, to='contr', rel=True)
         self.communicator.go(shift, *self.coord())
         logging.info(f'Motor {self.axis} beim Controller {self.controller.bus} wurde um {shift} verschoben. ')
+        return True, ""
 
     def stop(self):
         """Stoppt die Achse"""
