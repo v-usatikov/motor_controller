@@ -1,252 +1,335 @@
-import logging
+# coding= utf-8
 import threading
-import time
-from copy import deepcopy
-from typing import Union, Dict, List, Tuple
-
-from motor_controller.MotorControllerInterface import ContrCommunicator, SerialEmulator, Connector, NoReplyError, \
-    ReplyError, ControllerError, EthernetConnector, Box
-from motor_controller.Phytron_MCC2 import is_h_digit, MCC2Communicator
-
-import logscolor
+from motor_controller.interface import *
 
 if __name__ == '__main__':
     logscolor.init_config()
 
 
-class MCS2Communicator(ContrCommunicator):
+# noinspection PyPep8Naming
+def MCC2SerialConnector(port: str, timeout: float = 0.2, baudrate: float = 115200) -> SerialConnector:
+    return SerialConnector(port=port, beg_symbol=b'\x02', end_symbol=b'\x03', timeout=timeout, baudrate=baudrate)
 
-    tolerance = 10**6  # Für MCS2 akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
-    calibration_shift = 50*10**9
 
+class MCC2Communicator(ContrCommunicator):
+    """Diese Klasse beschreibt die Sprache, die man braucht, um mit MCC2 Controller zu kommunizieren.
+    Hier sind alle MCC2-spezifische Eigenschaften zusammen gesammelt"""
+
+    # Dict, der für jeder Parameter dazugehöriger Nummer ausgibt.
+    PARAMETER_NUMBER = {'Lauffrequenz': 14, 'Stoppstrom': 40, 'Laufstrom': 41, 'Booststrom': 42, 'Initiatortyp': 27,
+                        'Umrechnungsfaktor(Contr)': 3}
+    # Dict, mit den Beschreibungen der Parametern.
+    PARAMETER_DESCRIPTION = {'Lauffrequenz': 'ein int Wert in Hz (max 40 000)',
+                             'Stoppstrom': '',
+                             'Laufstrom': '',
+                             'Booststrom': '',
+                             'Initiatortyp': '0 = PNP-Öffner oder 1 = PNP-Schließer',
+                             'Umrechnungsfaktor(Contr)': ''}
     # Dict, mit den Defaultwerten der Parametern.
-    PARAMETER_DEFAULT = {'Positioner Type': 300, 'Velocity': 0, 'Acceleration': 0}
-    PARAMETER_COMMAND = {'Positioner Type': b':PTYPe', 'Velocity': b':VEL', 'Acceleration': b':ACC'}
+    PARAMETER_DEFAULT = {'Lauffrequenz': 400.0, 'Stoppstrom': 2, 'Laufstrom': 2, 'Booststrom': 2, 'Initiatortyp': 0,
+                         'Umrechnungsfaktor(Contr)': 1}
+
+    tolerance = 1  # Für MCC2 akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
+    calibration_shift = 500000
 
     def __init__(self, connector: Connector):
         self.connector = connector
-        self.__mutex1 = threading.Lock()
-        self.__mutex2 = threading.Lock()
-        self.__mutex3 = threading.Lock()
+        self.__mutex = threading.Lock()
 
-        self.__axen_list = []
-        self.__get_axen_list()
+    def go(self, shift: float, bus: int, axis: int):
+        """Verschiebt den angegeben Motor um die angegebene Verschiebung."""
 
-    def __get_axen_list(self):
-        """Liest wie viel Achsen jeder Modul hat,
-        und sichert dieser Information für weitere berechnung der Nummern von Chennels.
-        """
-        self.__axen_list = []
-        for bus in self.bus_list():
-            self.__axen_list.append(len(self.axes_list(bus)))
+        command = str(shift).encode()
+        self.command_without_reply(command, bus, axis)
 
-    def __ch_n(self, bus: int, axis: int) -> int:
-        return sum(self.__axen_list[:bus]) + axis
+    def go_to(self, destination: float, bus: int, axis: int):
+        """Schickt den angegeben Motor zur angegebene absolute Position."""
 
-    def command_with_float_reply(self, command: bytes, bus: int = None, axis: int = None) -> float:
+        command = f"A{destination}".encode()
+        self.command_without_reply(command, bus, axis)
+
+    def stop(self, bus: int, axis: int):
+        """Stoppt den angegebenen Motor."""
+
+        command = b"S"
+        self.command_without_reply(command, bus, axis)
+
+    def get_position(self, bus: int, axis: int) -> float:
+        """Gibt die Position des angegebenen Motors zurück."""
+
+        command = b"P20R"
+        return self.command_with_float_reply(command, bus, axis)
+
+    def set_position(self, new_position: float, bus: int, axis: int):
+        """Ändert den Wert des Positionzählers im Controller für die angegebene Achse."""
+
+        command = f"P20S{new_position}".encode()
+        self.command_without_reply(command, bus, axis)
+
+    def get_parameter(self, parameter_name: str, bus: int, axis: int) -> float:
+        """Liest den Wert des angegebenen Parameters."""
+
+        if parameter_name not in self.PARAMETER_NUMBER.keys():
+            raise ValueError(f'Falscher Name des Parameters: "{parameter_name}"')
+
+        param_number = self.PARAMETER_NUMBER[parameter_name]
+        command = f"P{param_number}R".encode()
+        return self.command_with_float_reply(command, bus, axis)
+
+    def set_parameter(self, parameter_name: str, neu_value: float, bus: int, axis: int):
+        """Ändert den Wert des angegebenen Parameters."""
+
+        if parameter_name not in self.PARAMETER_NUMBER.keys():
+            raise ValueError(f'Falscher Name des Parameters: "{parameter_name}"')
+
+        param_number = self.PARAMETER_NUMBER[parameter_name]
+        command = f"P{param_number}S{neu_value}".encode()
+        self.command_without_reply(command, bus, axis)
+
+    def motor_stand(self, bus: int, axis: int) -> bool:
+        """Zeigt, ob der Motor im Moment steht(True) oder fährt(False)."""
+
+        command = b'=H'
+        return self.command_with_bool_reply(command, bus, axis)
+
+    def motor_at_the_beg(self, bus: int, axis: int) -> bool:
+        """Zeigt, ob der Anfang-Initiator im Moment aktiviert ist."""
+
+        command = b'=I-'
+        return self.command_with_bool_reply(command, bus, axis)
+
+    def motor_at_the_end(self, bus: int, axis: int) -> bool:
+        """Zeigt, ob der End-Initiator im Moment aktiviert ist."""
+
+        command = b'=I+'
+        return self.command_with_bool_reply(command, bus, axis)
+
+    def read_reply(self) -> (bool, Union[bytes, None]):
+        """Antwort lesen, der nach einem Befehl erscheint."""
+
+        reply = self.connector.read()
+        if reply is None:
+            return None, None
+        elif reply[:1] == b'\x06':
+            return True, reply[1:]
+        elif reply == b'\x15':
+            return False, None
+        else:
+            raise ReplyError(f'Unerwartete Antwort vom Controller: {reply[1]}')
+
+    def bus_list(self) -> Tuple[int]:
+        """Gibt die Liste der allen verfügbaren Bus-Nummern zurück."""
+
+        bus_list = []
+        for i in range(16):
+            for j in range(2):
+                check = self.bus_check(i)
+                if check[0]:
+                    bus_list.append(i)
+                    break
+            # noinspection PyUnboundLocalVariable
+            if not check[0]:
+                logging.error(f'Bei Bus Nummer {i} keinen Kontroller gefunden. Controller Antwort:{check[1]}')
+        if not bus_list:
+            raise SerialError("Es wurde keine Controller gefunden!")
+        return tuple(bus_list)
+
+    def axes_list(self, bus: int) -> Tuple[int]:
+        """Gibt die Liste der allen verfügbaren Achsen zurück."""
+
+        command = b"IAR"
+        n_axes = int(self.command_with_float_reply(command, bus))
+        return tuple(range(1, n_axes+1))
+
+    def check_connection(self) -> (bool, bytes):
+        """Prüft ob es bei dem Com-Port tatsächlich ein Controller gibt, und gibt die Version davon zurück."""
+
+        check = False
+        for i in range(16):
+            for j in range(4):
+                check = self.bus_check(i)
+                # print(check)
+                if check[0]:
+                    return check
+        return check
+
+    def command_to_box(self, command: bytes) -> (bool, Union[bytes, None]):
+        """Ausführt ein Befehl ohne Adressieren und gibt die Antwort zurück."""
+
+        self.__mutex.acquire()
+        self.connector.send(command)
+        reply = self.read_reply()
+        self.__mutex.release()
+        return reply
+
+    def command_to_modul(self, command: bytes, bus: int) -> (bool, Union[bytes, None]):
+        """Ausführt ein zum Modul adressierte Befehl und gibt die Antwort zurück."""
+
+        command = self.__contr_prefix(bus) + command
+        return self.command_to_box(command)
+
+    def command_to_motor(self, command: bytes, bus: int, axis: int) -> (bool, Union[bytes, None]):
+        """Ausführt ein zum Motor adressierte Befehl und gibt die Antwort zurück."""
+
+        command = self.__axis_prefix(axis) + command
+        return self.command_to_modul(command, bus)
+
+    def command(self, command: bytes, bus: int, axis: int = None) -> (bool, Union[bytes, None]):
+        """Ausführt ein Befehl für Motor oder für Controller und gibt die Antwort zurück."""
+
+        if axis is None:
+            return self.command_to_modul(command, bus)
+        else:
+            return self.command_to_motor(command, bus, axis)
+
+    # TODO schreiben check_raw_input_data zu Ende
+    def check_raw_input_data(self, raw_input_data: List[dict]) -> (bool, str):
+        """Prüft ob die rohe Daten aus der input-Datei kompatibel sind."""
+
+        for motor_line in raw_input_data:
+            init_status = motor_line['Mit Initiatoren(0 oder 1)']
+            message = f'"Mit Initiatoren" muss 0 oder 1 sein, und kein "{init_status}"'
+            if init_status != '':
+                try:
+                    init_status = bool(int(motor_line['Mit Initiatoren(0 oder 1)']))
+                except ValueError:
+                    return False, message
+                if init_status not in (0, 1):
+                    return False, message
+
+            units_per_step = motor_line['Umrechnungsfaktor']
+            message = f'"Einheiten pro Schritt" muss ein float Wert haben, und kein "{units_per_step}"'
+            if units_per_step != '':
+                try:
+                    float(motor_line['Mit Initiatoren(0 oder 1)'])
+                except ValueError:
+                    return False, message
+
+        return True, ""
+
+    def bus_check(self, bus: int) -> (bool, str):
+        """Prüft ob es bei dem Bus-Nummer ein Controller gibt, und gibt die Version davon zurück."""
+
+        try:
+            command = b"IVR"
+            reply = self.command_to_modul(command, bus)
+        except ReplyError as err:
+            logging.error(str(err))
+            return False, str(err)
+
+        if reply[0] is None:
+            return False, None
+        elif reply[0] is False:
+            return False, f'Unerwartete Antwort vom Controller: {reply[1]}!'
+        elif reply[1][0:3] == b'MCC':
+            return True, reply[1]
+        else:
+            return False, reply[1]
+
+    def command_with_float_reply(self, command: bytes, bus: int, axis: int = None) -> float:
         """Ausführt ein Befehl mit einer erwarteten Fließkommazahl-Antwort
         und gibt die erhaltene Fließkommazahl zurück.
         """
 
         reply = self.command(command, bus, axis)
-        try:
-            return float(reply)
-        except ValueError:
-            raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
+        return self.__transform_float_reply(reply)
 
-    def command_with_int_reply(self, command: bytes, bus: int = None, axis: int = None) -> int:
-        """Ausführt ein Befehl mit einer erwarteten int-Antwort
-        und gibt die erhaltene int zurück.
-        """
-
-        value = self.command_with_float_reply(command, bus, axis)
-        return int(value)
-
-    def command_without_reply(self, command: bytes, bus: int = None, axis: int = None):
+    def command_with_bool_reply(self, command: bytes, bus: int, axis: int = None) -> bool:
         """Ausführt ein Befehl mit einer erwarteten bool Antwort
         und gibt den erhaltenen bool Wert zurück.
         """
 
         reply = self.command(command, bus, axis)
-        if reply is not None:
-            raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
+        return self.__transform_bool_reply(reply)
 
-    def __command(self, command: bytes, clear_buffer: bool = True) -> bytes:
-        """Ausführt ein Befehl und gibt die Antwort zurück, ohne Prüfung der Ausführung."""
+    def command_without_reply(self, command: bytes, bus: int, axis: int = None):
+        """Ausführt ein Befehl ohne erwartete Antwort."""
 
-        self.__mutex1.acquire()
-        self.connector.send(command, clear_buffer)
-        reply = self.connector.read()
-        self.__mutex1.release()
-        return reply
+        reply = self.command(command, bus, axis)
+        self.__check_command_result(reply)
 
-    # def __get_errors_and_raise(self):
-    #     """Ruft eine Ausnahme mit Fehlermeldung vom Controller."""
-    #
-    #     errors = self.get_errors()
-    #     if errors:
-    #         raise NoReplyError(f'Der Controller antwortet nicht!\n Fehlermeldung vom Controller: {errors}')
-    #     else:
-    #         raise NoReplyError(f'Der Controller antwortet nicht!\n Der Controller berichtet keine Fehler.')
+    @staticmethod
+    def __check_command_result(reply: Tuple[bool, Union[bytes, None]]):
+        """Prüft die Antwort vom Controller für ein Befehl ohne erwartete Antwort."""
 
-    def get_errors(self) -> bytes:
-        """Fragt den Controller ob Fehler gibt, und gibt ein Bericht mit allen Fehlern zurück.
-        Wenn keine Fehler gibt, dann gibt leere bytes-string zurück.
+        if reply[0] is None:
+            raise NoReplyError('Der Controller antwortet nicht!')
+        elif reply[0] is False:
+            raise ControllerError('Controller hat den Befehl negativ quittiert!')
+        elif reply[0] is True:
+            if reply[1]:
+                raise ReplyError(f'Unerwartete Antwort vom Controller: {reply[1]}!')
+
+    @staticmethod
+    def __transform_float_reply(reply: Tuple[bool, Union[bytes, None]]) -> float:
+        """Prüft die Antwort vom Controller und kriegt die enthaltene Fließkommazahl heraus.
         """
 
-        self.__mutex2.acquire()
-        reply = self.__command(b':SYST:ERR:COUN?')
+        if reply[0] is None:
+            raise NoReplyError('Der Controller antwortet nicht!')
+        elif reply[0] is False:
+            raise ControllerError('Controller hat den Befehl negativ quittiert!')
+        elif reply[0] is True:
+            try:
+                return float(reply[1])
+            except ValueError:
+                raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
 
-        if reply is None:
-            NoReplyError('Der Controller antwortet nicht!')
-        try:
-            errors_count = int(reply)
-        except ValueError:
-            raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
+    @staticmethod
+    def __transform_bool_reply(reply: Tuple[bool, Union[bytes, None]]) -> bool:
+        """Prüft die Antwort vom Controller und kriegt den enthaltenen boll Wert heraus.
+        """
 
-        errors = b''
-        if errors_count:
-            for i in range(errors_count):
-                reply = self.__command(b':SYST:ERR:NEXT?')
-                # reply_ = reply.split(b',')
-                # if len(reply_) != 2:
-                #     raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
-                # error_n, mess = reply_
-                # try:
-                #     error_n = int(error_n)
-                # except ValueError:
-                #     raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
-                errors += reply + b'\n'
-        self.__mutex2.release()
-        return errors
-
-    def go(self, shift: float, bus: int, axis: int):
-        """Verschiebt den angegeben Motor um die angegebene Verschiebung."""
-        channel = self.__ch_n(bus, axis)
-        self.command_without_reply(b':MMOD 1', bus, axis)
-        self.command_without_reply(f':MOVE{channel} {shift}'.encode())
-
-    def go_to(self, destination: float, bus: int, axis: int):
-        """Schickt den angegeben Motor zur angegebene absolute Position."""
-        channel = self.__ch_n(bus, axis)
-        self.command_without_reply(b':MMOD 0', bus, axis)
-        self.command_without_reply(f':MOVE{channel} {destination}'.encode())
-
-    def stop(self, bus: int, axis: int):
-        """Stoppt den angegebenen Motor."""
-        channel = self.__ch_n(bus, axis)
-        self.command_without_reply(f':STOP{channel}'.encode())
-
-    def get_position(self, bus: int, axis: int) -> float:
-        """Gibt die Position des angegebenen Motors zurück."""
-        return self.command_with_float_reply(b':POS?', bus, axis)
-
-    def set_position(self, new_position: float, bus: int, axis: int):
-        """Ändert den Wert des Positionzählers im Controller für die angegebene Achse."""
-        self.command_without_reply(f':POS {new_position}'.encode(), bus, axis)
-
-    def get_parameter(self, parameter_name: str, bus: int, axis: int) -> float:
-        """Liest den Wert des angegebenen Parameters."""
-        return self.command_with_float_reply(self.PARAMETER_COMMAND[parameter_name]+b'?')
-
-    def set_parameter(self, parameter_name: str, neu_value: float, bus: int, axis: int):
-        """Ändert den Wert des angegebenen Parameters."""
-        self.command_without_reply(self.PARAMETER_COMMAND[parameter_name] + f' {neu_value}'.encode(), bus, axis)
-
-    def __get_chan_prop(self, bus: int, axis: int) -> Tuple[int]:
-        int32 = self.command_with_int_reply(b':STATe?', bus, axis)
-        bits_feld = list(map(int, format(int32, '016b')))
-        bits_feld.reverse()
-        return tuple(bits_feld)
-
-    def motor_stand(self, bus: int, axis: int) -> bool:
-        """Zeigt, ob der Motor im Moment steht(True) oder fährt(False)."""
-        return not bool(self.__get_chan_prop(bus, axis)[0])
-
-    def motor_at_the_beg(self, bus: int, axis: int) -> bool:
-        """Zeigt, ob der Anfang-Initiator im Moment aktiviert ist."""
-        return bool(self.__get_chan_prop(bus, axis)[8])
-
-    def motor_at_the_end(self, bus: int, axis: int) -> bool:
-        """Zeigt, ob der End-Initiator im Moment aktiviert ist."""
-        return self.motor_at_the_beg(bus, axis)
-
-    def bus_list(self) -> Tuple[int]:
-        """Gibt die Liste der allen verfügbaren Bus-Nummern zurück."""
-        n_moduls = self.command_with_int_reply(b':DEV:NOBM?')
-        return tuple(range(n_moduls))
-
-    def axes_list(self, bus: int) -> Tuple[int]:
-        """Gibt die Liste der allen verfügbaren Achsen zurück."""
-        n_axis = self.command_with_int_reply(b':NOMC?', bus)
-        return tuple(range(n_axis))
-
-    def check_connection(self) -> (bool, bytes):
-        """Prüft ob es bei dem Port tatsächlich ein Controller gibt, und gibt die Version davon zurück."""
-        reply = self.__command(b'*IDN?')
-        if reply[:7] == b'SmarAct':
+        if reply[0] is None:
+            raise NoReplyError('Der Controller antwortet nicht!')
+        elif reply[0] is False:
+            raise ControllerError('Controller hat den Befehl negativ quittiert!')
+        elif reply[1] == b'E':
             return True
-        else:
+        elif reply[1] == b'N':
             return False
-
-    def command_to_box(self, command: bytes) -> (bool, Union[bytes, None]):
-        """Ausführt ein Befehl ohne Adressieren und gibt die Antwort zurück."""
-        self.__mutex3.acquire()
-        try:
-            self.get_errors()
-            reply = self.__command(command)
-
-            errors = self.get_errors()
-            if errors:
-                return False, errors
-            else:
-                return True, reply
-
-        finally:
-            self.__mutex3.release()
-
-    def command_to_modul(self, command: bytes, bus: int) -> (bool, Union[bytes, None]):
-        """Ausführt ein zum Modul adressierte Befehl und gibt die Antwort zurück."""
-        command = f':MOD{bus}'.encode() + command
-        return self.command_to_box(command)
-
-    def command_to_motor(self, command: bytes, bus: int, axis: int) -> (bool, Union[bytes, None]):
-        """Ausführt ein zum Motor adressierte Befehl und gibt die Antwort zurück."""
-        chanel = self.__ch_n(bus, axis)
-        command = f':CHAN{chanel}'.encode() + command
-        return self.command_to_box(command)
-
-    def command(self, command: bytes, bus: int = None, axis: int = None) -> Union[bytes, None]:
-        """Ausführt ein Befehl für Motor oder für Controller und gibt die Antwort zurück."""
-        if axis is not None and bus is None:
-            logging.warning(f'Die Eingabe von axis wurde ignoriert, wenn bus None ist!')
-        if bus is None:
-            success, reply = self.command_to_box(command)
-        elif axis is None:
-            success, reply = self.command_to_modul(command, bus)
         else:
-            success, reply = self.command_to_motor(command, bus, axis)
-        if not success:
-            raise ControllerError(f'Der Controller hat einen Fehler gemeldet: {reply}')
-        return reply
+            raise ReplyError(f'Unerwartete Antwort vom Controller: {reply[1]}')
 
-    def check_raw_input_data(self, raw_input_data: List[dict]) -> (bool, str):
-        """Prüft ob die rohe Daten aus der input-Datei kompatibel sind."""
-        raise NotImplementedError
+    @staticmethod
+    def __contr_prefix(bus: int) -> bytes:
+        """Gibt ein Präfix zurück, das einen Befehl an den gewünschten Controller adressiert."""
 
-    def calibrate(self, bus: int, axis: int):
-        """Die standarte Justierungmaßnahmen durchführen, wenn der Kontroller welche unterstützt."""
-        channel = self.__ch_n(bus, axis)
-        self.command_without_reply(f':CHAN{channel}:CAL:OPT 0'.encode())
-        self.command_without_reply(f':CAL{channel}'.encode())
-        # self.command_without_reply(b'*WAI')
+        if bus > 15 or bus < 0:
+            raise ValueError(f'bus muss ein Wert zwischen 0 und 15 haben und kein {bus}')
+        return f'{bus:x}'.encode()
+
+    @staticmethod
+    def __axis_prefix(axis: int) -> bytes:
+        """Gibt ein Teil des Präfixes zurück, das einen Befehl an die gewünschte Achse adressiert."""
+
+        if axis > 9 or axis < 0:
+            raise ValueError(f'axis muss ein Wert zwischen 0 und 9 haben und kein {axis}')
+        return str(axis).encode()
+
+
+# noinspection PyPep8Naming
+def MCC2BoxSerial(port: str, timeout: float = 0.2, baudrate: float = 115200, input_file: str = None) -> Box:
+    connector = MCC2SerialConnector(port=port, timeout=timeout, baudrate=baudrate)
+    communicator = MCC2Communicator(connector)
+    return Box(communicator=communicator, input_file=input_file)
+
+
+def is_h_digit(symbol: Union[str, bytes]):
+    """Zeigt ob Symbol ein Hexodecimal-Zahlzeichen ist."""
+    symbol = str(symbol)
+    if len(symbol) != 1:
+        return False
+    else:
+        return symbol in '0123456789ABCDEFabcdef'
 
 
 class MCC2BoxEmulator(SerialEmulator, ContrCommunicator):
 
     PARAMETER_NUMBER = deepcopy(MCC2Communicator.PARAMETER_NUMBER)
     PARAMETER_DEFAULT = deepcopy(MCC2Communicator.PARAMETER_DEFAULT)
-    tolerance = MCC2Communicator.rec_tolerance
+    tolerance = MCC2Communicator.tolerance
+    calibration_shift = MCC2Communicator.calibration_shift
 
     def __init__(self, n_bus: int = 3, n_axes: int = 2, realtime: bool = False):
         self.realtime = realtime
@@ -612,25 +695,4 @@ class MCC2MotorEmulator:
         return self.parameter_values['Lauffrequenz']
 
 
-if __name__ == '__main__':
-    ip = '192.168.1.200'
-    port = 55551
-    connector = EthernetConnector(ip, port, end_symbol=b'\r\n', timeout=0.004)
-    communicator = MCS2Communicator(connector)
-
-    # print('connection', communicator.check_connection())
-    # print(communicator.bus_list())
-    # print(communicator.axes_list(0))
-    # communicator.go_to(0*10**9, 0, 0)
-    # time.sleep(0.5)
-    # print(communicator.motor_stand(0, 0))
-    # print(communicator.motor_at_the_beg(0, 0))
-    # # communicator.stop(0, 0)
-    # print(communicator.get_position(0, 0)/10**9)
-
-
-    # communicator.calibrate(0, 2)
-    # time.sleep(3)
-    # print(communicator.motor_stand(0, 2))
-
-    box = Box(communicator)
+# if __name__ == '__main__':

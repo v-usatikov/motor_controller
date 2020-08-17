@@ -13,7 +13,7 @@ import serial, serial.tools.list_ports
 # import pyqtgraph
 from PyQt5.uic import loadUi
 
-from motor_controller.MotorControllerInterface import SerialConnector
+from motor_controller.interface import SerialConnector
 from motor_controller.Phytron_MCC2 import Box, StopIndicator, WaitReporter, MCC2BoxSerial, MCC2BoxEmulator, \
     MCC2Communicator
 import logscolor

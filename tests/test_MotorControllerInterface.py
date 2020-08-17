@@ -9,7 +9,7 @@ from typing import Set
 from unittest import TestCase, main
 
 # from MotorController.MotorControllerInterface import *
-from motor_controller.MotorControllerInterface import Connector, ReplyError, Controller, Motor, CalibrationError, Box, \
+from motor_controller.interface import Connector, ReplyError, Controller, Motor, CalibrationError, Box, \
     read_input_config_from_file, read_saved_session_data_from_file, read_csv, EthernetConnector, MotorNamesError, \
     BoxCluster, StopIndicator, WaitReporter, FileReadError
 from motor_controller.Phytron_MCC2 import MCC2BoxEmulator, MCC2Communicator
@@ -806,28 +806,28 @@ class TestBox(TestCase):
                                 'display_units': 'einh1',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 22.222,
-                                'displ_null': 0.0,
+                                'displ_null': 500.0,
                                 'null_position': 0.0},
                             1: {'name': 'TestMotor1',
                                 'with_initiators': 0,
                                 'display_units': 'einh2',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 33.333,
-                                'displ_null': 0.0,
+                                'displ_null': 500.0,
                                 'null_position': 0.0},
                             2: {'name': 'TestMotor2',
                                 'with_initiators': 1,
                                 'display_units': 'einh3',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 44.444,
-                                'displ_null': 0.0,
+                                'displ_null': 500.0,
                                 'null_position': 0.0},
                             3: {'name': 'TestMotor3',
                                 'with_initiators': 1,
                                 'display_units': 'einh4',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 55.555,
-                                'displ_null': 0.0,
+                                'displ_null': 500.0,
                                 'null_position': 0.0}}
         parameters = {
             (0, 1): {'Lauffrequenz': 1000, 'Stoppstrom': 1, 'Laufstrom': 2, 'Booststrom': 3, 'Initiatortyp': 1},
