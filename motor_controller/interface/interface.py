@@ -1281,63 +1281,33 @@ class Box:
     #         logging.info(f'Kalibrierung von Motoren {list_to_calibration} wurde abgeschlossen.')
 
 
-class BoxCluster:
+class MotorsCluster:
     """Diese Klasse vereint mehrere Kontroller-Boxen und lässt die bequem zusammen steuern."""
 
-    def __init__(self, boxes: Dict[str, Box], add_box_prefix: bool = False):
-        self.boxes = boxes
+    def __init__(self, motors: List[Motor]):
 
-        if add_box_prefix:
-            self.__add_box_prefix()
+        # prüfen, dass es keine wieerholte Namen gibt
+        names = []
+        for motor in motors:
+            if motor.name not in names:
+                names.append(motor.name)
+            else:
+                raise MotorNamesError(f'Es gibt die wiederholte Namen der Motoren! '
+                                      f'Der Name "{motor.name}" ist mehrmals getroffen.')
 
+        # Dict mit den Motoren erstellen
         self.motors: Dict[str, Motor] = {}
-        self.__motoren_init()
+        for motor in motors:
+            self.motors[motor.name] = motor
 
     def __iter__(self):
         return self.motors.values()
 
-    def __check_motors_names(self):
-        """Prüft, dass die Namen der Motoren in den Boxen sich nicht wiederholen."""
-        names = []
-        for box in self.boxes.values():
-            for controller in box:
-                for motor in controller:
-                    if motor.name not in names:
-                        names.append(motor.name)
-                    else:
-                        return False, motor.name
-        return True, None
-
-    def __add_box_prefix(self):
-        """Addiert die Namen der Boxen als Präfixe zu den Namen der Motoren."""
-
-        for box_name, box in self.boxes.items():
-            for controller in box:
-                for motor in controller:
-                    motor.name = box_name + "|" + motor.name
-
-    def __motoren_init(self):
-        """Initialisiert die Motoren von BoxCluster."""
-
-        # zurücksetzen
-        self.motors: Dict[str, Motor] = {}
-
-        # prüfen, dass die Namen der Motoren in den Boxen sich nicht wiederholen
-        ok, name = self.__check_motors_names()
-        if not ok:
-            raise MotorNamesError(f'Es gibt die wiederholte Namen der Motoren! '
-                                  f'Der Name "{name}" ist mehrmals getroffen.')
-
-        # Motoren initialisieren
-        for box in self.boxes.values():
-            for controller in box:
-                for motor in controller:
-                    self.motors[motor.name] = motor
-
     def stop(self):
         """Stoppt alle Motoren im Cluster."""
-        for box in self.boxes.values():
-            box.stop()
+
+        for motor in self:
+            motor.stop()
 
     def go_to(self, destinations: Dict[str, float],
               units: str = 'norm',
@@ -1490,6 +1460,52 @@ class BoxCluster:
 
         path = self.read_path_from_file(address, delimiter, decimal)
         return self.path_travel(path, action, units, stop_indicator, reporter)
+
+
+class BoxesCluster(MotorsCluster):
+    """Diese Klasse vereint mehrere Kontroller-Boxen und lässt die bequem zusammen steuern."""
+
+    def __init__(self, boxes: Dict[str, Box], add_box_prefix: bool = False):
+
+        self.boxes = boxes
+
+        if add_box_prefix:
+            self.__add_box_prefix()
+
+        self.motors: Dict[str, Motor] = {}
+        motors = self.__extract_motors_from_boxes()
+
+        super().__init__(motors)
+
+    def __check_motors_names(self):
+        """Prüft, dass die Namen der Motoren in den Boxen sich nicht wiederholen."""
+        names = []
+        for box in self.boxes.values():
+            for controller in box:
+                for motor in controller:
+                    if motor.name not in names:
+                        names.append(motor.name)
+                    else:
+                        return False, motor.name
+        return True, None
+
+    def __add_box_prefix(self):
+        """Addiert die Namen der Boxen als Präfixe zu den Namen der Motoren."""
+
+        for box_name, box in self.boxes.items():
+            for controller in box:
+                for motor in controller:
+                    motor.name = box_name + "|" + motor.name
+
+    def __extract_motors_from_boxes(self) -> List[Motor]:
+        """Erstellt eine Liste der allen Motoren von den allen gegebenen Boxen."""
+
+        motors = []
+        for box in self.boxes.values():
+            for controller in box:
+                for motor in controller:
+                    motors.append(motor)
+        return motors
 
 
 class SerialError(Exception):

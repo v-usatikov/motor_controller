@@ -11,7 +11,7 @@ from unittest import TestCase, main
 # from MotorController.MotorControllerInterface import *
 from motor_controller.interface import Connector, ReplyError, Controller, Motor, CalibrationError, Box, \
     read_input_config_from_file, read_saved_session_data_from_file, read_csv, EthernetConnector, MotorNamesError, \
-    BoxCluster, StopIndicator, WaitReporter, FileReadError
+    BoxesCluster, StopIndicator, WaitReporter, FileReadError
 from motor_controller.Phytron_MCC2 import MCC2BoxEmulator, MCC2Communicator
 
 
@@ -1005,18 +1005,18 @@ class TestBoxCluster(TestCase):
         box2 = Box(box_emulator2)
 
         with self.assertRaises(MotorNamesError):
-            BoxCluster({"box1": box1, "box2": box2})
+            BoxesCluster({"box1": box1, "box2": box2})
 
         box2.get_motor((0, 1)).name = "Axe01"
         box2.get_motor((0, 2)).name = "Axe02"
         box2.get_motor((1, 1)).name = "Axe11"
         box2.get_motor((1, 2)).name = "Axe12"
-        cluster = BoxCluster({"box1": box1, "box2": box2})
+        cluster = BoxesCluster({"box1": box1, "box2": box2})
         self.assertEqual(8, len(cluster.motors))
 
         box2.get_motor((0, 2)).name = "Axe11"
         with self.assertRaises(MotorNamesError) as err:
-            BoxCluster({"box1": box1, "box2": box2})
+            BoxesCluster({"box1": box1, "box2": box2})
         err_mess = 'Es gibt die wiederholte Namen der Motoren! Der Name "Axe11" ist mehrmals getroffen.'
         self.assertEqual(err.exception.args[0], err_mess)
 
@@ -1028,7 +1028,7 @@ class TestBoxCluster(TestCase):
         box2 = Box(box_emulator2)
         box3 = Box(box_emulator3)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
         self.assertEqual(2 * 2 + 16 * 3 + 5 * 2, len(cluster.motors))
         self.assertEqual("box2|Motor3.3", box2.controller[3].motor[3].name)
 
@@ -1045,7 +1045,7 @@ class TestBoxCluster(TestCase):
         box2 = Box(box_emulator2)
         box3 = Box(box_emulator3)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
 
         dest = {'box1|Motor1.1': 3000, 'box2|Motor9.1': 300, 'box2|Motor15.3': 10, 'box3|Motor4.2': 10000}
 
@@ -1077,7 +1077,7 @@ class TestBoxCluster(TestCase):
         box_emulator2.set_parameter('Lauffrequenz', freq, 15, 3)
         box_emulator3.set_parameter('Lauffrequenz', freq, 4, 2)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
 
         dest = {'box1|Motor1.1': 30, 'box2|Motor9.1': 10, 'box2|Motor15.3': 1, 'box3|Motor4.2': 45}
 
@@ -1097,7 +1097,7 @@ class TestBoxCluster(TestCase):
         box2 = Box(box_emulator2)
         box3 = Box(box_emulator3)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2, "box3": box3}, add_box_prefix=True)
 
         dest = {'box1|Motor1.1': 3000, 'box2|Motor9.1': 300, 'box2|Motor15.3': 10, 'box3|Motor4.2': 10000}
         box_emulator3.controller[4].motor[2].end = 9800
@@ -1112,7 +1112,7 @@ class TestBoxCluster(TestCase):
         box1 = Box(box_emulator1)
         box2 = Box(box_emulator2)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
 
         positions = {'box1|Motor0.1': 100, 'box1|Motor0.2': 50, 'box1|Motor1.1': -60, 'box1|Motor1.2': 1000,
                      'box2|Motor0.1': -745, 'box2|Motor1.1': 356}
@@ -1128,7 +1128,7 @@ class TestBoxCluster(TestCase):
         box1 = Box(box_emulator1)
         box2 = Box(box_emulator2)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
         reporter = TrevelTestReporter()
         stoper = StopTestIndicator()
 
@@ -1172,7 +1172,7 @@ class TestBoxCluster(TestCase):
         box_emulator2 = MCC2BoxEmulator(n_bus=2, n_axes=1, realtime=False)
         box1 = Box(box_emulator1)
         box2 = Box(box_emulator2)
-        cluster = BoxCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
 
         path = [{'box1|Motor0.1': 100, 'box1|Motor0.2': 50.1, 'box1|Motor1.1': -60, 'box1|Motor1.2': 1000,
                  'box2|Motor0.1': -745, 'box2|Motor1.1': 356},
@@ -1196,7 +1196,7 @@ class TestBoxCluster(TestCase):
         box_emulator2 = MCC2BoxEmulator(n_bus=2, n_axes=1, realtime=False)
         box1 = Box(box_emulator1)
         box2 = Box(box_emulator2)
-        cluster = BoxCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
 
         positions = {'box1|Motor0.1': 100, 'box1|Motor0.2': 50.1, 'box1|Motor1.1': -60, 'box1|Motor1.2': 1000,
                      'box2|Motor0.1': -745, 'box2|Motor1.1': 356}
@@ -1214,7 +1214,7 @@ class TestBoxCluster(TestCase):
         box_emulator2 = MCC2BoxEmulator(n_bus=2, n_axes=1, realtime=False)
         box1 = Box(box_emulator1)
         box2 = Box(box_emulator2)
-        cluster = BoxCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
 
         positions = {'box1|Motor0.1': 100, 'box1|Motor0.2': 50.1, 'box1|Motor1.1': -60, 'box1|Motor1.2': 1000,
                      'box2|Motor0.1': -745, 'box2|Motor1.1': 356}
@@ -1230,7 +1230,7 @@ class TestBoxCluster(TestCase):
         box1 = Box(box_emulator1)
         box2 = Box(box_emulator2)
 
-        cluster = BoxCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
+        cluster = BoxesCluster({"box1": box1, "box2": box2}, add_box_prefix=True)
 
         path = [{'box1|Motor0.1': 100, 'box1|Motor0.2': 50, 'box1|Motor1.1': -60, 'box1|Motor1.2': 1000,
                      'box2|Motor0.1': -745, 'box2|Motor1.1': 356},
