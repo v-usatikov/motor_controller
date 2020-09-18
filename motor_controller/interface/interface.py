@@ -534,6 +534,8 @@ class Motor:
               reporter: WaitReporter = None) -> (bool, str):
         """Bewegt den motor zur absoluten Position, die als destination gegeben wird."""
 
+        destination = float(destination)
+
         # zu normierte einheiten transformieren
         destination = self.transform_units(destination, units, to='norm')
 
