@@ -521,6 +521,10 @@ class Motor:
 
         self.soft_limits: Tuple[Union[None, float], Union[None, float]] = (None, None)
 
+    def tol(self):
+        """Gibt die für diese Controller akzeptabele Abweichung bei Positionierung der Motoren (in displ Einheiten)"""
+        return self.transform_units(self.communicator.tolerance, 'contr', to='displ', rel=True)
+
     def coord(self) -> (int, int):
         """Gibt die Koordinaten des Motors zurück"""
 

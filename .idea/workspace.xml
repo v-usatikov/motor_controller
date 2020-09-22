@@ -177,6 +177,7 @@
       <workItem from="1597256446148" duration="192000" />
       <workItem from="1597674142673" duration="2651000" />
       <workItem from="1597844632160" duration="2726000" />
+      <workItem from="1600470451309" duration="178000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -220,7 +221,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597847380899</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Type-Prüfung in motor.go_to() addiert">
+      <created>1600470612992</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1600470612992</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,18 +241,19 @@
     <MESSAGE value="bug fix motor.go" />
     <MESSAGE value="Die Struktur des Projektes verfeinern und bug fix" />
     <MESSAGE value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
-    <option name="LAST_COMMIT_MESSAGE" value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
+    <MESSAGE value="Type-Prüfung in motor.go_to() addiert" />
+    <option name="LAST_COMMIT_MESSAGE" value="Type-Prüfung in motor.go_to() addiert" />
   </component>
   <component name="WindowStateProjectService">
     <state x="128" y="128" width="1414" height="760" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1597676800892">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="128" y="128" width="1414" height="760" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.23.1680.966@0.23.1680.966" timestamp="1597676800892" />
-    <state x="369" y="87" key="CommitChangelistDialog2" timestamp="1597847380653">
-      <screen x="0" y="23" width="1680" height="973" />
+    <state x="637" y="118" key="CommitChangelistDialog2" timestamp="1600470612860">
+      <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.965@0.23.1680.965" timestamp="1596560403125" />
-    <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.966@0.23.1680.966" timestamp="1597676767272" />
+    <state x="637" y="118" key="CommitChangelistDialog2/0.23.1680.966@0.23.1680.966" timestamp="1600470612860" />
     <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.973@0.23.1680.973" timestamp="1597847380653" />
     <state x="585" y="288" width="621" height="513" key="FileChooserDialogImpl" timestamp="1597256605740">
       <screen x="0" y="23" width="1680" height="966" />
@@ -278,11 +287,11 @@
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="299" y="166" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1597675403973" />
-    <state x="442" y="245" key="Vcs.Push.Dialog.v2" timestamp="1597847388522">
-      <screen x="0" y="23" width="1680" height="973" />
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2" timestamp="1600470618262">
+      <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.965@0.23.1680.965" timestamp="1596560433725" />
-    <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.966@0.23.1680.966" timestamp="1597676784413" />
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.966@0.23.1680.966" timestamp="1600470618262" />
     <state x="442" y="245" key="Vcs.Push.Dialog.v2/0.23.1680.973@0.23.1680.973" timestamp="1597847388522" />
     <state x="509" y="371" key="git4idea.rebase.GitRebaseDialog" timestamp="1593197159639">
       <screen x="0" y="23" width="1680" height="966" />
