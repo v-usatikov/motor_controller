@@ -29,7 +29,7 @@ class MCC2Communicator(ContrCommunicator):
     PARAMETER_DEFAULT = {'Lauffrequenz': 400.0, 'Stoppstrom': 2, 'Laufstrom': 2, 'Booststrom': 2, 'Initiatortyp': 0,
                          'Umrechnungsfaktor(Contr)': 1}
 
-    tolerance = 1  # Für MCC2 akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
+    tolerance = 1.1  # Für MCC2 akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
     calibration_shift = 500000
 
     def __init__(self, connector: Connector):

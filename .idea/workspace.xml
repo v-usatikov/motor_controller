@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="" />
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/Phytron_MCC2/Phytron_MCC2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/Phytron_MCC2/Phytron_MCC2.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -178,6 +181,7 @@
       <workItem from="1597674142673" duration="2651000" />
       <workItem from="1597844632160" duration="2726000" />
       <workItem from="1600470451309" duration="178000" />
+      <workItem from="1600787166636" duration="714000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -228,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600470612992</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Die Funktion motor.tol() addiert">
+      <created>1600787447957</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1600787447958</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,19 +253,21 @@
     <MESSAGE value="Die Struktur des Projektes verfeinern und bug fix" />
     <MESSAGE value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
     <MESSAGE value="Type-Prüfung in motor.go_to() addiert" />
-    <option name="LAST_COMMIT_MESSAGE" value="Type-Prüfung in motor.go_to() addiert" />
+    <MESSAGE value="Die Funktion motor.tol() addiert" />
+    <option name="LAST_COMMIT_MESSAGE" value="Die Funktion motor.tol() addiert" />
   </component>
   <component name="WindowStateProjectService">
     <state x="128" y="128" width="1414" height="760" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1597676800892">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="128" y="128" width="1414" height="760" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.23.1680.966@0.23.1680.966" timestamp="1597676800892" />
-    <state x="637" y="118" key="CommitChangelistDialog2" timestamp="1600470612860">
-      <screen x="0" y="23" width="1680" height="966" />
+    <state x="637" y="119" key="CommitChangelistDialog2" timestamp="1600787447730">
+      <screen x="0" y="23" width="1680" height="974" />
     </state>
     <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.965@0.23.1680.965" timestamp="1596560403125" />
     <state x="637" y="118" key="CommitChangelistDialog2/0.23.1680.966@0.23.1680.966" timestamp="1600470612860" />
     <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.973@0.23.1680.973" timestamp="1597847380653" />
+    <state x="637" y="119" key="CommitChangelistDialog2/0.23.1680.974@0.23.1680.974" timestamp="1600787447730" />
     <state x="585" y="288" width="621" height="513" key="FileChooserDialogImpl" timestamp="1597256605740">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
@@ -287,12 +300,13 @@
       <screen x="0" y="23" width="1680" height="966" />
     </state>
     <state x="299" y="166" key="SettingsEditor/0.23.1680.966@0.23.1680.966" timestamp="1597675403973" />
-    <state x="442" y="243" key="Vcs.Push.Dialog.v2" timestamp="1600470618262">
-      <screen x="0" y="23" width="1680" height="966" />
+    <state x="442" y="245" key="Vcs.Push.Dialog.v2" timestamp="1600787477376">
+      <screen x="0" y="23" width="1680" height="974" />
     </state>
     <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.965@0.23.1680.965" timestamp="1596560433725" />
     <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.966@0.23.1680.966" timestamp="1600470618262" />
     <state x="442" y="245" key="Vcs.Push.Dialog.v2/0.23.1680.973@0.23.1680.973" timestamp="1597847388522" />
+    <state x="442" y="245" key="Vcs.Push.Dialog.v2/0.23.1680.974@0.23.1680.974" timestamp="1600787477376" />
     <state x="509" y="371" key="git4idea.rebase.GitRebaseDialog" timestamp="1593197159639">
       <screen x="0" y="23" width="1680" height="966" />
     </state>
