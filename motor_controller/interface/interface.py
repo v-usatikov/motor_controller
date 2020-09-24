@@ -600,6 +600,9 @@ class Motor:
         """Bewegt den motor relativ um gegebener Verschiebung."""
 
         shift = float(shift)
+        if shift == 0:
+            return True, ""
+
         if (self.soft_limits != (None, None) and not calibrate) or wait or check:
             shift = self.transform_units(shift, units, to='norm', rel=True)
             position = self.position('norm')
