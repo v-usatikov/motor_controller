@@ -8,7 +8,6 @@ from copy import deepcopy
 from typing import Dict, List, Tuple, Union, Set, Callable
 
 import serial.tools.list_ports
-import serial.tools.list_ports
 from math import isclose
 from serial import Serial
 

@@ -7,6 +7,7 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QMainWindow, QApplication, QScrollBar, QStatusBar
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from pyqt_led import Led
 import sys
 # import pylab
 import serial, serial.tools.list_ports
@@ -176,11 +177,9 @@ class ExampleApp(QMainWindow):
 
         # self.c = Communicate()
         self.horizontalScrollBar1.setParent(None)
-        self.horizontalSlider1.setParent(None)
 
         self.horizontalScrollBar1 = AktPositionSlider()
-        self.verticalLayout_11.addWidget(self.horizontalScrollBar1)
-        self.verticalLayout_11.addWidget(self.horizontalSlider1)
+        self.horizontalLayout_4.addWidget(self.horizontalScrollBar1)
         self.horizontalScrollBar1.setEnabled(False)
         self.horizontalScrollBar1.setMaximum(1000)
         self.horizontalScrollBar1.Soft_Limits_einstellen(None, None)
@@ -408,6 +407,7 @@ class ExampleApp(QMainWindow):
         self.verbunden = True
         emulator = MCC2BoxEmulator(n_bus=5, n_axes=2, realtime=True)
         input_file = 'input/Phytron_Motoren_config.csv'
+        # input_file = 'input/Jet_box_config.csv'
         emulator_input_file = 'input/Emulator_config.csv'
         if self.PortBox.currentText() == 'CommunicatorEmulator':
             self.Box = Box(emulator, input_file=emulator_input_file)
@@ -448,26 +448,28 @@ class ExampleApp(QMainWindow):
             QtCore.QTimer.singleShot(100, self.Position_lesen)
 
     def Kalibrierung_fertig(self):
+
+        self.Kalibrierung_unterbrochen()
+        self.StatusBar.clearMessage()
+
+    def Kalibrierung_unterbrochen(self):
         self.Motor1Box.setEnabled(True)
         self.MotorCBox.setEnabled(True)
         self.Motorlabel.setEnabled(True)
         self.Position_erneuern = True
         self.Position_lesen(single_shot=True)
         self.set_HSlider(int(self.Position))
-        self.Kalibrierung_unterbrochen()
-        self.StatusBar.clearMessage()
+
+        self.VerbButton.setEnabled(True)
+        self.configButton.setEnabled(True)
+        self.Kal_in_Lauf = False
+        self.KalibrBtn.setText("alle kalibrieren")
+        self.StatusBar.showMessage("Kalibrierung wurde unterbrochen")
 
         if self.comm_emulation:
             self.Box.communicator.realtime = True
         elif self.serial_emulation:
             self.Box.communicator.connector.ser.realtime = True
-
-    def Kalibrierung_unterbrochen(self):
-        self.VerbButton.setEnabled(True)
-        self.configButton.setEnabled(True)
-        self.Kal_in_Lauf = False
-        self.KalibrBtn.setText("Kalibrierung")
-        self.StatusBar.showMessage("Kalibrierung wurde unterbrochen")
 
     def Kalibrierung(self):
 
@@ -498,16 +500,15 @@ class ExampleApp(QMainWindow):
     def ports_lesen(self):
         self.PortBox.clear()
         comlist = serial.tools.list_ports.comports()
-        if len(comlist) != 0:
-            for element in comlist:
-                self.PortBox.addItem(element.device)
-            self.PortBox.addItem('SerialEmulator')
-            self.PortBox.addItem('CommunicatorEmulator')
 
-            if not self.Kal_in_Lauf:
-                self.VerbButton.setEnabled(True)
-        else:
-            self.VerbButton.setEnabled(False)
+        for element in comlist:
+            self.PortBox.addItem(element.device)
+        self.PortBox.addItem('SerialEmulator')
+        self.PortBox.addItem('CommunicatorEmulator')
+
+        if not self.Kal_in_Lauf:
+            self.VerbButton.setEnabled(True)
+
 
     # QtCore.QTimer.singleShot(1000, self.weiter) # QUICKLY repeat
 

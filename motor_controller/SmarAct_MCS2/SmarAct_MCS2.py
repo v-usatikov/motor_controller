@@ -63,9 +63,7 @@ class MCS2Communicator(ContrCommunicator):
         return int(value)
 
     def command_without_reply(self, command: bytes, bus: int = None, axis: int = None):
-        """Ausführt ein Befehl mit einer erwarteten bool Antwort
-        und gibt den erhaltenen bool Wert zurück.
-        """
+        """Ausführt ein Befehl ohne erwartete Antwort"""
 
         reply = self.command(command, bus, axis)
         if reply is not None:
@@ -230,9 +228,11 @@ class MCS2Communicator(ContrCommunicator):
             raise ControllerError(f'Der Controller hat einen Fehler gemeldet: {reply}')
         return reply
 
+    # TODO schreiben check_raw_input_data zu Ende
     def check_raw_input_data(self, raw_input_data: List[dict]) -> (bool, str):
         """Prüft ob die rohe Daten aus der input-Datei kompatibel sind."""
-        raise NotImplementedError
+
+        return True, ""
 
     def calibrate(self, bus: int, axis: int):
         """Die standarte Justierungmaßnahmen durchführen, wenn der Kontroller welche unterstützt."""
@@ -634,3 +634,19 @@ if __name__ == '__main__':
     # print(communicator.motor_stand(0, 2))
 
     box = Box(communicator)
+    motor_n = 1
+    # box.calibrate_motors()
+    box.controller[0].motor[motor_n].config['with_initiators'] = 1
+    box.controller[0].motor[motor_n].calibrate()
+    box.controller[0].motor[motor_n].go_to(500)
+
+    # print(box.controller[0].motor[motor_n].position()*10**(-6))
+    # box.controller[0].motor[motor_n].go(-1*10**9)
+    # print(box.controller[motor_n].motor[0].position()*10**(-6))
+
+    # box.controller[0].motor[0].config['with_initiators'] = 1
+    # box.controller[0].motor[2].config['with_initiators'] = 1
+    # box.calibrate_motors()
+    # box.controller[0].motor[0].go_to(500)
+    # box.controller[0].motor[2].go_to(500)
+
