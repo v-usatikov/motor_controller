@@ -1,7 +1,7 @@
-Motor Name;Bus;Achse;Mit Initiatoren(0 oder 1);Einheiten;Umrechnungsfaktor;Lauffrequenz;Stoppstrom;Laufstrom;Booststrom;Initiatortyp
-MirrorRX;1;1;0;;;4000;1;2;2;
-MirrorRY;1;2;0;;;4000;1;2;2;
-ProbeX;2;1;1;;;2000;3;5;5;1
-ProbeY;2;2;1;;;2000;3;5;5;1
-ProbeZ;3;1;1;;;2000;3;5;5;1
-StageR;3;2;1;;;2000;3;5;5;1
+Motor Name;Bus;Achse;Mit Initiatoren(0 oder 1);Mit Encoder(0 oder 1);Einheiten;Umrechnungsfaktor;Lauffrequenz;Stoppstrom;Laufstrom;Booststrom;Initiatortyp
+MirrorRX;1;1;0;0;;;4000;1;2;2;
+MirrorRY;1;2;0;0;;;4000;1;2;2;
+ProbeX;2;1;1;0;;;2000;3;5;5;1
+ProbeY;2;2;1;0;;;2000;3;5;5;1
+ProbeZ;3;1;1;0;;;2000;3;5;5;1
+StageR;3;2;1;0;;;2000;3;5;5;1

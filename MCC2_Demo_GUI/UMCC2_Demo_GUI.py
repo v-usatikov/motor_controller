@@ -7,7 +7,7 @@ from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QMainWindow, QApplication, QScrollBar, QStatusBar
 from PyQt5.QtGui import QPainter, QPen
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from pyqt_led import Led
+# from pyqt_led import Led
 import sys
 # import pylab
 import serial, serial.tools.list_ports

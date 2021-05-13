@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/motor_controller.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/motor_controller.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/UMCC2_Demo_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/MCC2_Demo_GUI/UMCC2_Demo_GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/data/saved_session_data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/MCC2_Demo_GUI/data/saved_session_data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/input/Phytron_Motoren_config.csv" beforeDir="false" afterPath="$PROJECT_DIR$/MCC2_Demo_GUI/input/Phytron_Motoren_config.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/input/Phytron_Motoren_config0.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/input/Phytron_Motoren_config1.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/input/Phytron_Motoren_config2.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MCC2_Demo_GUI/input/Phytron_Motoren_config3.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="736faef9-ff6d-4135-b2e7-d8f1dcabffb2" />
+  <component name="ProjectId" id="1drqDVcKayTzO4pKDiVijAfsgm3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
+      <recent name="$PROJECT_DIR$/motor_controller/Phytron_MCC2" />
+      <recent name="$PROJECT_DIR$/motor_controller/interface" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.UMCC2_Demo_GUI">
+    <configuration name="SmarAct_MCS2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="UMCC2_Demo_GUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MCC2_Demo_GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MCC2_Demo_GUI/UMCC2_Demo_GUI.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="initiatoren" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/MCC2_Demo_GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MCC2_Demo_GUI/initiatoren.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_MotorControllerInterface.TestBox.test_initialize_with_input_file" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_MotorControllerInterface.TestBox.test_initialize_with_input_file&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest in test_MotorControllerInterface.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_MotorControllerInterface.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.UMCC2_Demo_GUI" />
+        <item itemvalue="Python.initiatoren" />
+        <item itemvalue="Python.SmarAct_MCS2" />
+        <item itemvalue="Python tests.pytest in test_MotorControllerInterface.py" />
+        <item itemvalue="Python tests.pytest for test_MotorControllerInterface.TestBox.test_initialize_with_input_file" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="" />
+      <created>1593193439359</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593193439359</updated>
+      <workItem from="1593193440544" duration="2782000" />
+      <workItem from="1593197288030" duration="25000" />
+      <workItem from="1593197322777" duration="307000" />
+      <workItem from="1593201682309" duration="5000" />
+      <workItem from="1596560253160" duration="779000" />
+      <workItem from="1596982278332" duration="960000" />
+      <workItem from="1596983924134" duration="274000" />
+      <workItem from="1596984213056" duration="547000" />
+      <workItem from="1597252602040" duration="661000" />
+      <workItem from="1597256312545" duration="80000" />
+      <workItem from="1597256446148" duration="192000" />
+      <workItem from="1597674142673" duration="2651000" />
+      <workItem from="1597844632160" duration="2726000" />
+      <workItem from="1600470451309" duration="178000" />
+      <workItem from="1600787166636" duration="776000" />
+      <workItem from="1600952729075" duration="4000" />
+      <workItem from="1600958862675" duration="211000" />
+      <workItem from="1605099401665" duration="186000" />
+      <workItem from="1605719994571" duration="763000" />
+      <workItem from="1605731593843" duration="256000" />
+      <workItem from="1605734063757" duration="2650000" />
+      <workItem from="1605801633762" duration="1846000" />
+      <workItem from="1606407466001" duration="3750000" />
+      <workItem from="1606414482068" duration="1090000" />
+      <workItem from="1606416756862" duration="1121000" />
+      <workItem from="1607012979621" duration="836000" />
+    </task>
+    <task id="LOCAL-00001" summary="init commit">
+      <created>1593197450933</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1593197450933</updated>
+    </task>
+    <task id="LOCAL-00002" summary="build">
+      <created>1593197588155</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1593197588155</updated>
+    </task>
+    <task id="LOCAL-00003" summary="displ_null zu Mitte geändert">
+      <created>1596560403262</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1596560403262</updated>
+    </task>
+    <task id="LOCAL-00004" summary="bug fix motor.go">
+      <created>1596982644779</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1596982644779</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Die Struktur des Projektes verfeinern und bug fix">
+      <created>1597676767450</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1597676767450</updated>
+    </task>
+    <task id="LOCAL-00006" summary="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern.">
+      <created>1597847380899</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1597847380899</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Type-Prüfung in motor.go_to() addiert">
+      <created>1600470612992</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1600470612992</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Die Funktion motor.tol() addiert">
+      <created>1600787447957</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1600787447958</updated>
+    </task>
+    <task id="LOCAL-00009" summary="tolerance von MCC2 korregiert">
+      <created>1600787976922</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1600787976922</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Motor.go: wenn shift=0 einfach nichts machen.">
+      <created>1600959055975</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1600959055975</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init commit" />
+    <MESSAGE value="build" />
+    <MESSAGE value="displ_null zu Mitte geändert" />
+    <MESSAGE value="bug fix motor.go" />
+    <MESSAGE value="Die Struktur des Projektes verfeinern und bug fix" />
+    <MESSAGE value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
+    <MESSAGE value="Type-Prüfung in motor.go_to() addiert" />
+    <MESSAGE value="Die Funktion motor.tol() addiert" />
+    <MESSAGE value="tolerance von MCC2 korregiert" />
+    <MESSAGE value="Motor.go: wenn shift=0 einfach nichts machen." />
+    <option name="LAST_COMMIT_MESSAGE" value="Motor.go: wenn shift=0 einfach nichts machen." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="369" y="87" key="CommitChangelistDialog2" timestamp="1600959055823">
+      <screen x="0" y="23" width="1680" height="973" />
+    </state>
+    <state x="637" y="118" key="CommitChangelistDialog2/0.23.1680.966@0.23.1680.966" timestamp="1600470612860" />
+    <state x="369" y="87" key="CommitChangelistDialog2/0.23.1680.973@0.23.1680.973" timestamp="1600959055823" />
+    <state x="637" y="119" key="CommitChangelistDialog2/0.23.1680.974@0.23.1680.974" timestamp="1600787976804" />
+    <state width="1340" height="266" key="GridCell.Tab.0.bottom" timestamp="1607013900565">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1340" height="266" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1607013900565" />
+    <state width="1572" height="182" key="GridCell.Tab.0.bottom/0.23.1680.972@0.23.1680.972" timestamp="1606418183515" />
+    <state width="1572" height="182" key="GridCell.Tab.0.bottom/0.23.1680.973@0.23.1680.973" timestamp="1606414638582" />
+    <state width="1572" height="182" key="GridCell.Tab.0.bottom/0.23.1680.974@0.23.1680.974" timestamp="1606414192668" />
+    <state width="1572" height="182" key="GridCell.Tab.0.bottom/0.23.1680.975@0.23.1680.975" timestamp="1605832022361" />
+    <state width="1340" height="266" key="GridCell.Tab.0.center" timestamp="1607013900565">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1340" height="266" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1607013900565" />
+    <state width="1572" height="182" key="GridCell.Tab.0.center/0.23.1680.972@0.23.1680.972" timestamp="1606418183514" />
+    <state width="1572" height="182" key="GridCell.Tab.0.center/0.23.1680.973@0.23.1680.973" timestamp="1606414638581" />
+    <state width="1572" height="182" key="GridCell.Tab.0.center/0.23.1680.974@0.23.1680.974" timestamp="1606414192666" />
+    <state width="1572" height="182" key="GridCell.Tab.0.center/0.23.1680.975@0.23.1680.975" timestamp="1605832022360" />
+    <state width="1340" height="266" key="GridCell.Tab.0.left" timestamp="1607013900565">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1340" height="266" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1607013900565" />
+    <state width="1572" height="182" key="GridCell.Tab.0.left/0.23.1680.972@0.23.1680.972" timestamp="1606418183514" />
+    <state width="1572" height="182" key="GridCell.Tab.0.left/0.23.1680.973@0.23.1680.973" timestamp="1606414638580" />
+    <state width="1572" height="182" key="GridCell.Tab.0.left/0.23.1680.974@0.23.1680.974" timestamp="1606414192666" />
+    <state width="1572" height="182" key="GridCell.Tab.0.left/0.23.1680.975@0.23.1680.975" timestamp="1605832022360" />
+    <state width="1340" height="266" key="GridCell.Tab.0.right" timestamp="1607013900565">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1340" height="266" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1607013900565" />
+    <state width="1572" height="182" key="GridCell.Tab.0.right/0.23.1680.972@0.23.1680.972" timestamp="1606418183514" />
+    <state width="1572" height="182" key="GridCell.Tab.0.right/0.23.1680.973@0.23.1680.973" timestamp="1606414638581" />
+    <state width="1572" height="182" key="GridCell.Tab.0.right/0.23.1680.974@0.23.1680.974" timestamp="1606414192667" />
+    <state width="1572" height="182" key="GridCell.Tab.0.right/0.23.1680.975@0.23.1680.975" timestamp="1605832022361" />
+    <state width="1207" height="267" key="GridCell.Tab.1.bottom" timestamp="1605737447886">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1207" height="267" key="GridCell.Tab.1.center" timestamp="1605737447886">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1207" height="267" key="GridCell.Tab.1.left" timestamp="1605737447886">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state width="1207" height="267" key="GridCell.Tab.1.right" timestamp="1605737447886">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1207" height="267" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1605737447886" />
+    <state x="295" y="77" key="SettingsEditor" timestamp="1605736353410">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="295" y="77" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1605736353410" />
+    <state x="442" y="245" key="Vcs.Push.Dialog.v2" timestamp="1600959058418">
+      <screen x="0" y="23" width="1680" height="973" />
+    </state>
+    <state x="442" y="243" key="Vcs.Push.Dialog.v2/0.23.1680.966@0.23.1680.966" timestamp="1600470618262" />
+    <state x="442" y="245" key="Vcs.Push.Dialog.v2/0.23.1680.973@0.23.1680.973" timestamp="1600959058418" />
+    <state x="442" y="245" key="Vcs.Push.Dialog.v2/0.23.1680.974@0.23.1680.974" timestamp="1600787978975" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MCC2_Demo_GUI/UMCC2_Demo_GUI.py</url>
+          <line>516</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/MCC2_Demo_GUI/UMCC2_Demo_GUI.py</url>
+          <line>499</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/motor_controller$initiatoren.coverage" NAME="initiatoren Coverage Results" MODIFIED="1607013677748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MCC2_Demo_GUI" />
+    <SUITE FILE_PATH="coverage/motor_controller$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1593196740843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$MotorControllerInterface.coverage" NAME="MotorControllerInterface Coverage Results" MODIFIED="1593195896397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_in_test_MotorControllerInterface_py.coverage" NAME="pytest in test_MotorControllerInterface.py Coverage Results" MODIFIED="1597847168748" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestBox_test_initialize_with_input_file.coverage" NAME="pytest for test_MotorControllerInterface.TestBox.test_initialize_with_input_file Coverage Results" MODIFIED="1597676542041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$UMCC2_Demo_GUI.coverage" NAME="UMCC2_Demo_GUI Coverage Results" MODIFIED="1607014760303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MCC2_Demo_GUI" />
+    <SUITE FILE_PATH="coverage/motor_controller$SmarAct_MCS2.coverage" NAME="SmarAct_MCS2 Coverage Results" MODIFIED="1606418145705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
+  </component>
+</project>

@@ -30,7 +30,7 @@ class Connector:
         if reply == b'':
             return None
         f_reply = deepcopy(reply)
-        err = ReplyError(f'Unerwartete Antwort: "{reply}""')
+        err = ReplyError(f'Unerwartete Antwort: "{reply}"')
 
         if self.beg_symbol:
             if reply[:len(self.beg_symbol)] == self.beg_symbol:
@@ -364,6 +364,11 @@ def __transform_raw_input_data(raw_config_data: List[dict], communicator: ContrC
         else:
             motor_line['Mit Initiatoren(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['with_initiators']
 
+        if motor_line['Mit Encoder(0 oder 1)'] != '':
+            motor_line['Mit Encoder(0 oder 1)'] = int(motor_line['Mit Encoder(0 oder 1)'])
+        else:
+            motor_line['Mit Encoder(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['with_encoder']
+
         if motor_line['Einheiten'] != '':
             motor_line['Einheiten'] = motor_line['Einheiten']
         else:
@@ -411,6 +416,7 @@ def read_input_config_from_file(communicator: ContrCommunicator, address: str = 
 
         motor_config = {'name': motor_line['Motor Name'],
                         'with_initiators': motor_line['Mit Initiatoren(0 oder 1)'],
+                        'with_encoder': motor_line['Mit Encoder(0 oder 1)'],
                         'display_units': motor_line['Einheiten'],
                         'displ_per_contr': motor_line['Umrechnungsfaktor']}
         motors_config[motor_coord] = motor_config
@@ -502,6 +508,7 @@ class Motor:
     """Diese Klasse entspricht einem Motor, der mit einem Controller verbunden ist."""
 
     DEFAULT_MOTOR_CONFIG = {'with_initiators': 0,
+                            'with_encoder': 0,
                             'display_units': 'Schritte',
                             'norm_per_contr': 1.0,
                             'displ_per_contr': 1.0,
@@ -648,11 +655,52 @@ class Motor:
     def at_the_end(self):
         """Gibt zurück einen bool Wert, ob der End-Initiator aktiviert ist."""
 
-        return self.communicator.motor_at_the_end(*self.coord())
+        if self.with_initiators():
+            return self.communicator.motor_at_the_end(*self.coord())
+        elif self.with_encoder():
+            position0 = self.position(units='contr')
+            tol = self.communicator.tolerance
+            step = 3*tol
+
+            self.go_to(position0 + step, units='contr', wait=True)
+            if self.position(units='contr') - position0 > tol:
+                self.go_to(position0, wait=True)
+                return False
+
+            self.go_to(position0 - step, units='contr', wait=True)
+            if self.position(units='contr') - position0 < -tol:
+                self.go_to(position0, wait=True)
+                return True
+            else:
+                raise MotorError("Der Motor sitzt fest und kann sich nicht bewegen.")
+
+        else:
+            raise NotSupportedError("Der Motor hat keine Initiators oder Encoder.")
 
     def at_the_beginning(self):
         """Gibt zurück einen bool Wert, ob der Anfang-Initiator aktiviert ist."""
-        return self.communicator.motor_at_the_beg(*self.coord())
+
+        if self.with_initiators():
+            return self.communicator.motor_at_the_beg(*self.coord())
+        elif self.with_encoder():
+            position0 = self.position(units='contr')
+            tol = self.communicator.tolerance
+            step = 3 * tol
+
+            self.go_to(position0 - step, units='contr', wait=True)
+            if self.position(units='contr') - position0 < -tol:
+                self.go_to(position0, wait=True)
+                return False
+
+            self.go_to(position0 + step, units='contr', wait=True)
+            if self.position(units='contr') - position0 > tol:
+                self.go_to(position0, wait=True)
+                return True
+            else:
+                raise MotorError("Der Motor sitzt fest und kann sich nicht bewegen.")
+
+        else:
+            raise NotSupportedError("Der Motor hat keine Initiators oder Encoder.")
 
     def set_position(self, position: float, units: str = 'norm'):
         """Ändern die Zähler der aktuelle Position zu angegebenen Wert"""
@@ -739,6 +787,11 @@ class Motor:
         """Zeigt ob der Motor mit Initiatoren ist."""
 
         return bool(self.config['with_initiators'])
+
+    def with_encoder(self) -> bool:
+        """Zeigt ob der Motor mit Initiatoren ist."""
+
+        return bool(self.config['with_encoder'])
 
     def set_config(self, motor_config: dict = None):
         """Einstellt Name, Initiatoren Status, display_units, display_u_per_step anhand angegebene Dict"""
@@ -1145,7 +1198,8 @@ class Box:
         separator = ';'
 
         # Motor liste schreiben
-        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Einheiten', 'Umrechnungsfaktor']
+        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)',
+                  'Einheiten', 'Umrechnungsfaktor']
         for parameter_name in self.communicator.PARAMETER_DEFAULT.keys():
             header.append(parameter_name)
         header_length = len(header)
@@ -1570,3 +1624,9 @@ class CalibrationError(Exception):
 
 class TravelError(Exception):
     """Grundklasse für die Fehler bei der Ausführung von path_travel Methode"""
+
+
+class NotSupportedError(Exception):
+    """Grundklasse für die Fehler, wenn die Ausfürung nicht möglich ist,
+    weil das das benutzte Gerät nicht unterschtützt.
+    """

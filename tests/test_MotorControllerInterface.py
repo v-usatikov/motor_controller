@@ -11,7 +11,7 @@ from unittest import TestCase, main
 # from MotorController.MotorControllerInterface import *
 from motor_controller.interface import Connector, ReplyError, Controller, Motor, CalibrationError, Box, \
     read_input_config_from_file, read_saved_session_data_from_file, read_csv, EthernetConnector, MotorNamesError, \
-    BoxesCluster, StopIndicator, WaitReporter, FileReadError
+    BoxesCluster, StopIndicator, WaitReporter, FileReadError, NotSupportedError
 from motor_controller.Phytron_MCC2 import MCC2BoxEmulator, MCC2Communicator
 
 
@@ -231,6 +231,7 @@ class TestMotor(TestCase):
         self.assertEqual(Motor.DEFAULT_MOTOR_CONFIG, motor.config)
 
         new_config = {'with_initiators': 1,
+                      'with_encoder': 1,
                       'display_units': 'Pupkini',
                       'norm_per_contr': 4678.34,
                       'displ_per_contr': 123.489,
@@ -372,6 +373,7 @@ class TestMotor(TestCase):
         motor_emulator.set_position(-10)
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # ohne check
+            # TODO herausfinden, wieso der Testergebniss nicht stabil ist.
             res = executor.submit(motor.go_to, 9, 'contr', True, False)
             motor_emulator.stop()
             self.assertEqual((True, ''), res.result())
@@ -464,20 +466,60 @@ class TestMotor(TestCase):
     def test_at_the_end(self):
         motor, step, motor_emulator = preparation_to_test()
 
+        # ohne Initiatoren ohne Encoder
+        with self.assertRaises(NotSupportedError):
+            motor.at_the_end()
+
+        # mit Initiatoren
+        motor.config['with_initiators'] = 1
+
         motor_emulator._end_initiator = True
         self.assertTrue(motor.at_the_end())
 
         motor_emulator._end_initiator = False
         self.assertFalse(motor.at_the_end())
 
+        # ohne Initiatoren mit Encoder
+        motor.config['with_initiators'] = 0
+        motor.config['with_encoder'] = 1
+
+        motor_emulator.set_position(0)
+        self.assertFalse(motor.at_the_end())
+
+        motor_emulator.set_position(motor_emulator.beginning)
+        self.assertFalse(motor.at_the_end())
+
+        motor_emulator.set_position(motor_emulator.end)
+        self.assertTrue(motor.at_the_end())
+
     def test_at_the_beginning(self):
         motor, step, motor_emulator = preparation_to_test()
+
+        # ohne Initiatoren ohne Encoder
+        with self.assertRaises(NotSupportedError):
+            motor.at_the_beginning()
+
+        # mit Initiatoren
+        motor.config['with_initiators'] = 1
 
         motor_emulator._beg_initiator = True
         self.assertTrue(motor.at_the_beginning())
 
         motor_emulator._beg_initiator = False
         self.assertFalse(motor.at_the_beginning())
+
+        # ohne Initiatoren mit Encoder
+        motor.config['with_initiators'] = 0
+        motor.config['with_encoder'] = 1
+
+        motor_emulator.set_position(0)
+        self.assertFalse(motor.at_the_beginning())
+
+        motor_emulator.set_position(motor_emulator.end)
+        self.assertFalse(motor.at_the_beginning())
+
+        motor_emulator.set_position(motor_emulator.beginning)
+        self.assertTrue(motor.at_the_beginning())
 
     def test_calibrate(self):
         emulator = MCC2BoxEmulator(n_bus=2, n_axes=2)
@@ -708,6 +750,7 @@ class TestBox(TestCase):
 
         new_config = {(0, 1): {'name': 'new_motor1',
                                'with_initiators': 1,
+                               'with_encoder': 1,
                                'display_units': 'einh1',
                                'norm_per_contr': 1.0,
                                'displ_per_contr': 22.222,
@@ -715,6 +758,7 @@ class TestBox(TestCase):
                                'null_position': 0.0},
                       (12, 4): {'name': 'new_motor2',
                                 'with_initiators': 0,
+                                'with_encoder': 1,
                                 'display_units': 'einh2',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 33.333,
@@ -722,6 +766,7 @@ class TestBox(TestCase):
                                 'null_position': 0.0},
                       (3, 6): {'name': 'new_motor3',
                                'with_initiators': 1,
+                               'with_encoder': 1,
                                'display_units': 'einh3',
                                'norm_per_contr': 1.0,
                                'displ_per_contr': 44.444,
@@ -729,6 +774,7 @@ class TestBox(TestCase):
                                'null_position': 0.0},
                       (12, 3): {'name': 'new_motor4',
                                 'with_initiators': 1,
+                                'with_encoder': 1,
                                 'display_units': 'einh4',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 55.555,
@@ -748,34 +794,42 @@ class TestBox(TestCase):
         motors_to_init = [(0, 1), (0, 2), (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2)]
         motors_config = {(0, 1): {'name': 'TestMotor0',
                                   'with_initiators': 0,
+                                  'with_encoder': 1,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0, },
                          (0, 2): {'name': 'TestMotor1',
                                   'with_initiators': 1,
+                                  'with_encoder': 0,
                                   'display_units': 'Schritte',
                                   'displ_per_contr': 1.0},
                          (1, 1): {'name': 'TestMotor2',
                                   'with_initiators': 1,
+                                  'with_encoder': 1,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0},
                          (1, 2): {'name': 'TestMotor3',
                                   'with_initiators': 1,
+                                  'with_encoder': 0,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0},
                          (2, 1): {'name': 'TestMotor4',
+                                  'with_encoder': 0,
                                   'with_initiators': 1,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0},
                          (2, 2): {'name': 'TestMotor5',
                                   'with_initiators': 1,
+                                  'with_encoder': 0,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0},
                          (3, 1): {'name': 'TestMotor6',
                                   'with_initiators': 1,
+                                  'with_encoder': 0,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0},
                          (3, 2): {'name': 'TestMotor7',
                                   'with_initiators': 1,
+                                  'with_encoder': 0,
                                   'display_units': '1',
                                   'displ_per_contr': 1.0}}
         motors_parameters = {
@@ -803,6 +857,7 @@ class TestBox(TestCase):
         motors_list = [(0, 1), (12, 4), (3, 6), (12, 3)]
         config_from_file = {0: {'name': 'TestMotor0',
                                 'with_initiators': 1,
+                                'with_encoder': 0,
                                 'display_units': 'einh1',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 22.222,
@@ -810,6 +865,7 @@ class TestBox(TestCase):
                                 'null_position': 0.0},
                             1: {'name': 'TestMotor1',
                                 'with_initiators': 0,
+                                'with_encoder': 0,
                                 'display_units': 'einh2',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 33.333,
@@ -817,6 +873,7 @@ class TestBox(TestCase):
                                 'null_position': 0.0},
                             2: {'name': 'TestMotor2',
                                 'with_initiators': 1,
+                                'with_encoder': 1,
                                 'display_units': 'einh3',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 44.444,
@@ -824,6 +881,7 @@ class TestBox(TestCase):
                                 'null_position': 0.0},
                             3: {'name': 'TestMotor3',
                                 'with_initiators': 1,
+                                'with_encoder': 1,
                                 'display_units': 'einh4',
                                 'norm_per_contr': 1.0,
                                 'displ_per_contr': 55.555,
@@ -956,7 +1014,7 @@ class TestBox(TestCase):
 
         box.make_empty_input_file('test_input/test_input_data(Vorlage).csv')
 
-        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Einheiten', 'Umrechnungsfaktor']
+        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)', 'Einheiten', 'Umrechnungsfaktor']
         for parameter_name in MCC2Communicator.PARAMETER_DEFAULT.keys():
             header.append(parameter_name)
 
