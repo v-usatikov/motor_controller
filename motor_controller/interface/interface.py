@@ -712,10 +712,11 @@ class Motor:
     def base_calibration(self):
         """Die standarte Justierungmaßnahmen für den Motor durchführen, wenn der Kontroller welche unterstützt."""
         self.communicator.calibrate(*self.coord())
+        self.wait_motor_stop()
 
     def calibrate(self, stop_indicator: StopIndicator = None, reporter: WaitReporter = None):
         """Kalibrierung von den gegebenen Motoren"""
-        if self.with_initiators():
+        if self.with_initiators() or self.with_encoder():
             logging.info(f'Kalibrierung vom Motor {self.name} wurde angefangen.')
 
             calibration_shift = self.communicator.calibration_shift
@@ -756,7 +757,8 @@ class Motor:
                 reporter.motor_is_done(self.name)
             logging.info(f'Kalibrierung von Motor {self.name} wurde abgeschlossen.')
         else:
-            raise CalibrationError(f'Motor {self.name} hat keine Initiators und kann nicht kalibriert werden!')
+            raise NotSupportedError(f'Motor {self.name} hat keine Initiators und kein Encoder '
+                                    f'und kann nicht kalibriert werden!')
 
     def soft_limits_einstellen(self, soft_limits: Tuple[Union[float, None], Union[float, None]], units: str = 'norm'):
         """soft limits einstellen"""
@@ -769,11 +771,12 @@ class Motor:
     def wait_motor_stop(self, stop_indicator: Union[StopIndicator, None] = None):
         """Haltet die programme, bis alle Motoren stoppen."""
 
+        time.sleep(0.1)
         while not self.stand():
             if stop_indicator is not None:
                 if stop_indicator.has_stop_requested():
                     return
-            time.sleep(0.5)
+            time.sleep(0.2)
 
     def set_display_null(self, displ_null: float = None):
         """Anzeiger Null in Normierte Einheiten einstellen"""
