@@ -1,5 +1,6 @@
 # coding= utf-8
 import logging
+import threading
 import time
 from typing import List, Set
 
@@ -106,16 +107,21 @@ class KalibrierungThread(QThread):
     stop = False
     status = ''
     box = None
+    motor = None
 
-    def start(self, box):
+    def start(self, box, motor=None):
         super().start()
         self.box = box
+        self.motor = motor
         self.stop = False
 
-    def run(self):
+    def run(self, motor=None):
         calibration_reporter = GuiCalibrationReporter(self)
         stop_indicator = GuiStopIndicator(self)
-        self.box.calibrate_motors(stop_indicator=stop_indicator, reporter=calibration_reporter)
+        if self.motor is None:
+            self.box.calibrate_motors(stop_indicator=stop_indicator, reporter=calibration_reporter)
+        else:
+            self.motor.calibrate()
 
         if self.stop:
             self.box.stop()
@@ -187,6 +193,7 @@ class ExampleApp(QMainWindow):
         self.refrBtn.clicked.connect(self.ports_lesen)
         self.VerbButton.clicked.connect(self.Verbinden)
         self.KalibrBtn.clicked.connect(self.Kalibrierung)
+        self.KalibrBtn1.clicked.connect(self.calibrate1)
         self.StopButton.clicked.connect(self.Stop)
         self.minusBtn1.clicked.connect(self.Minus1)
         self.plusBtn1.clicked.connect(self.Plus1)
@@ -241,15 +248,17 @@ class ExampleApp(QMainWindow):
             self.Motor = self.Box.get_motor_by_name(self.MotorCBox.currentText())
             self.init_Soft_Limits()
             self.Position_lesen(single_shot=True)
-            if not self.Motor.with_initiators():
+            if not (self.Motor.with_initiators() or self.Motor.with_encoder()):
                 self.horizontalSlider1.setEnabled(False)
                 self.horizontalScrollBar1.setValue(0)
                 self.horizontalSlider1.setValue(0)
                 self.Motor1Box.setTitle(self.Motor.name)
+                self.KalibrBtn1.setEnabled(False)
             else:
                 self.horizontalSlider1.setEnabled(True)
                 self.set_HSlider_tr(int(self.Position))
                 self.Motor1Box.setTitle(self.Motor.name)
+                self.KalibrBtn1.setEnabled(True)
             self.Motor1Box.setEnabled(True)
         else:
             self.Motor1Box.setEnabled(False)
@@ -426,6 +435,7 @@ class ExampleApp(QMainWindow):
 
         self.Motoren_Namen_laden()
         self.KalibrBtn.setEnabled(True)
+        self.KalibrBtn1.setEnabled(True)
         self.configButton.setEnabled(True)
         self.Motor1Box.setEnabled(True)
         self.MotorCBox.setEnabled(True)
@@ -464,6 +474,7 @@ class ExampleApp(QMainWindow):
         self.configButton.setEnabled(True)
         self.Kal_in_Lauf = False
         self.KalibrBtn.setText("alle kalibrieren")
+        self.KalibrBtn1.setText("kalibrieren")
         self.StatusBar.showMessage("Kalibrierung wurde unterbrochen")
 
         if self.comm_emulation:
@@ -471,7 +482,7 @@ class ExampleApp(QMainWindow):
         elif self.serial_emulation:
             self.Box.communicator.connector.ser.realtime = True
 
-    def Kalibrierung(self):
+    def Kalibrierung(self, motor=None):
 
         if not self.Kal_in_Lauf:
             self.Kal_in_Lauf = True
@@ -481,6 +492,7 @@ class ExampleApp(QMainWindow):
             self.MotorCBox.setEnabled(False)
             self.Motorlabel.setEnabled(False)
             self.KalibrBtn.setText("Stop")
+            self.KalibrBtn1.setText("Stop")
             self.Position_erneuern = False
 
             if self.comm_emulation:
@@ -488,7 +500,7 @@ class ExampleApp(QMainWindow):
             elif self.serial_emulation:
                 self.Box.communicator.connector.ser.realtime = False
 
-            self.Kal_Thread.start(self.Box)
+            self.Kal_Thread.start(self.Box, motor)
             print("Thr started")
 
             # Kal_Thread(q, self.Box)
@@ -496,6 +508,10 @@ class ExampleApp(QMainWindow):
 
         else:
             self.Kal_Thread.stop = True
+
+    def calibrate1(self):
+
+        self.Kalibrierung(self.Motor)
 
     def ports_lesen(self):
         self.PortBox.clear()

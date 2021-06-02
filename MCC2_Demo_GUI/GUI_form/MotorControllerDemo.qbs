@@ -20,6 +20,7 @@ QtApplication {
         "mainwindow.cpp",
         "mainwindow.h",
         "mainwindow.ui",
+        "motors_window.ui",
     ]
 
     install: true

@@ -1,5 +1,5 @@
 bus;axis;position;norm_per_contr;min_limit;max_limit
-0;1;210.0;0.05;100.0;None
+0;1;0.0;0.05;100.0;None
 1;1;310562.0;1.0;None;None
 1;2;21100.0;1.0;None;None
 2;1;0.0;0.05;200.0;800.0

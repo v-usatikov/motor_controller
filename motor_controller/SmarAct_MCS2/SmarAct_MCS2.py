@@ -5,13 +5,23 @@ from copy import deepcopy
 from typing import Union, Dict, List, Tuple
 
 from motor_controller.interface import ContrCommunicator, SerialEmulator, Connector, NoReplyError, \
-    ReplyError, ControllerError, EthernetConnector, Box
+    ReplyError, ControllerError, EthernetConnector, Box, SerialConnector
 from motor_controller.Phytron_MCC2 import is_h_digit, MCC2Communicator
 
 import logscolor
 
 if __name__ == '__main__':
     logscolor.init_config()
+
+
+def MCS2_EthernetConnector(ip: str, port: str = "55551", timeout: float = 0.004) -> EthernetConnector:
+    return EthernetConnector(ip, port, end_symbol=b'\r\n', timeout=timeout)
+
+
+def MCS2BoxEthernet(ip: str, port: str = "55551", timeout: float = 0.004, input_file: str = None) -> Box:
+    connector = MCS2_EthernetConnector(ip=ip, port=port, timeout=timeout)
+    communicator = MCS2Communicator(connector)
+    return Box(communicator=communicator, input_file=input_file)
 
 
 class MCS2Communicator(ContrCommunicator):

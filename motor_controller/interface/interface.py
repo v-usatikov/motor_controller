@@ -467,12 +467,6 @@ class Controller:
 
         return self.communicator.command_to_modul(command, self.bus)
 
-    # def save_parameters_in_eprom(self):
-    #     """Speichert die aktuelle Parametern in Flash EPROM des Controllers"""
-    #     reply = self.command("SA", timeout=5)
-    #     if reply[0] is False:
-    #         raise ConnectError("Hat nicht geklappt Parametern in Controller-Speicher zu sichern.")
-
     def motors_stand(self) -> bool:
         """Gibt zurück der Status der Motoren, ob die Motoren in Lauf sind."""
 
@@ -1108,9 +1102,11 @@ class Box:
 
     def calibrate_motors(self, motors_to_calibration: List[Motor] = None,
                          list_to_calibration: List[M_Coord] = None,
+                         parallel: bool = True,
                          stop_indicator: StopIndicator = None,
                          reporter: WaitReporter = None):
         """Kalibrierung von den gegebenen Motoren. Wenn nichts angegeben ist, dan von allen Motoren."""
+
         all_motors = False
         if list_to_calibration is None and motors_to_calibration is None:
             motors_to_calibration = self.motors_with_initiators()
@@ -1125,9 +1121,13 @@ class Box:
         if reporter is not None:
             reporter.set_wait_list(wait_list)
 
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            executor.map(lambda motor: motor.calibrate(stop_indicator, reporter), motors_to_calibration)
-            executor.shutdown(wait=True)
+        if parallel:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.map(lambda motor: motor.calibrate(stop_indicator, reporter), motors_to_calibration)
+                executor.shutdown(wait=True)
+        else:
+            for motor in motors_to_calibration:
+                motor.calibrate(stop_indicator, reporter)
 
         if all_motors:
             logging.info('Kalibrierung von allen Motoren wurde abgeschlossen.')
@@ -1572,6 +1572,13 @@ class BoxesCluster(MotorsCluster):
                     motors.append(motor)
         return motors
 
+    def add_box(self, box: Box, name: str):
+        """Addiert ein neues Box zum Cluster"""
+
+        self.boxes[name] = box
+        for controller in box:
+            for motor in controller:
+                self.motors[motor.name] = motor
 
 class SerialError(Exception):
     """Base class for serial port related exceptions."""

@@ -5,7 +5,7 @@ from copy import deepcopy
 from typing import Union, Dict, List, Tuple
 
 from motor_controller.interface.interface import ContrCommunicator, SerialConnector, Connector, ReplyError, \
-    NoReplyError, ControllerError, NotSupportedError
+    NoReplyError, ControllerError, NotSupportedError, Box
 
 import logscolor
 
@@ -49,6 +49,12 @@ def decode_error(er_code: int):
 
 def MCS_SerialConnector(port: str, timeout: float = 0.2, baudrate: float = 115200) -> SerialConnector:
     return SerialConnector(port=port, beg_symbol=b':', end_symbol=b'\n', timeout=timeout, baudrate=baudrate)
+
+
+def MCSBoxSerial(port: str, timeout: float = 0.2, baudrate: float = 115200, input_file: str = None) -> Box:
+    connector = MCS_SerialConnector(port=port, timeout=timeout, baudrate=baudrate)
+    communicator = MCSCommunicator(connector)
+    return Box(communicator=communicator, input_file=input_file)
 
 
 class MCSCommunicator(ContrCommunicator):
