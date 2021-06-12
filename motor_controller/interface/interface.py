@@ -306,7 +306,7 @@ def write_csv_from_dict(addres: str, dict_to_save: dict, delimiter: str = ';'):
 
 
 def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
-    right_header = ['bus', 'axis', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
+    right_header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
     if list(raw_motors_data[0].keys()) != right_header:
         return False
 
@@ -328,6 +328,14 @@ def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
                     float(motor_line[key])
                 except ValueError:
                     return False
+
+    # Prüfen ob die Namen einzigartig sind.
+    names = []
+    for motor_line in raw_motors_data:
+        names.append(motor_line['name'])
+    if len(names) != len(set(names)):
+        return False
+
     return True
 
 
@@ -335,7 +343,7 @@ def __transform_raw_saved_session_data(raw_motors_data: List[dict]) \
         -> Dict[Tuple[int, int], Tuple[float, float, tuple]]:
     transformed_motors_data = {}
     for motor_line in raw_motors_data:
-        coord = (int(motor_line['bus']), int(motor_line['axis']))
+        name = motor_line['name']
         position = float(motor_line['position'])
         norm_per_contr = float(motor_line['norm_per_contr'])
 
@@ -343,7 +351,7 @@ def __transform_raw_saved_session_data(raw_motors_data: List[dict]) \
         max_limit = float(motor_line['max_limit']) if motor_line['max_limit'] != 'None' else None
         soft_limits = (min_limit, max_limit)
 
-        transformed_motors_data[coord] = (position, norm_per_contr, soft_limits)
+        transformed_motors_data[name] = (position, norm_per_contr, soft_limits)
 
     return transformed_motors_data
 
@@ -790,6 +798,13 @@ class Motor:
 
         return bool(self.config['with_encoder'])
 
+    def is_calibratable(self) -> bool:
+        """Zeigt, ob der Motor kalibriert werden können,
+        d.h. Initiatoren oder ein Encoder hat.
+        """
+
+        return self.with_initiators() or self.with_encoder()
+
     def set_config(self, motor_config: dict = None):
         """Einstellt Name, Initiatoren Status, display_units, display_u_per_step anhand angegebene Dict"""
 
@@ -885,488 +900,45 @@ class Motor:
         return value
 
 
-class Box:
-    """Diese Klasse entspricht einer Box, die mehrere Controller-Modulen im Busbetrieb enthaltet."""
-
-    def __init__(self, communicator: ContrCommunicator, input_file: str = None, tolerance: float = None):
-        self.communicator = communicator
-
-        self.report = ""
-        self.controller: Dict[int, Controller] = {}
-
-        if tolerance is None:
-            self.tolerance = communicator.tolerance
-        else:
-            self.tolerance = tolerance
-
-        if input_file is not None:
-            self.initialize_with_input_file(input_file)
-        else:
-            self.initialize()
-
-    def __iter__(self):
-        return (controller for controller in self.controller.values())
-
-    def set_tolerance(self, tolerance: float):
-        """stellt """
-        self.communicator.tolerance = tolerance
-
-    def motors(self):
-        """Ein Iterator, der durch alle Motoren des Boxes läuft."""
-        for controller in self:
-            for motor in controller:
-                yield motor
-
-    def command(self, text: bytes) -> bytes:
-        """Befehl für die Box ausführen"""
-
-        return self.communicator.command_to_box(text)
-
-    def initialize(self):
-        """Sucht und macht Objekte für alle verfügbare Controller und Motoren und gibt ein Bericht zurück."""
-
-        logging.info('Box Initialisierung wurde gestartet.')
-
-        report = ""
-        n_axes = 0
-
-        self.controller = {}
-        for i in self.communicator.bus_list():
-            self.controller[i] = Controller(self.communicator, i)
-
-        for controller in self:
-            controller.make_motors()
-            axes_in_controller = len(controller.motor)
-            n_axes += axes_in_controller
-
-            report += f"Controller {controller.bus} ({axes_in_controller} Achsen)\n"
-
-        report = f"Box wurde initialisiert. {len(self.controller)} Controller und {n_axes} Achsen gefunden:\n" + report
-        logging.info(report)
-        self.report = report
-        return report
-
-    def initialize_with_input_file(self, config_file: str = 'input/Phytron_Motoren_config.csv'):
-        """Sucht und macht Objekte für alle verfügbare Controller und Motoren. Gibt ein Bericht zurück."""
-
-        def del_motor_from_init(bus: int, axis: int):
-            del motors_config[bus, axis]
-            del motors_parameters[bus, axis]
-
-        logging.info('Box Initialisierung wurde gestartet.')
-
-        report = ""
-        n_motors = 0
-        n_controllers = 0
-        self.controller = {}
-
-        input_config = read_input_config_from_file(self.communicator, config_file)
-        controllers_to_init, motors_to_init, motors_config, motors_parameters = input_config
-
-        # Controller initialisieren
-        absent_bus = []
-        bus_list = self.communicator.bus_list()
-        for bus in controllers_to_init:
-            if bus in bus_list:
-                self.controller[bus] = Controller(self.communicator, bus)
-                n_controllers += 1
-            else:
-                if bus not in absent_bus:
-                    absent_bus.append(bus)
-        if len(absent_bus) > 1:
-            report += f"Controller {absent_bus} sind nicht verbunden und wurden nicht initialisiert.\n"
-            print(report)
-        elif len(absent_bus) == 1:
-            report += f"Controller {absent_bus[0]} ist nicht verbunden und wurde nicht initialisiert.\n"
-
-        # Motoren initialisieren
-        for bus, axis in motors_to_init:
-            if bus in absent_bus:
-                del_motor_from_init(bus, axis)
-            else:
-                if axis in self.communicator.axes_list(bus):
-                    self.controller[bus].motor[axis] = Motor(self.controller[bus], axis)
-                    n_motors += 1
-                else:
-                    del_motor_from_init(bus, axis)
-                    report += f"Achse {axis} ist beim Controller {bus} nicht vorhanden, " \
-                              f"der Motor wurde nicht initialisiert.\n"
-
-        self.set_motors_config(motors_config)
-        self.set_parameters(motors_parameters)
-
-        report = f"{n_controllers} Controller und {n_motors} Motoren wurde initialisiert:\n" + report
-        for controller in self:
-            report += f'Controller {controller.bus}: '
-            more_then_one = False
-            for motor in controller:
-                if more_then_one:
-                    report += ', '
-                report += motor.name
-                more_then_one = True
-            report += '\n'
-
-        self.report = report
-        return report
-
-    def get_motor(self, coordinates: (int, int) = None) -> Motor:
-        """Gibt den Motor objekt zurück aus Koordinaten in Format (bus, Achse)"""
-        if coordinates not in self.motors_list():
-            raise ValueError(f"Es gibt kein Motor mit solchen Koordinaten: {coordinates}")
-        bus, axis = coordinates
-        return self.controller[bus].motor[axis]
-
-    def get_motor_by_name(self, name: str) -> Motor:
-        """Gibt den Motor objekt zurück aus dem Name davon."""
-
-        for controller in self:
-            for motor in controller:
-                if motor.name == name:
-                    return motor
-        raise ValueError(f"Es gibt kein Motor mit solchem Name: {name}")
-
-    def stop(self):
-        """Stoppt alle Achsen"""
-
-        for controller in self:
-            controller.stop()
-
-    def set_motors_config(self, motors_config: Dict[M_Coord, dict]):
-        """Einstellt Name, Initiatoren Status, display_units, AE_in_Schritt der Motoren anhand angegebene Dict"""
-
-        for motor_coord, motor_config in motors_config.items():
-            motor = self.get_motor(motor_coord)
-            motor.set_config(motor_config)
-
-    def all_motors_stand(self) -> bool:
-        """Gibt bool Wert zurück, ob alle Motoren stehen."""
-
-        for controller in self:
-            if not controller.motors_stand():
-                return False
-        return True
-
-    def wait_all_motors_stop(self, stop_indicator: Union[StopIndicator, None] = None):
-        """Haltet die programme, bis alle Motoren stoppen."""
-
-        while not self.all_motors_stand():
-            if stop_indicator is not None:
-                if stop_indicator.has_stop_requested():
-                    return
-            time.sleep(0.5)
-
-    def set_parameters(self, motors_config: Dict[M_Coord, Param_Val]):
-        """Die Parametern einstellen laut angegebene Dict in Format {(bus, Achse) : Parameterwerte,}"""
-
-        available_motors = self.motors_list()
-        for motor_coord, param_values in motors_config.items():
-            if motor_coord in available_motors:
-                self.get_motor(motor_coord).set_parameters(param_values)
-            else:
-                logging.warning(f"Motor {motor_coord} ist nicht verbunden und kann nicht konfiguriert werden.")
-
-    def get_parameters(self) -> Dict[M_Coord, Param_Val]:
-        """Liest die Parametern aus Controller und gibt zurück Dict mit Parameterwerten"""
-
-        motors_parameters = {}
-
-        for controller in self:
-            for motor in controller:
-                motors_parameters[(controller.bus, motor.axis)] = motor.get_parameters()
-
-        return motors_parameters
-
-    def base_calibration(self, motors_to_calibration: List[Motor] = None):
-        """Die standarte Justierungmaßnahmen für die angegebene Motoren durchführen,
-        wenn der Kontroller welche unterstützt. Wenn nichts angegeben ist, dan von allen Motoren.
-        """
-
-        if motors_to_calibration is None:
-            motors_to_calibration = self.motors()
-        for motor in motors_to_calibration:
-            motor.base_calibration()
-
-    def get_motors(self, coords: List[M_Coord] = None):
-        """Gibt zurück die Liste der Motoren anhand von der Liste der Koordinaten davon."""
-        motors = []
-        for coord in coords:
-            motors.append(self.get_motor(coord))
-        return motors
-
-    def get_motors_by_names(self, names: List[str] = None):
-        """Gibt zurück die Liste der Motoren anhand von der Liste der Namen davon."""
-        motors = []
-        for name in names:
-            motors.append(self.get_motor_by_name(name))
-        return motors
-
-    def calibrate_motors(self, motors_to_calibration: List[Motor] = None,
-                         list_to_calibration: List[M_Coord] = None,
-                         parallel: bool = True,
-                         stop_indicator: StopIndicator = None,
-                         reporter: WaitReporter = None):
-        """Kalibrierung von den gegebenen Motoren. Wenn nichts angegeben ist, dan von allen Motoren."""
-
-        all_motors = False
-        if list_to_calibration is None and motors_to_calibration is None:
-            motors_to_calibration = self.motors_with_initiators()
-            self.base_calibration(self.motors_without_initiators())
-            all_motors = True
-        elif motors_to_calibration is None:
-            motors_to_calibration = self.get_motors(list_to_calibration)
-
-        wait_list = set()
-        for motor in motors_to_calibration:
-            wait_list.add(motor.name)
-        if reporter is not None:
-            reporter.set_wait_list(wait_list)
-
-        if parallel:
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                executor.map(lambda motor: motor.calibrate(stop_indicator, reporter), motors_to_calibration)
-                executor.shutdown(wait=True)
-        else:
-            for motor in motors_to_calibration:
-                motor.calibrate(stop_indicator, reporter)
-
-        if all_motors:
-            logging.info('Kalibrierung von allen Motoren wurde abgeschlossen.')
-
-    def save_session_data(self, address: str = "data/saved_session_data.txt"):
-        """Sichert die Daten der jetzigen Sitzung (wie Soft Limits, Positionen, Kalibrierungsdaten) in einer Datei."""
-
-        def make_csv_row(list_to_convert: list) -> str:
-            str_list = list(map(str, list_to_convert))
-            return ';'.join(str_list) + '\n'
-
-        # Bevor die Datei geändert wurde, die Daten daraus sichern.
-        try:
-            saved_data = read_saved_session_data_from_file(address)
-        except FileNotFoundError:
-            saved_data = {}
-
-        f = open(address, "wt")
-
-        header = ['bus', 'axis', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
-        f.write(make_csv_row(header))
-
-        for controller in self:
-            for motor in controller:
-                row = [*motor.coord(), motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits]
-                f.write(make_csv_row(row))
-
-        # Daten von den abwesenden Motoren zurück in Datei schreiben
-        if saved_data:
-            absent_motors = set(saved_data.keys()) - set(self.motors_list())
-            for coord in absent_motors:
-                position, norm_per_contr, soft_limits = saved_data[coord]
-                row = [*coord, position, norm_per_contr, *soft_limits]
-                f.write(make_csv_row(row))
-
-        f.close()
-        logging.info(f'Kalibrierungsdaten für  Motoren {self.motors_list()} wurde gespeichert.')
-
-    def read_saved_session_data(self, address: str = "data/saved_session_data.txt") -> List[Tuple[int, int]]:
-        """Liest die gesicherte Sitzung aus einer Datei und gibt die Liste der Motoren zurück,
-        für die keine Daten gefunden wurde.
-        """
-
-        saved_data = read_saved_session_data_from_file(address)
-        list_to_calibration = []
-        success_list = []
-
-        for controller in self:
-            for motor in controller:
-                if motor.coord() in saved_data.keys():
-                    position, norm_per_contr, soft_limits = saved_data[motor.coord()]
-
-                    motor.config['norm_per_contr'] = norm_per_contr
-                    motor.config['null_position'] = motor.position('contr') - position / norm_per_contr
-                    motor.soft_limits = soft_limits
-
-                    success_list.append(motor.coord())
-                else:
-                    list_to_calibration.append(motor.coord())
-
-        logging.info(f'Gesicherte Daten für Motoren {success_list} wurde geladen.')
-        if list_to_calibration:
-            logging.info(f'Motoren {list_to_calibration} brauchen Kalibrierung.')
-
-        return list_to_calibration
-
-    def make_empty_input_file(self, address: str = 'input/input_data(Vorlage).csv'):
-        """Erstellt eine Vorlage-Datei mit einer leeren Konfigurationstabelle"""
-
-        f = open(address, "wt")
-        separator = ';'
-
-        # Motor liste schreiben
-        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)',
-                  'Einheiten', 'Umrechnungsfaktor']
-        for parameter_name in self.communicator.PARAMETER_DEFAULT.keys():
-            header.append(parameter_name)
-        header_length = len(header)
-        header = separator.join(header)
-        f.write(header + '\n')
-
-        for controller in self:
-            for motor in controller:
-                motorline = [''] * header_length
-                motorline[0] = motor.name
-                motorline[1] = str(controller.bus)
-                motorline[2] = str(motor.axis)
-                motorline = separator.join(motorline)
-                f.write(motorline + '\n')
-
-        logging.info('Eine Datei mit einer leeren Konfigurationstabelle wurde erstellt.')
-
-    def motors_list(self) -> Tuple[M_Coord]:
-        """Gibt zurück eine Liste der allen Motoren in Format: [(bus, Achse), …]"""
-
-        m_list = []
-        for controller in self:
-            for motor in controller:
-                m_list.append(motor.coord())
-        return tuple(m_list)
-
-    def motors_names_list(self) -> Tuple[str]:
-        """Gibt zurück eine Liste der Namen der Motoren"""
-
-        names = []
-        for controller in self:
-            for motor in controller:
-                names.append(motor.name)
-        if len(names) < len(set(names)):
-            raise MotorNamesError('Es gibt wiederholte Namen der Motoren!')
-        return tuple(names)
-
-    def controllers_list(self) -> List[int]:
-        """Gibt zurück eine Liste der allen Controllern in Format: [bus, ...]"""
-
-        controllers_list = []
-        for controller in self:
-            controllers_list.append(controller.bus)
-        return controllers_list
-
-    def motors_without_initiators(self) -> List[Motor]:
-        """Gibt zurück eine Liste der allen Motoren ohne Initiatoren."""
-
-        motors_list = []
-        for controller in self:
-            for motor in controller:
-                if not motor.with_initiators():
-                    motors_list.append(motor)
-        return motors_list
-
-    def motors_with_initiators(self) -> List[Motor]:
-        """Gibt zurück eine Liste der allen Motoren mit Initiatoren."""
-
-        motors_list = []
-        for controller in self:
-            for motor in controller:
-                if motor.with_initiators():
-                    motors_list.append(motor)
-        return motors_list
-
-    def close(self, data_folder: str = 'data/'):
-        """Alle nötige am Ende der Arbeit Operationen ausführen."""
-
-        self.stop()
-        self.save_session_data(address=data_folder + 'saved_session_data.txt')
-        del self
-
-    # def calibrate_motors0(self, list_to_calibration: List[M_Coord] = None,
-    #                      motors_to_calibration: List[Motor] = None,
-    #                      stop_indicator: StopIndicator = None,
-    #                      reporter: WaitReporter = None):
-    #     """Kalibrierung von den gegebenen Motoren"""
-    #     logging.info('Kalibrierung von allen Motoren wurde angefangen.')
-    #
-    #     if list_to_calibration is None and motors_to_calibration is None:
-    #         list_to_calibration = self.motors_with_initiators()
-    #         all_motors = True
-    #     else:
-    #         all_motors = False
-    #
-    #     # Motoren ohne Initiatoren aus der Liste entfernen
-    #     if motors_to_calibration is None:
-    #         motors_to_calibration = [self.controller[bus].motor[axis] for bus, axis in list_to_calibration
-    #                                  if self.controller[bus].motor[axis].with_initiators()]
-    #
-    #     # # Voreinstellung der Parametern
-    #     # for motor in motors_to_calibration:
-    #     #     motor.set_parameters()
-    #
-    #     # Bis zum Ende laufen
-    #     while True:
-    #         all_at_the_end = True
-    #         for motor in motors_to_calibration:
-    #             if not motor.at_the_end():
-    #                 all_at_the_end = False
-    #                 motor.go(500000, units='contr', calibrate=True)
-    #         print(self.__initiators(list_to_calibration))
-    #         self.wait_all_motors_stop(stop_indicator, reporter)
-    #         if stop_indicator is not None:
-    #             if stop_indicator.has_stop_requested():
-    #                 return
-    #
-    #         if all_at_the_end:
-    #             break
-    #
-    #     end = []
-    #     for motor in motors_to_calibration:
-    #         end.append(motor.position())
-    #
-    #     # Bis zum Anfang laufen
-    #     while True:
-    #         all_at_the_beginning = True
-    #         for motor in motors_to_calibration:
-    #             if not motor.at_the_beginning():
-    #                 all_at_the_beginning = False
-    #                 motor.go(-500000, units='contr', calibrate=True)
-    #         print(self.__initiators(list_to_calibration))
-    #         self.wait_all_motors_stop(stop_indicator, reporter)
-    #         if stop_indicator is not None:
-    #             if stop_indicator.has_stop_requested():
-    #                 return
-    #         if all_at_the_beginning:
-    #             break
-    #
-    #     beginning = []
-    #     for motor in motors_to_calibration:
-    #         beginning.append(motor.position())
-    #
-    #     for i, motor in enumerate(motors_to_calibration):
-    #         motor.config['null_position'] = beginning[i]
-    #         motor.config['norm_per_contr'] = 1000 / (end[i] - beginning[i])
-    #
-    #     if all_motors:
-    #         logging.info('Kalibrierung von allen Motoren wurde abgeschlossen.')
-    #     else:
-    #         logging.info(f'Kalibrierung von Motoren {list_to_calibration} wurde abgeschlossen.')
-
-
 class MotorsCluster:
-    """Diese Klasse vereint mehrere Kontroller-Boxen und lässt die bequem zusammen steuern."""
+    """Diese Klasse vereint mehrere Motoren aus desselbe oder verschiedene Kontroller-Boxen
+    und lässt die bequem zusammen steuern.
+
+    Wichtig: Namen der Motoren müssen einzigartig sein, da die Motoren mit ihren Namen identifiziert werden.
+    """
 
     def __init__(self, motors: List[Motor]):
 
-        # prüfen, dass es keine wieerholte Namen gibt
-        names = []
-        for motor in motors:
-            if motor.name not in names:
-                names.append(motor.name)
-            else:
-                raise MotorNamesError(f'Es gibt die wiederholte Namen der Motoren! '
-                                      f'Der Name "{motor.name}" ist mehrmals getroffen.')
-
-        # Dict mit den Motoren erstellen
         self.motors: Dict[str, Motor] = {}
-        for motor in motors:
-            self.motors[motor.name] = motor
+        self.add_motors(motors)
 
     def __iter__(self):
         return self.motors.values()
+
+    def add_motors(self, motors: List[Motor]):
+        """Fügt neue Motoren in den Cluster hinzu."""
+
+        for motor in motors:
+            if motor.name not in self.motors.keys():
+                self.motors[motor.name] = motor
+            elif self.motors[motor.name] is not motor:
+                raise MotorNamesError(f'Es gibt die wiederholte Namen der Motoren! '
+                                      f'Der Name "{motor.name}" ist mehrmals getroffen.')
+
+    def get_motor(self, name: str) -> Motor:
+        if name not in self.motors.keys():
+            raise ValueError(f"Es gibt kein Motor mit solchem Name: {name}")
+        else:
+            return self.motors[name]
+
+    def get_motors(self, names: List[str]) -> List[Motor]:
+        motors = []
+        for name in names:
+            if name not in self.motors.keys():
+                raise ValueError(f"Es gibt kein Motor mit solchem Name: {name}")
+            else:
+                motors.append(self.motors[name])
+        return motors
 
     def stop(self):
         """Stoppt alle Motoren im Cluster."""
@@ -1525,6 +1097,390 @@ class MotorsCluster:
 
         path = self.read_path_from_file(address, delimiter, decimal)
         return self.path_travel(path, action, units, stop_indicator, reporter)
+    
+    def all_motors_stand(self) -> bool:
+        """Gibt bool Wert zurück, ob alle Motoren stehen."""
+
+        for motor in self:
+            if not motor.stand():
+                return False
+        return True
+
+    def wait_all_motors_stop(self, stop_indicator: Union[StopIndicator, None] = None):
+        """Haltet die programme, bis alle Motoren stoppen."""
+
+        while not self.all_motors_stand():
+            if stop_indicator is not None:
+                if stop_indicator.has_stop_requested():
+                    return
+            time.sleep(0.5)
+
+    def calibratable_motors(self) -> List[Motor]:
+        """Gibt zurück eine Liste der allen Motoren, die kalibriert werden können,
+        d.h. Initiatoren oder ein Encoder haben.
+        """
+
+        motors_list = []
+        for motor in self:
+            if motor.is_calibratable():
+                motors_list.append(motor)
+        return motors_list
+
+    def not_calibratable_motors(self) -> List[Motor]:
+        """Gibt zurück eine Liste der allen Motoren, die nicht kalibriert werden können,
+        d.h. keine Initiatoren oder kein Encoder haben.
+        """
+
+        motors_list = []
+        for motor in self:
+            if not motor.is_calibratable():
+                motors_list.append(motor)
+        return motors_list
+
+    def base_calibration(self, motors_to_calibration: List[Motor] = None):
+        """Die standarte Justierungmaßnahmen für die angegebene Motoren durchführen,
+        wenn der Kontroller welche unterstützt. Wenn nichts angegeben ist, dan von allen Motoren.
+        """
+
+        if motors_to_calibration is None:
+            motors_to_calibration = self.motors.values()
+        for motor in motors_to_calibration:
+            motor.base_calibration()
+
+    def calibrate_motors(self, motors_to_calibration: List[Motor] = None,
+                         names_to_calibration: List[str] = None,
+                         parallel: bool = True,
+                         stop_indicator: StopIndicator = None,
+                         reporter: WaitReporter = None):
+        """Kalibrierung von den gegebenen Motoren. Wenn nichts angegeben ist, dan von allen Motoren."""
+
+        all_motors = False
+        if names_to_calibration is None and motors_to_calibration is None:
+            motors_to_calibration = self.calibratable_motors()
+            self.base_calibration(self.not_calibratable_motors())
+            all_motors = True
+        elif motors_to_calibration is None:
+            motors_to_calibration = self.get_motors(names_to_calibration)
+
+        wait_list = set()
+        for motor in motors_to_calibration:
+            wait_list.add(motor.name)
+        if reporter is not None:
+            reporter.set_wait_list(wait_list)
+
+        if parallel:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.map(lambda motor: motor.calibrate(stop_indicator, reporter), motors_to_calibration)
+                executor.shutdown(wait=True)
+        else:
+            for motor in motors_to_calibration:
+                motor.calibrate(stop_indicator, reporter)
+
+        if all_motors:
+            logging.info('Kalibrierung von allen Motoren wurde abgeschlossen.')
+
+    def save_session_data(self, address: str = "data/saved_session_data.txt"):
+        """Sichert die Daten der jetzigen Sitzung (wie Soft Limits, Positionen, Kalibrierungsdaten) in einer Datei."""
+
+        def make_csv_row(list_to_convert: list) -> str:
+            str_list = list(map(str, list_to_convert))
+            return ';'.join(str_list) + '\n'
+
+        # Bevor die Datei geändert wurde, die Daten daraus sichern.
+        try:
+            saved_data = read_saved_session_data_from_file(address)
+        except FileNotFoundError:
+            saved_data = {}
+
+        f = open(address, "wt")
+
+        header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
+        f.write(make_csv_row(header))
+
+        for name, motor in self.motors:
+            row = [name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits]
+            f.write(make_csv_row(row))
+
+        # Daten von den abwesenden Motoren zurück in Datei schreiben
+        if saved_data:
+            absent_motors = set(saved_data.keys()) - set(self.motors.keys())
+            for name in absent_motors:
+                position, norm_per_contr, soft_limits = saved_data[name]
+                row = [name, position, norm_per_contr, *soft_limits]
+                f.write(make_csv_row(row))
+
+        f.close()
+        logging.info(f'Die Sitzungsdaten wurde in "{address}" gespeichert.')
+
+    def read_saved_session_data(self, address: str = "data/saved_session_data.txt") -> List[Tuple[int, int]]:
+        """Liest die gesicherte Sitzung aus einer Datei und gibt die Liste der Motoren zurück,
+        für die keine Daten gefunden wurde.
+        """
+
+        saved_data = read_saved_session_data_from_file(address)
+        list_to_calibration = []
+        success_list = []
+
+        for name, motor in self.motors:
+            if name in saved_data.keys():
+                position, norm_per_contr, soft_limits = saved_data[name]
+
+                motor.config['norm_per_contr'] = norm_per_contr
+                motor.config['null_position'] = motor.position('contr') - position / norm_per_contr
+                motor.soft_limits = soft_limits
+
+                success_list.append(motor.coord())
+            else:
+                list_to_calibration.append(motor.coord())
+
+        logging.info(f'Gesicherte Sitzungsdaten für Motoren {success_list} wurde geladen.')
+        if list_to_calibration:
+            logging.info(f'Motoren {list_to_calibration} brauchen Kalibrierung.')
+
+        return list_to_calibration
+
+    def close(self):
+        """Alle nötige am Ende der Arbeit Operationen ausführen."""
+
+        self.stop()
+        del self
+
+
+class Box:
+    """Diese Klasse entspricht einer Box, die mehrere Controller-Modulen im Busbetrieb enthaltet."""
+
+    def __init__(self, communicator: ContrCommunicator, input_file: str = None, tolerance: float = None):
+        self.communicator = communicator
+
+        self.report = ""
+        self.controller: Dict[int, Controller] = {}
+
+
+        if tolerance is None:
+            self.tolerance = communicator.tolerance
+        else:
+            self.tolerance = tolerance
+
+        if input_file is not None:
+            self.initialize_with_input_file(input_file)
+        else:
+            self.initialize()
+
+        self.motors_cluster = MotorsCluster(list(self.motors()))
+
+    def __iter__(self):
+        return (controller for controller in self.controller.values())
+
+    def set_tolerance(self, tolerance: float):
+        """stellt """
+        self.communicator.tolerance = tolerance
+
+    def motors(self):
+        """Ein Iterator, der durch alle Motoren des Boxes läuft."""
+        for controller in self:
+            for motor in controller:
+                yield motor
+
+    def command(self, text: bytes) -> bytes:
+        """Befehl für die Box ausführen"""
+
+        return self.communicator.command_to_box(text)
+
+    def initialize(self):
+        """Sucht und macht Objekte für alle verfügbare Controller und Motoren und gibt ein Bericht zurück."""
+
+        logging.info('Box Initialisierung wurde gestartet.')
+
+        report = ""
+        n_axes = 0
+
+        self.controller = {}
+        for i in self.communicator.bus_list():
+            self.controller[i] = Controller(self.communicator, i)
+
+        for controller in self:
+            controller.make_motors()
+            axes_in_controller = len(controller.motor)
+            n_axes += axes_in_controller
+
+            report += f"Controller {controller.bus} ({axes_in_controller} Achsen)\n"
+
+        report = f"Box wurde initialisiert. {len(self.controller)} Controller und {n_axes} Achsen gefunden:\n" + report
+        logging.info(report)
+        self.report = report
+        return report
+
+    def initialize_with_input_file(self, config_file: str = 'input/Phytron_Motoren_config.csv'):
+        """Sucht und macht Objekte für alle verfügbare Controller und Motoren. Gibt ein Bericht zurück."""
+
+        def del_motor_from_init(bus: int, axis: int):
+            del motors_config[bus, axis]
+            del motors_parameters[bus, axis]
+
+        logging.info('Box Initialisierung wurde gestartet.')
+
+        report = ""
+        n_motors = 0
+        n_controllers = 0
+        self.controller = {}
+
+        input_config = read_input_config_from_file(self.communicator, config_file)
+        controllers_to_init, motors_to_init, motors_config, motors_parameters = input_config
+
+        # Controller initialisieren
+        absent_bus = []
+        bus_list = self.communicator.bus_list()
+        for bus in controllers_to_init:
+            if bus in bus_list:
+                self.controller[bus] = Controller(self.communicator, bus)
+                n_controllers += 1
+            else:
+                if bus not in absent_bus:
+                    absent_bus.append(bus)
+        if len(absent_bus) > 1:
+            report += f"Controller {absent_bus} sind nicht verbunden und wurden nicht initialisiert.\n"
+            print(report)
+        elif len(absent_bus) == 1:
+            report += f"Controller {absent_bus[0]} ist nicht verbunden und wurde nicht initialisiert.\n"
+
+        # Motoren initialisieren
+        for bus, axis in motors_to_init:
+            if bus in absent_bus:
+                del_motor_from_init(bus, axis)
+            else:
+                if axis in self.communicator.axes_list(bus):
+                    self.controller[bus].motor[axis] = Motor(self.controller[bus], axis)
+                    n_motors += 1
+                else:
+                    del_motor_from_init(bus, axis)
+                    report += f"Achse {axis} ist beim Controller {bus} nicht vorhanden, " \
+                              f"der Motor wurde nicht initialisiert.\n"
+
+        self.set_motors_config(motors_config)
+        self.set_parameters(motors_parameters)
+
+        report = f"{n_controllers} Controller und {n_motors} Motoren wurde initialisiert:\n" + report
+        for controller in self:
+            report += f'Controller {controller.bus}: '
+            more_then_one = False
+            for motor in controller:
+                if more_then_one:
+                    report += ', '
+                report += motor.name
+                more_then_one = True
+            report += '\n'
+
+        self.report = report
+        return report
+
+    def get_motor(self, coordinates: (int, int) = None) -> Motor:
+        """Gibt den Motor objekt zurück aus Koordinaten in Format (bus, Achse)"""
+        if coordinates not in self.motors_list():
+            raise ValueError(f"Es gibt kein Motor mit solchen Koordinaten: {coordinates}")
+        bus, axis = coordinates
+        return self.controller[bus].motor[axis]
+
+    def get_motor_by_name(self, name: str) -> Motor:
+        """Gibt den Motor objekt zurück aus dem Name davon."""
+
+        return self.motors_cluster.get_motor(name)
+
+    def stop(self):
+        """Stoppt alle Achsen"""
+
+        for controller in self:
+            controller.stop()
+
+    def set_motors_config(self, motors_config: Dict[M_Coord, dict]):
+        """Einstellt Name, Initiatoren Status, display_units, AE_in_Schritt der Motoren anhand angegebene Dict"""
+
+        for motor_coord, motor_config in motors_config.items():
+            motor = self.get_motor(motor_coord)
+            motor.set_config(motor_config)
+
+    def set_parameters(self, motors_config: Dict[M_Coord, Param_Val]):
+        """Die Parametern einstellen laut angegebene Dict in Format {(bus, Achse) : Parameterwerte,}"""
+
+        available_motors = self.motors_list()
+        for motor_coord, param_values in motors_config.items():
+            if motor_coord in available_motors:
+                self.get_motor(motor_coord).set_parameters(param_values)
+            else:
+                logging.warning(f"Motor {motor_coord} ist nicht verbunden und kann nicht konfiguriert werden.")
+
+    def get_parameters(self) -> Dict[M_Coord, Param_Val]:
+        """Liest die Parametern aus Controller und gibt zurück Dict mit Parameterwerten"""
+
+        motors_parameters = {}
+
+        for controller in self:
+            for motor in controller:
+                motors_parameters[(controller.bus, motor.axis)] = motor.get_parameters()
+
+        return motors_parameters
+
+    def get_motors(self, coords: List[M_Coord] = None):
+        """Gibt zurück die Liste der Motoren anhand von der Liste der Koordinaten davon."""
+        motors = []
+        for coord in coords:
+            motors.append(self.get_motor(coord))
+        return motors
+
+    def get_motors_by_names(self, names: List[str] = None):
+        """Gibt zurück die Liste der Motoren anhand von der Liste der Namen davon."""
+        motors = []
+        for name in names:
+            motors.append(self.get_motor_by_name(name))
+        return motors
+
+    def make_empty_input_file(self, address: str = 'input/input_data(Vorlage).csv'):
+        """Erstellt eine Vorlage-Datei mit einer leeren Konfigurationstabelle"""
+
+        f = open(address, "wt")
+        separator = ';'
+
+        # Motor liste schreiben
+        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)',
+                  'Einheiten', 'Umrechnungsfaktor']
+        for parameter_name in self.communicator.PARAMETER_DEFAULT.keys():
+            header.append(parameter_name)
+        header_length = len(header)
+        header = separator.join(header)
+        f.write(header + '\n')
+
+        for controller in self:
+            for motor in controller:
+                motorline = [''] * header_length
+                motorline[0] = motor.name
+                motorline[1] = str(controller.bus)
+                motorline[2] = str(motor.axis)
+                motorline = separator.join(motorline)
+                f.write(motorline + '\n')
+
+        logging.info('Eine Datei mit einer leeren Konfigurationstabelle wurde erstellt.')
+
+    def motors_list(self) -> Tuple[M_Coord]:
+        """Gibt zurück eine Liste der allen Motoren in Format: [(bus, Achse), …]"""
+
+        m_list = []
+        for controller in self:
+            for motor in controller:
+                m_list.append(motor.coord())
+        return tuple(m_list)
+
+    def controllers_list(self) -> List[int]:
+        """Gibt zurück eine Liste der allen Controllern in Format: [bus, ...]"""
+
+        controllers_list = []
+        for controller in self:
+            controllers_list.append(controller.bus)
+        return controllers_list
+
+    def close(self):
+        """Alle nötige am Ende der Arbeit Operationen ausführen."""
+
+        self.motors_cluster.stop()
+        del self
 
 
 class BoxesCluster(MotorsCluster):
