@@ -170,6 +170,15 @@ class MCSCommunicator(ContrCommunicator):
         """Gibt die Liste der allen verfügbaren Bus-Nummern zurück."""
         return (0,)
 
+    def bus_check(self, bus: int) -> (bool, str):
+        """Prüft ob ein Modul mit angegebenen Bus-Nummer vorhanden/verbunden ist. Gibt ein bool-Wert
+        und ein Nachricht zurück, falls kein Modul gefunden wurde."""
+
+        if bus in self.bus_list():
+            return True, ""
+        else:
+            return False, f"Bus {bus} ist nicht vorhanden."
+
     def axes_list(self, bus: int) -> Tuple[int]:
         """Gibt die Liste der allen verfügbaren Achsen zurück."""
 

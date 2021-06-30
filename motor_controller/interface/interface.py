@@ -239,6 +239,11 @@ class ContrCommunicator:
         """Zeigt, ob der End-Initiator im Moment aktiviert ist."""
         raise NotImplementedError
 
+    def bus_check(self, bus: int) -> (bool, str):
+        """Prüft ob ein Modul mit angegebenen Bus-Nummer vorhanden/verbunden ist. Gibt ein bool-Wert
+        und ein Nachricht zurück, falls kein Modul gefunden wurde."""
+        raise NotImplementedError
+
     def bus_list(self) -> Tuple[int]:
         """Gibt die Liste der allen verfügbaren Bus-Nummern zurück."""
         raise NotImplementedError
@@ -285,6 +290,8 @@ def read_csv(address: str, delimiter: str = ';') -> List[Dict[str, str]]:
 
     # Datei prüfen
     defect_error = FileReadError('Die CSV-Datei ist defekt und kann nicht gelesen werden!')
+    if not data_from_file:
+        raise defect_error
     if None in list(file_row.values() for file_row in data_from_file):
         raise defect_error
 
@@ -323,7 +330,7 @@ def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
                 return False
 
         for key, value in motor_line.items():
-            if key not in ['min_limit', 'max_limit']:
+            if key not in ['name', 'min_limit', 'max_limit']:
                 try:
                     float(motor_line[key])
                 except ValueError:
@@ -913,7 +920,10 @@ class MotorsCluster:
         self.add_motors(motors)
 
     def __iter__(self):
-        return self.motors.values()
+        return self.motors.values().__iter__()
+
+    def names(self) -> Tuple[str]:
+        return tuple(self.motors.keys())
 
     def add_motors(self, motors: List[Motor]):
         """Fügt neue Motoren in den Cluster hinzu."""
@@ -1197,7 +1207,7 @@ class MotorsCluster:
         header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
         f.write(make_csv_row(header))
 
-        for name, motor in self.motors:
+        for name, motor in self.motors.items():
             row = [name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits]
             f.write(make_csv_row(row))
 
@@ -1221,7 +1231,7 @@ class MotorsCluster:
         list_to_calibration = []
         success_list = []
 
-        for name, motor in self.motors:
+        for name, motor in self.motors.items():
             if name in saved_data.keys():
                 position, norm_per_contr, soft_limits = saved_data[name]
 
@@ -1280,6 +1290,9 @@ class Box:
         for controller in self:
             for motor in controller:
                 yield motor
+
+    def get_motors_cluster(self):
+        return deepcopy(self.motors_cluster)
 
     def command(self, text: bytes) -> bytes:
         """Befehl für die Box ausführen"""
