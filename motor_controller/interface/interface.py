@@ -242,7 +242,11 @@ class ContrCommunicator:
     def bus_check(self, bus: int) -> (bool, str):
         """Prüft ob ein Modul mit angegebenen Bus-Nummer vorhanden/verbunden ist. Gibt ein bool-Wert
         und ein Nachricht zurück, falls kein Modul gefunden wurde."""
-        raise NotImplementedError
+
+        if bus in self.bus_list():
+            return True, ""
+        else:
+            return False, f"Bus {bus} ist nicht vorhanden."
 
     def bus_list(self) -> Tuple[int]:
         """Gibt die Liste der allen verfügbaren Bus-Nummern zurück."""
@@ -451,6 +455,23 @@ class StopIndicator:
 
     def has_stop_requested(self) -> bool:
         raise NotImplementedError
+
+
+class StandardStopIndicator(StopIndicator):
+    """Durch dieses Objekt kann man Erwartung von dem Stop von allen Motoren abbrechen.
+    Es wird als argument für PBox.wait_all_motors_stop() verwendet."""
+
+    def __init__(self):
+        self.stop_requested = False
+
+    def stop(self):
+        self.stop_requested = True
+
+    def restore(self):
+        self.stop_requested = False
+
+    def has_stop_requested(self) -> bool:
+        return self.stop_requested
 
 
 class WaitReporter:
@@ -1256,6 +1277,34 @@ class MotorsCluster:
         del self
 
 
+def make_empty_input_file(communicator: ContrCommunicator,
+                          motors: List[Motor],
+                          address: str = 'input/input_data(Vorlage).csv'):
+    """Erstellt eine Vorlage-Datei mit einer leeren Konfigurationstabelle"""
+
+    f = open(address, "wt")
+    separator = ';'
+
+    # Motor liste schreiben
+    header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)',
+              'Einheiten', 'Umrechnungsfaktor']
+    for parameter_name in communicator.PARAMETER_DEFAULT.keys():
+        header.append(parameter_name)
+    header_length = len(header)
+    header = separator.join(header)
+    f.write(header + '\n')
+
+    for motor in motors:
+        motorline = [''] * header_length
+        motorline[0] = motor.name
+        motorline[1] = str(motor.controller.bus)
+        motorline[2] = str(motor.axis)
+        motorline = separator.join(motorline)
+        f.write(motorline + '\n')
+
+    logging.info('Eine Datei mit einer leeren Konfigurationstabelle wurde erstellt.')
+
+
 class Box:
     """Diese Klasse entspricht einer Box, die mehrere Controller-Modulen im Busbetrieb enthaltet."""
 
@@ -1342,13 +1391,14 @@ class Box:
 
         # Controller initialisieren
         absent_bus = []
-        bus_list = self.communicator.bus_list()
         for bus in controllers_to_init:
-            if bus in bus_list:
+            bus_is_available, massage = self.communicator.bus_check(bus)
+            if bus_is_available:
                 self.controller[bus] = Controller(self.communicator, bus)
                 n_controllers += 1
             else:
                 if bus not in absent_bus:
+                    logging.error(f'Bei Bus Nummer {bus} keinen Kontroller gefunden. Controller Antwort:{massage}')
                     absent_bus.append(bus)
         if len(absent_bus) > 1:
             report += f"Controller {absent_bus} sind nicht verbunden und wurden nicht initialisiert.\n"
@@ -1449,28 +1499,7 @@ class Box:
     def make_empty_input_file(self, address: str = 'input/input_data(Vorlage).csv'):
         """Erstellt eine Vorlage-Datei mit einer leeren Konfigurationstabelle"""
 
-        f = open(address, "wt")
-        separator = ';'
-
-        # Motor liste schreiben
-        header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)',
-                  'Einheiten', 'Umrechnungsfaktor']
-        for parameter_name in self.communicator.PARAMETER_DEFAULT.keys():
-            header.append(parameter_name)
-        header_length = len(header)
-        header = separator.join(header)
-        f.write(header + '\n')
-
-        for controller in self:
-            for motor in controller:
-                motorline = [''] * header_length
-                motorline[0] = motor.name
-                motorline[1] = str(controller.bus)
-                motorline[2] = str(motor.axis)
-                motorline = separator.join(motorline)
-                f.write(motorline + '\n')
-
-        logging.info('Eine Datei mit einer leeren Konfigurationstabelle wurde erstellt.')
+        make_empty_input_file(self.communicator, list(self.motors_cluster.motors.values()), address)
 
     def motors_list(self) -> Tuple[M_Coord]:
         """Gibt zurück eine Liste der allen Motoren in Format: [(bus, Achse), …]"""

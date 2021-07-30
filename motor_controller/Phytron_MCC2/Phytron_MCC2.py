@@ -129,7 +129,7 @@ class MCC2Communicator(ContrCommunicator):
                     break
             # noinspection PyUnboundLocalVariable
             if not check[0]:
-                logging.error(f'Bei Bus Nummer {i} keinen Kontroller gefunden. Controller Antwort:{check[1]}')
+                logging.warning(f'Bei Bus Nummer {i} keinen Kontroller gefunden. Controller Antwort:{check[1]}')
         if not bus_list:
             raise SerialError("Es wurde keine Controller gefunden!")
         return tuple(bus_list)
