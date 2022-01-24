@@ -5,15 +5,15 @@ description = ""
 authors = ["Vladimir Usatikov <vladimir@usatikov.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.10"
 logscolor = {git = "https://github.com/v-usatikov/logscolor.git"}
-pyserial = "^3.5"
-timeout-decorator = "^0.4.1"
-PyQt5 = "^5.15.1"
-pyqt-led = "^0.0.6"
+pyserial = "^3"
+timeout-decorator = "^0"
+PyQt5 = "^5"
+pyqt-led = "^0"
 
 [tool.poetry.dev-dependencies]
-pytest = "^4.6"
+pytest = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]
