@@ -9,7 +9,7 @@ python = "^3.10"
 logscolor = {git = "https://github.com/v-usatikov/logscolor.git"}
 pyserial = "^3"
 timeout-decorator = "^0"
-PyQt5 = "^5"
+#PyQt5 = "^5"
 pyqt-led = "^0"
 
 [tool.poetry.dev-dependencies]
