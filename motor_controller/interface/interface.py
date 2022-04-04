@@ -5,7 +5,7 @@ import socket
 import telnetlib
 import time
 from copy import deepcopy
-from typing import Dict, List, Tuple, Union, Set, Callable
+from typing import Dict, List, Tuple, Union, Set, Callable, Iterable
 
 import serial.tools.list_ports
 from math import isclose
@@ -946,7 +946,7 @@ class MotorsCluster:
     def names(self) -> Tuple[str]:
         return tuple(self.motors.keys())
 
-    def add_motors(self, motors: List[Motor]):
+    def add_motors(self, motors: Iterable[Motor]):
         """Fügt neue Motoren in den Cluster hinzu."""
 
         for motor in motors:
@@ -955,6 +955,14 @@ class MotorsCluster:
             elif self.motors[motor.name] is not motor:
                 raise MotorNamesError(f'Es gibt die wiederholte Namen der Motoren! '
                                       f'Der Name "{motor.name}" ist mehrmals getroffen.')
+
+    def remove_motors(self, motors: Iterable[Motor]):
+        """Entfernt die eingegebene Motoren aus dem Cluster, wenn die da vorhanden sind."""
+
+        m_keys = {v: k for k, v in self.motors.items()}
+        for motor in motors:
+            if motor in self.motors.values():
+                del self.motors[m_keys[motor]]
 
     def get_motor(self, name: str) -> Motor:
         if name not in self.motors.keys():
@@ -1577,6 +1585,15 @@ class BoxesCluster(MotorsCluster):
         for controller in box:
             for motor in controller:
                 self.motors[motor.name] = motor
+
+    def remove_box(self, box: Box):
+        """Entfernt die eingegebene Box und die Motoren davon aus dem Cluster, wenn die da vorhanden sind."""
+
+        b_keys = {v: k for k, v in self.motors.items()}
+        if box in self.boxes.values():
+            self.remove_motors(box.motors())
+            del self.boxes[b_keys[box]]
+
 
 class SerialError(Exception):
     """Base class for serial port related exceptions."""

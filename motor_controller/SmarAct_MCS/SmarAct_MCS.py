@@ -13,6 +13,26 @@ if __name__ == '__main__':
     logscolor.init_config()
 
 
+def change_baudrate(port: str, from_br: int = 9600, to_br: int = 115200):
+
+    connector = MCS_SerialConnector(port, baudrate=from_br)
+    communicator = MCSCommunicator(connector)
+    communicator.set_baudrate(to_br)
+    communicator.command_to_box(f'CB{to_br},1'.encode())
+    connector.close()
+
+
+def check_and_change_baudrate(port: str):
+
+    connector = MCS_SerialConnector(port, baudrate=115200)
+    communicator = MCSCommunicator(connector)
+
+    if communicator.check_connection() == (False, None):
+        del communicator
+        connector.close()
+
+        change_baudrate(port, from_br=9600, to_br=115200)
+
 def decode_error(er_code: int):
     """Entziffert die Fehlernummer"""
     if er_code == 1:
@@ -262,6 +282,10 @@ class MCSCommunicator(ContrCommunicator):
     def find_reference_mark(self, bus: int, axis: int):
 
         self.command(f'FRM{axis},0,0,0'.encode(), bus=bus)
+
+    def set_baudrate(self, baudrate: int):
+
+        self.command_to_box(f'CB{baudrate}'.encode())
 
 
 if __name__ == '__main__':
