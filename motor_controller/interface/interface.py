@@ -398,6 +398,14 @@ def __transform_raw_input_data(raw_config_data: List[dict], communicator: ContrC
         else:
             motor_line['Umrechnungsfaktor'] = Motor.DEFAULT_MOTOR_CONFIG['displ_per_contr']
 
+        if 'Inversion(0 oder 1)' in motor_line.keys():
+            if motor_line['Inversion(0 oder 1)'] != '':
+                motor_line['Inversion(0 oder 1)'] = bool(int(motor_line['Inversion(0 oder 1)']))
+            else:
+                motor_line['Inversion(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['inversion']
+        else:
+            motor_line['Inversion(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['inversion']
+
         for parameter_name in communicator.PARAMETER_DEFAULT.keys():
             if parameter_name not in motor_line.keys():
                 pass
@@ -436,6 +444,7 @@ def read_input_config_from_file(communicator: ContrCommunicator, address: str = 
         motor_config = {'name': motor_line['Motor Name'],
                         'with_initiators': motor_line['Mit Initiatoren(0 oder 1)'],
                         'with_encoder': motor_line['Mit Encoder(0 oder 1)'],
+                        'inversion': motor_line['Inversion(0 oder 1)'],
                         'display_units': motor_line['Einheiten'],
                         'displ_per_contr': motor_line['Umrechnungsfaktor']}
         motors_config[motor_coord] = motor_config
@@ -540,6 +549,7 @@ class Motor:
     DEFAULT_MOTOR_CONFIG = {'with_initiators': 0,
                             'with_encoder': 0,
                             'display_units': 'Schritte',
+                            'inversion': False,
                             'norm_per_contr': 1.0,
                             'displ_per_contr': 1.0,
                             'displ_null': 500.0,  # Anzeiger Null in normierte Einheiten
@@ -679,8 +689,15 @@ class Motor:
     def position(self, units: str = 'norm') -> float:
         """Gibt die aktuelle __position zurück"""
 
-        position = self.communicator.get_position(*self.coord())
+        position = self.__invert() * self.communicator.get_position(*self.coord())
         return self.transform_units(position, 'contr', to=units)
+
+    def __invert(self):
+
+        if self.config['inversion']:
+            return -1
+        else:
+            return 1
 
     def at_the_end(self):
         """Gibt zurück einen bool Wert, ob der End-Initiator aktiviert ist."""

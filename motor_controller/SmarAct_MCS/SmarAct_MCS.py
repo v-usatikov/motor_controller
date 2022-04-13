@@ -33,6 +33,7 @@ def check_and_change_baudrate(port: str):
 
         change_baudrate(port, from_br=9600, to_br=115200)
 
+
 def decode_error(er_code: int):
     """Entziffert die Fehlernummer"""
     if er_code == 1:

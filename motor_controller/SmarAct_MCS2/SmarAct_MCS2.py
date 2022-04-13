@@ -30,8 +30,9 @@ class MCS2Communicator(ContrCommunicator):
     calibration_shift = 50*10**9
 
     # Dict, mit den Defaultwerten der Parametern.
-    PARAMETER_DEFAULT = {'Positioner Type': 300, 'Velocity': 0, 'Acceleration': 0}
-    PARAMETER_COMMAND = {'Positioner Type': b':PTYPe', 'Velocity': b':VEL', 'Acceleration': b':ACC'}
+    PARAMETER_DEFAULT = {'Positioner Type': 300, 'Velocity': 0, 'Acceleration': 0, 'inversion': 0}
+    PARAMETER_COMMAND = {'Positioner Type': b':PTYPe', 'Velocity': b':VEL', 'Acceleration': b':ACC',
+                         'inversion': b':LSCale:INVersion'}
 
     def __init__(self, connector: Connector):
         self.connector = connector
