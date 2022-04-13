@@ -952,7 +952,10 @@ class MotorsCluster:
     Wichtig: Namen der Motoren müssen einzigartig sein, da die Motoren mit ihren Namen identifiziert werden.
     """
 
-    def __init__(self, motors: List[Motor]):
+    def __init__(self, motors: List[Motor] = None):
+
+        if motors is None:
+            motors = []
 
         self.motors: Dict[str, Motor] = {}
         self.add_motors(motors)
@@ -1550,58 +1553,36 @@ class Box:
         del self
 
 
+def add_box_prefix(boxes: Dict[str, Box]):
+    """Addiert die Namen der Boxen als Präfixe zu den Namen der Motoren."""
+
+    for box_name, box in boxes.items():
+        for controller in box:
+            for motor in controller:
+                motor.name = box_name + "|" + motor.name
+
+
 class BoxesCluster(MotorsCluster):
     """Diese Klasse vereint mehrere Kontroller-Boxen und lässt die bequem zusammen steuern."""
 
-    def __init__(self, boxes: Dict[str, Box], add_box_prefix: bool = False):
+    def __init__(self, boxes: Dict[str, Box] = None, box_prefix_is_needed: bool = False):
 
-        self.boxes = boxes
+        super().__init__()
+        if boxes is None:
+            self.boxes = {}
+        else:
+            self.boxes = boxes
 
-        if add_box_prefix:
-            self.__add_box_prefix()
+        for name, box in self.boxes.items():
+            self.add_box(box, name, box_prefix_is_needed)
 
-        self.motors: Dict[str, Motor] = {}
-        motors = self.__extract_motors_from_boxes()
-
-        super().__init__(motors)
-
-    def __check_motors_names(self):
-        """Prüft, dass die Namen der Motoren in den Boxen sich nicht wiederholen."""
-        names = []
-        for box in self.boxes.values():
-            for controller in box:
-                for motor in controller:
-                    if motor.name not in names:
-                        names.append(motor.name)
-                    else:
-                        return False, motor.name
-        return True, None
-
-    def __add_box_prefix(self):
-        """Addiert die Namen der Boxen als Präfixe zu den Namen der Motoren."""
-
-        for box_name, box in self.boxes.items():
-            for controller in box:
-                for motor in controller:
-                    motor.name = box_name + "|" + motor.name
-
-    def __extract_motors_from_boxes(self) -> List[Motor]:
-        """Erstellt eine Liste der allen Motoren von den allen gegebenen Boxen."""
-
-        motors = []
-        for box in self.boxes.values():
-            for controller in box:
-                for motor in controller:
-                    motors.append(motor)
-        return motors
-
-    def add_box(self, box: Box, name: str):
+    def add_box(self, box: Box, name: str, box_prefix_is_needed: bool = False):
         """Addiert ein neues Box zum Cluster"""
 
+        if box_prefix_is_needed:
+            add_box_prefix({name: box})
         self.boxes[name] = box
-        for controller in box:
-            for motor in controller:
-                self.motors[motor.name] = motor
+        self.add_motors(box.motors())
 
     def remove_box(self, box: Box):
         """Entfernt die eingegebene Box und die Motoren davon aus dem Cluster, wenn die da vorhanden sind."""

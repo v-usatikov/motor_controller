@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="inversion eingefügt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_controller/SmarAct_MCS/SmarAct_MCS.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/SmarAct_MCS/SmarAct_MCS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_controller/interface/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/interface/interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_MotorControllerInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_MotorControllerInterface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_input/test_input_file2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_input/test_input_file2.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +22,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="JupyterTrust" id="12a448a6-32e8-4754-a481-d58860afc4f6" />
   <component name="MarkdownSettingsMigration">
@@ -165,8 +169,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.pytest for test_MotorControllerInterface.TestBox.test_read_input_config_from_file" />
         <item itemvalue="Python tests.pytest for test_MotorControllerInterface.TestBox.test_set_motors_config" />
+        <item itemvalue="Python tests.pytest for test_MotorControllerInterface.TestBox.test_read_input_config_from_file" />
         <item itemvalue="Python.make_empty_input_files" />
         <item itemvalue="Python.interface" />
         <item itemvalue="Python.heiliges_py" />
@@ -286,7 +290,7 @@
       <workItem from="1648143018651" duration="1890000" />
       <workItem from="1648659400469" duration="6350000" />
       <workItem from="1649106188047" duration="8964000" />
-      <workItem from="1649846131407" duration="2358000" />
+      <workItem from="1649846131407" duration="6466000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -442,7 +446,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649164263620</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="inversion eingefügt">
+      <created>1649848780813</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1649848780813</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -469,7 +480,8 @@
     <MESSAGE value="_" />
     <MESSAGE value="remove_motors und box von cluster, change_baudrate" />
     <MESSAGE value="import ge¨andert" />
-    <option name="LAST_COMMIT_MESSAGE" value="import ge¨andert" />
+    <MESSAGE value="inversion eingefügt" />
+    <option name="LAST_COMMIT_MESSAGE" value="inversion eingefügt" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
