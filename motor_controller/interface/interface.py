@@ -633,7 +633,7 @@ class Motor:
 
     def __go_to(self, destination: float, units: str = 'norm'):
         destination = self.transform_units(destination, units, to='contr')
-        self.communicator.go_to(destination, *self.coord())
+        self.communicator.go_to(self.__invert()*destination, *self.coord())
         logging.info(f'Motor {self.axis} beim Controller {self.controller.bus} wurde zu {destination} geschickt.')
 
     def go(self, shift: float,
@@ -703,7 +703,10 @@ class Motor:
         """Gibt zurück einen bool Wert, ob der End-Initiator aktiviert ist."""
 
         if self.with_initiators():
-            return self.communicator.motor_at_the_end(*self.coord())
+            if self.config['inversion']:
+                return self.communicator.motor_at_the_beg(*self.coord())
+            else:
+                return self.communicator.motor_at_the_end(*self.coord())
         elif self.with_encoder():
             position0 = self.position(units='contr')
             tol = self.communicator.tolerance
@@ -728,7 +731,10 @@ class Motor:
         """Gibt zurück einen bool Wert, ob der Anfang-Initiator aktiviert ist."""
 
         if self.with_initiators():
-            return self.communicator.motor_at_the_beg(*self.coord())
+            if self.config['inversion']:
+                return self.communicator.motor_at_the_end(*self.coord())
+            else:
+                return self.communicator.motor_at_the_beg(*self.coord())
         elif self.with_encoder():
             position0 = self.position(units='contr')
             tol = self.communicator.tolerance
