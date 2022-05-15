@@ -695,4 +695,12 @@ class MCC2MotorEmulator:
         return self.parameter_values['Lauffrequenz']
 
 
+class BoxEmulator(MCC2BoxEmulator):
+
+    def get_parameter(self, parameter_name: str, bus: int, axis: int) -> float:
+        return 1
+
+    def set_parameter(self, parameter_name: str, neu_value: float, bus: int, axis: int):
+        pass
+
 # if __name__ == '__main__':

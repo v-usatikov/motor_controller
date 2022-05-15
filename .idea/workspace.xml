@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_controller/interface/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/interface/interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/Phytron_MCC2/Phytron_MCC2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/Phytron_MCC2/Phytron_MCC2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +44,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
@@ -281,6 +283,7 @@
       <workItem from="1649846131407" duration="7844000" />
       <workItem from="1650144482742" duration="783000" />
       <workItem from="1650300135986" duration="692000" />
+      <workItem from="1652459378459" duration="1539000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -457,7 +460,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649882190308</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="inversion bug fix">
+      <created>1650924541614</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1650924541614</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -528,7 +538,8 @@
     <MESSAGE value="import ge¨andert" />
     <MESSAGE value="inversion eingefügt" />
     <MESSAGE value="BoxesCluster optimiert" />
-    <option name="LAST_COMMIT_MESSAGE" value="BoxesCluster optimiert" />
+    <MESSAGE value="inversion bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="inversion bug fix" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
