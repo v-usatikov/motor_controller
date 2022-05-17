@@ -1593,7 +1593,7 @@ class BoxesCluster(MotorsCluster):
     def remove_box(self, box: Box):
         """Entfernt die eingegebene Box und die Motoren davon aus dem Cluster, wenn die da vorhanden sind."""
 
-        b_keys = {v: k for k, v in self.motors.items()}
+        b_keys = {v: k for k, v in self.boxes.items()}
         if box in self.boxes.values():
             self.remove_motors(box.motors())
             del self.boxes[b_keys[box]]
