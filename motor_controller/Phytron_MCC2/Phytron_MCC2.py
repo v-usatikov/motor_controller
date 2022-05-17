@@ -697,6 +697,9 @@ class MCC2MotorEmulator:
 
 class BoxEmulator(MCC2BoxEmulator):
 
+    def __init__(self, n_bus: int = 3, n_axes: int = 2, realtime: bool = False):
+        super().__init__(n_bus, n_axes, realtime)
+
     def get_parameter(self, parameter_name: str, bus: int, axis: int) -> float:
         return 1
 

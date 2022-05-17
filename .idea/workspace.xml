@@ -44,11 +44,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
@@ -283,7 +283,9 @@
       <workItem from="1649846131407" duration="7844000" />
       <workItem from="1650144482742" duration="783000" />
       <workItem from="1650300135986" duration="692000" />
-      <workItem from="1652459378459" duration="1539000" />
+      <workItem from="1652459378459" duration="3540000" />
+      <workItem from="1652788824681" duration="41000" />
+      <workItem from="1652788915999" duration="594000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -467,7 +469,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650924541614</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="add BoxEmulator">
+      <created>1652623075785</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1652623075785</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -539,7 +548,8 @@
     <MESSAGE value="inversion eingefügt" />
     <MESSAGE value="BoxesCluster optimiert" />
     <MESSAGE value="inversion bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="inversion bug fix" />
+    <MESSAGE value="add BoxEmulator" />
+    <option name="LAST_COMMIT_MESSAGE" value="add BoxEmulator" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
