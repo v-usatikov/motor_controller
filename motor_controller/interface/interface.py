@@ -783,6 +783,8 @@ class Motor:
                 self.wait_motor_stop(stop_indicator)
                 if stop_indicator is not None:
                     if stop_indicator.has_stop_requested():
+                        if reporter is not None:
+                            reporter.motor_is_done(self.name)
                         return
                 if self.at_the_end():
                     break
@@ -794,6 +796,8 @@ class Motor:
                 self.wait_motor_stop(stop_indicator)
                 if stop_indicator is not None:
                     if stop_indicator.has_stop_requested():
+                        if reporter is not None:
+                            reporter.motor_is_done(self.name)
                         return
                 if self.at_the_beginning():
                     break
