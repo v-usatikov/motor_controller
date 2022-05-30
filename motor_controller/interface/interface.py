@@ -617,6 +617,7 @@ class Motor:
                 self.wait_motor_stop(stop_indicator)
                 if stop_indicator is not None:
                     if stop_indicator.has_stop_requested():
+                        self.stop()
                         return False, "Der Vorgang wurde vom Benutzer abgebrochen."
 
                 if not check:
@@ -785,6 +786,7 @@ class Motor:
                     if stop_indicator.has_stop_requested():
                         if reporter is not None:
                             reporter.motor_is_done(self.name)
+                        self.stop()
                         return
                 if self.at_the_end():
                     break
@@ -798,6 +800,7 @@ class Motor:
                     if stop_indicator.has_stop_requested():
                         if reporter is not None:
                             reporter.motor_is_done(self.name)
+                        self.stop()
                         return
                 if self.at_the_beginning():
                     break
@@ -813,7 +816,7 @@ class Motor:
 
             # in die Mitte fahren
             if go_to_middle:
-                self.go_to(500, 'norm', check=True)
+                self.go_to(500, 'norm', check=True, wait=True, stop_indicator=stop_indicator)
 
             if reporter is not None:
                 reporter.motor_is_done(self.name)

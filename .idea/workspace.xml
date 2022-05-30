@@ -287,6 +287,7 @@
       <workItem from="1653409530588" duration="1892000" />
       <workItem from="1653906000769" duration="34000" />
       <workItem from="1653912629767" duration="840000" />
+      <workItem from="1653920818440" duration="154000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -505,7 +506,21 @@
       <option name="project" value="LOCAL" />
       <updated>1653913449681</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="calibrate_motors: report motor done by stop">
+      <created>1653920935083</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1653920935083</updated>
+    </task>
+    <task id="LOCAL-00033" summary="calibrate_motors: report motor done by stop">
+      <created>1653920956646</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1653920956646</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,7 +569,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="displ_null zu Mitte geändert" />
     <MESSAGE value="bug fix motor.go" />
     <MESSAGE value="Die Struktur des Projektes verfeinern und bug fix" />
     <MESSAGE value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
@@ -579,7 +593,8 @@
     <MESSAGE value="fix BoxEmulator" />
     <MESSAGE value="bug fix" />
     <MESSAGE value="calibrate_motors: go_to_middle" />
-    <option name="LAST_COMMIT_MESSAGE" value="calibrate_motors: go_to_middle" />
+    <MESSAGE value="calibrate_motors: report motor done by stop" />
+    <option name="LAST_COMMIT_MESSAGE" value="calibrate_motors: report motor done by stop" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
