@@ -45,11 +45,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
@@ -286,7 +287,10 @@
       <workItem from="1650300135986" duration="692000" />
       <workItem from="1652459378459" duration="3540000" />
       <workItem from="1652788824681" duration="41000" />
-      <workItem from="1652788915999" duration="1567000" />
+      <workItem from="1652788915999" duration="2168000" />
+      <workItem from="1653409530588" duration="1892000" />
+      <workItem from="1653906000769" duration="34000" />
+      <workItem from="1653912629767" duration="796000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -491,7 +495,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652802602350</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="bug fix">
+      <created>1652803580706</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1652803580706</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -540,7 +551,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init commit" />
     <MESSAGE value="build" />
     <MESSAGE value="displ_null zu Mitte geändert" />
     <MESSAGE value="bug fix motor.go" />
@@ -565,7 +575,8 @@
     <MESSAGE value="inversion bug fix" />
     <MESSAGE value="add BoxEmulator" />
     <MESSAGE value="fix BoxEmulator" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix BoxEmulator" />
+    <MESSAGE value="bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

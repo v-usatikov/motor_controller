@@ -764,10 +764,11 @@ class Motor:
 
     def base_calibration(self):
         """Die standarte Justierungmaßnahmen für den Motor durchführen, wenn der Kontroller welche unterstützt."""
+
         self.communicator.calibrate(*self.coord())
         self.wait_motor_stop()
 
-    def calibrate(self, stop_indicator: StopIndicator = None, reporter: WaitReporter = None):
+    def calibrate(self, stop_indicator: StopIndicator = None, reporter: WaitReporter = None, go_to_middle: bool = True):
         """Kalibrierung von den gegebenen Motoren"""
         if self.with_initiators() or self.with_encoder():
             logging.info(f'Kalibrierung vom Motor {self.name} wurde angefangen.')
@@ -805,6 +806,10 @@ class Motor:
             # Skala normieren
             self.config['norm_per_contr'] = 1000 / (end - beginning)
             self.config['null_position'] = beginning
+
+            # in die Mitte fahren
+            if go_to_middle:
+                self.go_to(500, 'norm', check=True)
 
             if reporter is not None:
                 reporter.motor_is_done(self.name)
@@ -1216,7 +1221,8 @@ class MotorsCluster:
                          names_to_calibration: List[str] = None,
                          parallel: bool = True,
                          stop_indicator: StopIndicator = None,
-                         reporter: WaitReporter = None):
+                         reporter: WaitReporter = None,
+                         go_to_middle: bool = True):
         """Kalibrierung von den gegebenen Motoren. Wenn nichts angegeben ist, dan von allen Motoren."""
 
         all_motors = False
@@ -1235,11 +1241,11 @@ class MotorsCluster:
 
         if parallel:
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                executor.map(lambda motor: motor.calibrate(stop_indicator, reporter), motors_to_calibration)
+                executor.map(lambda motor: motor.calibrate(stop_indicator, reporter, go_to_middle), motors_to_calibration)
                 executor.shutdown(wait=True)
         else:
             for motor in motors_to_calibration:
-                motor.calibrate(stop_indicator, reporter)
+                motor.calibrate(stop_indicator, reporter, go_to_middle)
 
         if all_motors:
             logging.info('Kalibrierung von allen Motoren wurde abgeschlossen.')

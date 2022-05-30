@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "motor_controller"
-version = "0.1.5"
+version = "0.1.6"
 description = ""
 authors = ["Vladimir Usatikov <vladimir@usatikov.com>"]
 
