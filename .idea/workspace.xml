@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_controller/interface/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/interface/interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-    </list>
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -296,7 +292,7 @@
       <workItem from="1654633431967" duration="692000" />
       <workItem from="1659278317521" duration="1174000" />
       <workItem from="1659321172128" duration="560000" />
-      <workItem from="1659464945575" duration="2612000" />
+      <workItem from="1659464945575" duration="2777000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -536,7 +532,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653954950639</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="save_session_data() absturzsicher gemacht, bug fix">
+      <created>1659470300498</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1659470300498</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +588,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="bug fix motor.go" />
     <MESSAGE value="Die Struktur des Projektes verfeinern und bug fix" />
     <MESSAGE value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
     <MESSAGE value="Type-Prüfung in motor.go_to() addiert" />
@@ -610,7 +612,8 @@
     <MESSAGE value="calibrate_motors: go_to_middle" />
     <MESSAGE value="calibrate_motors: report motor done by stop" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="save_session_data() absturzsicher gemacht, bug fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="save_session_data() absturzsicher gemacht, bug fix" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

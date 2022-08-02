@@ -3,6 +3,7 @@ import csv
 import logging
 import socket
 import telnetlib
+import threading
 import time
 from copy import deepcopy
 from typing import Dict, List, Tuple, Union, Set, Callable, Iterable
@@ -980,6 +981,7 @@ class MotorsCluster:
 
         self.motors: Dict[str, Motor] = {}
         self.add_motors(motors)
+        self.__mutex = threading.Lock()
 
     def __iter__(self):
         return self.motors.values().__iter__()
@@ -1279,6 +1281,7 @@ class MotorsCluster:
             rows.append([name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits])
 
         # Daten der vorhandenen Motoren in die Datei schreiben
+        self.__mutex.acquire()
         f = open(address, "wt")
 
         header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
@@ -1296,6 +1299,8 @@ class MotorsCluster:
                 f.write(make_csv_row(row))
 
         f.close()
+        self.__mutex.release()
+
         logging.info(f'Die Sitzungsdaten wurde in "{address}" gespeichert.')
 
     def read_saved_session_data(self, address: str = "data/saved_session_data.txt") -> List[Tuple[int, int]]:
