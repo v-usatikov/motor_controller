@@ -351,7 +351,8 @@ def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
 
 
 def __transform_raw_saved_session_data(raw_motors_data: List[dict]) \
-        -> Dict[Tuple[int, int], Tuple[float, float, tuple]]:
+        -> Dict[str, Tuple[float, float, tuple]]:
+
     transformed_motors_data = {}
     for motor_line in raw_motors_data:
         name = motor_line['name']
@@ -367,7 +368,9 @@ def __transform_raw_saved_session_data(raw_motors_data: List[dict]) \
     return transformed_motors_data
 
 
-def read_saved_session_data_from_file(address: str = 'data/saved_session_data.csv'):
+def read_saved_session_data_from_file(address: str = 'data/saved_session_data.csv') \
+        -> Dict[str, Tuple[float, float, tuple]]:
+
     raw_data = read_csv(address)
     if __raw_saved_session_data_is_ok(raw_data):
         return __transform_raw_saved_session_data(raw_data)
@@ -1270,16 +1273,21 @@ class MotorsCluster:
         except FileNotFoundError:
             saved_data = {}
 
+        # Erstmal Positionen und andere Daten von Motoren ablesen, bevor Datei zu ändern (für Sicherheit)
+        rows = []
+        for name, motor in self.motors.items():
+            rows.append([name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits])
+
+        # Daten der vorhandenen Motoren in die Datei schreiben
         f = open(address, "wt")
 
         header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
         f.write(make_csv_row(header))
 
-        for name, motor in self.motors.items():
-            row = [name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits]
+        for row in rows:
             f.write(make_csv_row(row))
 
-        # Daten von den abwesenden Motoren zurück in Datei schreiben
+        # Daten von den abwesenden Motoren zurück in die Datei schreiben
         if saved_data:
             absent_motors = set(saved_data.keys()) - set(self.motors.keys())
             for name in absent_motors:
