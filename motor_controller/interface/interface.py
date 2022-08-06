@@ -1274,6 +1274,9 @@ class MotorsCluster:
             saved_data = read_saved_session_data_from_file(address)
         except FileNotFoundError:
             saved_data = {}
+        except Exception as err:
+            logging.exception(err)
+            saved_data = {}
 
         # Erstmal Positionen und andere Daten von Motoren ablesen, bevor Datei zu ändern (für Sicherheit)
         rows = []
