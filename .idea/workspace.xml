@@ -7,7 +7,6 @@
     <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/motor_controller/interface/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/interface/interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,12 +44,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "two.files.diff.last.used.file": "/Users/prouser/Dropbox/Proging/Python_Projects/motor_controller/motor_controller/interface/interface (DESKTOP-GS4EKD0s in Konflikt stehende Kopie 2022-08-11).py"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
@@ -299,7 +298,8 @@
       <workItem from="1659464945575" duration="2777000" />
       <workItem from="1659472765820" duration="887000" />
       <workItem from="1659491874300" duration="6000" />
-      <workItem from="1659803211123" duration="376000" />
+      <workItem from="1659803211123" duration="967000" />
+      <workItem from="1660224414697" duration="3330000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -553,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659473051184</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="save_session_data() exeptions handhaben">
+      <created>1659803620335</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1659803620335</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -602,7 +609,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="-MotorsCluster Klasse addieren.&#10;-import-Verfahren verfeinern." />
     <MESSAGE value="Type-Prüfung in motor.go_to() addiert" />
     <MESSAGE value="Die Funktion motor.tol() addiert" />
     <MESSAGE value="tolerance von MCC2 korregiert" />
@@ -627,7 +633,8 @@
     <MESSAGE value="bug fix" />
     <MESSAGE value="save_session_data() absturzsicher gemacht, bug fix" />
     <MESSAGE value="threading.Lock in save_session_data() eingefügt" />
-    <option name="LAST_COMMIT_MESSAGE" value="threading.Lock in save_session_data() eingefügt" />
+    <MESSAGE value="save_session_data() exeptions handhaben" />
+    <option name="LAST_COMMIT_MESSAGE" value="save_session_data() exeptions handhaben" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

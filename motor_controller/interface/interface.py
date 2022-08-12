@@ -650,7 +650,7 @@ class Motor:
            calibrate: bool = False) -> (bool, str):
         """Bewegt den motor relativ um gegebener Verschiebung."""
 
-        shift = float(shift)
+        shift = self.__invert()*float(shift)
         if shift == 0:
             return True, ""
 
@@ -719,12 +719,12 @@ class Motor:
 
             self.go_to(position0 + step, units='contr', wait=True)
             if self.position(units='contr') - position0 > tol:
-                self.go_to(position0, wait=True)
+                self.go_to(position0, units='contr', wait=True)
                 return False
 
             self.go_to(position0 - step, units='contr', wait=True)
             if self.position(units='contr') - position0 < -tol:
-                self.go_to(position0, wait=True)
+                self.go_to(position0, units='contr', wait=True)
                 return True
             else:
                 raise MotorError("Der Motor sitzt fest und kann sich nicht bewegen.")
@@ -747,12 +747,12 @@ class Motor:
 
             self.go_to(position0 - step, units='contr', wait=True)
             if self.position(units='contr') - position0 < -tol:
-                self.go_to(position0, wait=True)
+                self.go_to(position0, units='contr', wait=True)
                 return False
 
             self.go_to(position0 + step, units='contr', wait=True)
             if self.position(units='contr') - position0 > tol:
-                self.go_to(position0, wait=True)
+                self.go_to(position0, units='contr', wait=True)
                 return True
             else:
                 raise MotorError("Der Motor sitzt fest und kann sich nicht bewegen.")
