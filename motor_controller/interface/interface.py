@@ -650,7 +650,7 @@ class Motor:
            calibrate: bool = False) -> (bool, str):
         """Bewegt den motor relativ um gegebener Verschiebung."""
 
-        shift = self.__invert()*float(shift)
+        shift = float(shift)
         if shift == 0:
             return True, ""
 
@@ -660,7 +660,7 @@ class Motor:
             destination = position + shift
             return self.go_to(destination, 'norm', wait, check, stop_indicator, reporter)
 
-        shift = self.transform_units(shift, units, to='contr', rel=True)
+        shift = self.__invert()*self.transform_units(shift, units, to='contr', rel=True)
         self.communicator.go(shift, *self.coord())
         logging.info(f'Motor {self.axis} beim Controller {self.controller.bus} wurde um {shift} verschoben. ')
         return True, ""
