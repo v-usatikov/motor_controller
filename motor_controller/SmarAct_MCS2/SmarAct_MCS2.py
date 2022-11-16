@@ -60,6 +60,8 @@ class MCS2Communicator(ContrCommunicator):
         """
 
         reply = self.command(command, bus, axis)
+        if reply is None or reply == b'':
+            raise NoReplyError("Der Controller antwortet nicht!")
         try:
             return float(reply)
         except ValueError:
