@@ -109,7 +109,7 @@ class MCS2Communicator(ContrCommunicator):
         reply = self.__command(b':SYST:ERR:COUN?')
 
         if reply is None:
-            NoReplyError('Der Controller antwortet nicht!')
+            raise NoReplyError('Der Controller antwortet nicht!')
         try:
             errors_count = int(reply)
         except ValueError:
@@ -189,7 +189,14 @@ class MCS2Communicator(ContrCommunicator):
 
     def axes_list(self, bus: int) -> Tuple[int]:
         """Gibt die Liste der allen verfügbaren Achsen zurück."""
-        n_axis = self.command_with_int_reply(b':NOMC?', bus)
+
+        try:
+            n_axis = self.command_with_int_reply(b':NOMC?', bus)
+        except ControllerError as err:
+            if 'no sensor present' in str(err):
+                n_axis = 0
+            else:
+                raise err
         return tuple(range(n_axis))
 
     def check_connection(self) -> (bool, bytes):
