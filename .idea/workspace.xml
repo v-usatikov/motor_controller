@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +38,10 @@
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="2" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
   <component name="ProjectId" id="1drqDVcKayTzO4pKDiVijAfsgm3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -330,7 +334,8 @@
       <workItem from="1680477121821" duration="524000" />
       <workItem from="1683239484718" duration="72000" />
       <workItem from="1686196613169" duration="721000" />
-      <workItem from="1693487207416" duration="776000" />
+      <workItem from="1693487207416" duration="3548000" />
+      <workItem from="1694699232054" duration="1527000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -619,7 +624,15 @@
       <option name="project" value="LOCAL" />
       <updated>1668628142557</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1693488671187</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1693488671187</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

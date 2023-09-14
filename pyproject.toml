@@ -7,10 +7,10 @@ authors = ["Vladimir Usatikov <vladimir@usatikov.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 logscolor = {git = "https://github.com/v-usatikov/logscolor.git"}
-pyserial = "^3"
-timeout-decorator = "^0"
+pyserial = ">=3"
+timeout-decorator = "*"
 #PyQt5 = "^5"
-pyqt-led = "^0"
+pyqt-led = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
