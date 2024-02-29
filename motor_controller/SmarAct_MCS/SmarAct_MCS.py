@@ -219,10 +219,9 @@ class MCSCommunicator(ContrCommunicator):
     def command_to_box(self, command: bytes) -> (bool, Union[bytes, None]):
         """Ausführt ein Befehl ohne Adressieren und gibt die Antwort zurück."""
 
-        self.__mutex.acquire()
-        self.connector.send(command)
-        reply = self.connector.read()
-        self.__mutex.release()
+        with self.__mutex:
+            self.connector.send(command)
+            reply = self.connector.read()
 
         if reply is None:
             return False, None

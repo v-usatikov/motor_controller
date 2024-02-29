@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/Phytron_MCC2/Phytron_MCC2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/Phytron_MCC2/Phytron_MCC2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/SmarAct_MCS/SmarAct_MCS.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/SmarAct_MCS/SmarAct_MCS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/SmarAct_MCS2/SmarAct_MCS2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/interface/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/interface/interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/poetry.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,10 +44,10 @@
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="2" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="1drqDVcKayTzO4pKDiVijAfsgm3" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -50,11 +56,15 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.exp3.executor&quot;: &quot;Run&quot;,
+    &quot;Python.exp4.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -66,7 +76,30 @@
       <recent name="$PROJECT_DIR$/motor_controller/interface" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Demo_GUI">
+  <component name="RunManager" selected="Python.exp4">
+    <configuration name="Demo_GUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Demo_GUI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Demo_GUI/Demo_GUI.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Demo_GUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="motor_controller" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -89,20 +122,44 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="interface" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="exp3" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="motor_controller" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/motor_controller/interface" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/motor_controller/interface/interface.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exp3.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="exp4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/exp4.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -113,6 +170,7 @@
     </configuration>
     <configuration name="make_empty_input_files" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="motor_controller" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -135,6 +193,7 @@
     </configuration>
     <configuration name="pytest for test_MotorControllerInterface.TestBox.test_read_input_config_from_file" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="motor_controller" />
+      <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
@@ -147,6 +206,41 @@
       <option name="_new_parameters" value="&quot;&quot;" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
       <option name="_new_target" value="&quot;test_MotorControllerInterface.TestBox.test_read_input_config_from_file&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_MotorControllerInterface.TestBox.test_read_input_config_from_file" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_MotorControllerInterface.TestBox.test_read_input_config_from_file&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="pytest for test_MotorControllerInterface.TestBox.test_set_motors_config" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="motor_controller" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_parameters" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_MotorControllerInterface.TestBox.test_set_motors_config&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
@@ -169,13 +263,20 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.exp4" />
+        <item itemvalue="Python.exp3" />
         <item itemvalue="Python.Demo_GUI" />
         <item itemvalue="Python tests.pytest for test_MotorControllerInterface.TestBox.test_set_motors_config" />
         <item itemvalue="Python tests.pytest for test_MotorControllerInterface.TestBox.test_read_input_config_from_file" />
-        <item itemvalue="Python.make_empty_input_files" />
-        <item itemvalue="Python.interface" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-d68999036c7f-b11f5e8da5ad-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.14475.56" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="1" Folder0="$PROJECT_DIR$/.." CustomDictionaries="1" CustomDictionary0="$PROJECT_DIR$/../de_neu_utf8.dic" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -335,7 +436,22 @@
       <workItem from="1683239484718" duration="72000" />
       <workItem from="1686196613169" duration="721000" />
       <workItem from="1693487207416" duration="3548000" />
-      <workItem from="1694699232054" duration="1527000" />
+      <workItem from="1694699232054" duration="2481000" />
+      <workItem from="1699620775895" duration="292000" />
+      <workItem from="1699621499899" duration="1274000" />
+      <workItem from="1700157721046" duration="10000" />
+      <workItem from="1705589237726" duration="217000" />
+      <workItem from="1705589601868" duration="2113000" />
+      <workItem from="1705593416867" duration="366000" />
+      <workItem from="1705593804212" duration="3400000" />
+      <workItem from="1705597348417" duration="549000" />
+      <workItem from="1705673640372" duration="2072000" />
+      <workItem from="1707992498551" duration="49000" />
+      <workItem from="1707992745297" duration="18000" />
+      <workItem from="1709166671762" duration="51000" />
+      <workItem from="1709166802824" duration="140000" />
+      <workItem from="1709220181771" duration="669000" />
+      <workItem from="1709243914507" duration="2011000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -632,7 +748,15 @@
       <option name="project" value="LOCAL" />
       <updated>1693488671187</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="edit dep">
+      <option name="closed" value="true" />
+      <created>1694700930068</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1694700930068</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -686,7 +810,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Type-Prüfung in motor.go_to() addiert" />
     <MESSAGE value="Die Funktion motor.tol() addiert" />
     <MESSAGE value="tolerance von MCC2 korregiert" />
     <MESSAGE value="Motor.go: wenn shift=0 einfach nichts machen." />
@@ -711,7 +834,8 @@
     <MESSAGE value="threading.Lock in save_session_data() eingefügt" />
     <MESSAGE value="save_session_data() exeptions handhaben" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="edit dep" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit dep" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -721,31 +845,33 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/motor_controller$initiatoren.coverage" NAME="initiatoren Coverage Results" MODIFIED="1607015132580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MCC2_Demo_GUI" />
-    <SUITE FILE_PATH="coverage/motor_controller$MotorControllerInterface.coverage" NAME="MotorControllerInterface Coverage Results" MODIFIED="1593195896397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller" />
     <SUITE FILE_PATH="coverage/motor_controller$exp.coverage" NAME="exp Coverage Results" MODIFIED="1611568517057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$exp3.coverage" NAME="exp3 Coverage Results" MODIFIED="1705686137899" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$UMCC2_Demo_GUI.coverage" NAME="UMCC2_Demo_GUI Coverage Results" MODIFIED="1621042510530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MCC2_Demo_GUI" />
+    <SUITE FILE_PATH="coverage/pyproject_toml$Demo_GUI.coverage" NAME="Demo_GUI Coverage Results" MODIFIED="1626277195115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Demo_GUI" />
+    <SUITE FILE_PATH="coverage/motor_controller$interface.coverage" NAME="interface Coverage Results" MODIFIED="1610471584300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller/interface" />
+    <SUITE FILE_PATH="coverage/motor_controller$Demo_GUI.coverage" NAME="Demo_GUI Coverage Results" MODIFIED="1661297184165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Demo_GUI" />
+    <SUITE FILE_PATH="coverage/motor_controller$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1593196740843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$exp4.coverage" NAME="exp4 Coverage Results" MODIFIED="1705940746091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$Genauigkeit_messen.coverage" NAME="Genauigkeit_messen Coverage Results" MODIFIED="1620963989934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor_test_go_to_check.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor.test_go_to_check Coverage Results" MODIFIED="1618697660412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$heiliges_py.coverage" NAME="heiliges_py Coverage Results" MODIFIED="1645704629151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestBox_test_set_motors_config.coverage" NAME="pytest for test_MotorControllerInterface.TestBox.test_set_motors_config Coverage Results" MODIFIED="1649847953886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/motor_controller$pytest_in_test_MotorControllerInterface_py.coverage" NAME="pytest in test_MotorControllerInterface.py Coverage Results" MODIFIED="1620926793637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor_test_at_the_beginning.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor.test_at_the_beginning Coverage Results" MODIFIED="1620932546230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor Coverage Results" MODIFIED="1618697680770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/motor_controller$MBP_test.coverage" NAME="MBP_test Coverage Results" MODIFIED="1618948176149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/pyproject_toml$make_empty_input_files.coverage" NAME="make_empty_input_files Coverage Results" MODIFIED="1625144587144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Demo_GUI/input" />
-    <SUITE FILE_PATH="coverage/motor_controller$exp2.coverage" NAME="exp2 Coverage Results" MODIFIED="1617063098941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$SmarAct_MCS2.coverage" NAME="SmarAct_MCS2 Coverage Results" MODIFIED="1606418145705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_in_test_mcs_py.coverage" NAME="pytest in test_mcs.py Coverage Results" MODIFIED="1620949573382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestBox_test_initialize_with_input_file.coverage" NAME="pytest for test_MotorControllerInterface.TestBox.test_initialize_with_input_file Coverage Results" MODIFIED="1620347395425" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/motor_controller$mcs_test.coverage" NAME="mcs_test Coverage Results" MODIFIED="1620965532755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/motor_controller$SmarAct_MCS.coverage" NAME="SmarAct_MCS Coverage Results" MODIFIED="1620961939043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller/SmarAct_MCS" />
-    <SUITE FILE_PATH="coverage/pyproject_toml$Demo_GUI.coverage" NAME="Demo_GUI Coverage Results" MODIFIED="1626277195115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Demo_GUI" />
-    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor_test_at_the_end.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor.test_at_the_end Coverage Results" MODIFIED="1620932421978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestBox_test_read_input_config_from_file.coverage" NAME="pytest for test_MotorControllerInterface.TestBox.test_read_input_config_from_file Coverage Results" MODIFIED="1649848196896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/motor_controller$exp3.coverage" NAME="exp3 Coverage Results" MODIFIED="1625078325170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/motor_controller$Genauigkeit_messen.coverage" NAME="Genauigkeit_messen Coverage Results" MODIFIED="1620963989934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/motor_controller$Demo_GUI.coverage" NAME="Demo_GUI Coverage Results" MODIFIED="1661297184165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Demo_GUI" />
-    <SUITE FILE_PATH="coverage/motor_controller$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1593196740843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/motor_controller$interface.coverage" NAME="interface Coverage Results" MODIFIED="1610471584300" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller/interface" />
-    <SUITE FILE_PATH="coverage/motor_controller$SmarAct_MCS2.coverage" NAME="SmarAct_MCS2 Coverage Results" MODIFIED="1606418145705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller/SmarAct_MCS2" />
-    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor_test_go_to_check.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor.test_go_to_check Coverage Results" MODIFIED="1618697660412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/motor_controller$UMCC2_Demo_GUI.coverage" NAME="UMCC2_Demo_GUI Coverage Results" MODIFIED="1621042510530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MCC2_Demo_GUI" />
-    <SUITE FILE_PATH="coverage/motor_controller$pytest_in_test_mcs_py.coverage" NAME="pytest in test_mcs.py Coverage Results" MODIFIED="1620949573382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestBox_test_set_motors_config.coverage" NAME="pytest for test_MotorControllerInterface.TestBox.test_set_motors_config Coverage Results" MODIFIED="1649847953886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/motor_controller$heiliges_py.coverage" NAME="heiliges_py Coverage Results" MODIFIED="1645704629151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$MBP_test.coverage" NAME="MBP_test Coverage Results" MODIFIED="1618948176149" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$exp2.coverage" NAME="exp2 Coverage Results" MODIFIED="1617063098941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor_test_at_the_end.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor.test_at_the_end Coverage Results" MODIFIED="1620932421978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$initiatoren.coverage" NAME="initiatoren Coverage Results" MODIFIED="1607015132580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/MCC2_Demo_GUI" />
+    <SUITE FILE_PATH="coverage/pyproject_toml$make_empty_input_files.coverage" NAME="make_empty_input_files Coverage Results" MODIFIED="1625144587144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Demo_GUI/input" />
+    <SUITE FILE_PATH="coverage/motor_controller$MotorControllerInterface.coverage" NAME="MotorControllerInterface Coverage Results" MODIFIED="1593195896397" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/motor_controller" />
+    <SUITE FILE_PATH="coverage/motor_controller$pytest_for_test_MotorControllerInterface_TestMotor_test_at_the_beginning.coverage" NAME="pytest for test_MotorControllerInterface.TestMotor.test_at_the_beginning Coverage Results" MODIFIED="1620932546230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/motor_controller$exp5.coverage" NAME="exp5 Coverage Results" MODIFIED="1707884696456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -85,10 +85,9 @@ class MCS2Communicator(ContrCommunicator):
     def __command(self, command: bytes, clear_buffer: bool = True) -> bytes:
         """Ausführt ein Befehl und gibt die Antwort zurück, ohne Prüfung der Ausführung."""
 
-        self.__mutex1.acquire()
-        self.connector.send(command, clear_buffer)
-        reply = self.connector.read()
-        self.__mutex1.release()
+        with self.__mutex1:
+            self.connector.send(command, clear_buffer)
+            reply = self.connector.read()
         return reply
 
     # def __get_errors_and_raise(self):
@@ -105,30 +104,29 @@ class MCS2Communicator(ContrCommunicator):
         Wenn keine Fehler gibt, dann gibt leere bytes-string zurück.
         """
 
-        self.__mutex2.acquire()
-        reply = self.__command(b':SYST:ERR:COUN?')
+        with self.__mutex2:
+            reply = self.__command(b':SYST:ERR:COUN?')
 
-        if reply is None:
-            raise NoReplyError('Der Controller antwortet nicht!')
-        try:
-            errors_count = int(reply)
-        except ValueError:
-            raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
+            if reply is None:
+                raise NoReplyError('Der Controller antwortet nicht!')
+            try:
+                errors_count = int(reply)
+            except ValueError:
+                raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
 
-        errors = b''
-        if errors_count:
-            for i in range(errors_count):
-                reply = self.__command(b':SYST:ERR:NEXT?')
-                # reply_ = reply.split(b',')
-                # if len(reply_) != 2:
-                #     raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
-                # error_n, mess = reply_
-                # try:
-                #     error_n = int(error_n)
-                # except ValueError:
-                #     raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
-                errors += reply + b'\n'
-        self.__mutex2.release()
+            errors = b''
+            if errors_count:
+                for i in range(errors_count):
+                    reply = self.__command(b':SYST:ERR:NEXT?')
+                    # reply_ = reply.split(b',')
+                    # if len(reply_) != 2:
+                    #     raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
+                    # error_n, mess = reply_
+                    # try:
+                    #     error_n = int(error_n)
+                    # except ValueError:
+                    #     raise ReplyError(f'Unerwartete Antwort vom Controller: {reply}!')
+                    errors += reply + b'\n'
         return errors
 
     def go(self, shift: float, bus: int, axis: int):
@@ -209,8 +207,8 @@ class MCS2Communicator(ContrCommunicator):
 
     def command_to_box(self, command: bytes) -> (bool, Union[bytes, None]):
         """Ausführt ein Befehl ohne Adressieren und gibt die Antwort zurück."""
-        self.__mutex3.acquire()
-        try:
+
+        with self.__mutex3:
             self.get_errors()
             reply = self.__command(command)
 
@@ -219,9 +217,6 @@ class MCS2Communicator(ContrCommunicator):
                 return False, errors
             else:
                 return True, reply
-
-        finally:
-            self.__mutex3.release()
 
     def command_to_modul(self, command: bytes, bus: int) -> (bool, Union[bytes, None]):
         """Ausführt ein zum Modul adressierte Befehl und gibt die Antwort zurück."""

@@ -7,6 +7,7 @@ import threading
 import time
 from copy import deepcopy
 from typing import Dict, List, Tuple, Union, Set, Callable, Iterable
+import pandas as pd
 
 import serial.tools.list_ports
 from math import isclose
@@ -286,6 +287,34 @@ M_Coord = Tuple[int, int]
 Param_Val = Dict[str, float]
 
 
+def read_excel(address: str, sheet_name: str = 'Sheet1') -> List[Dict[str, str]]:
+    """Liest Excel-Datei, und gibt die Liste von Dicts für jede Reihe."""
+
+    data_from_file = pd.read_excel(address, sheet_name=sheet_name)
+
+    # Преобразование DataFrame в список словарей
+    data_from_file = data_from_file.to_dict('records')
+
+    # замена Nan на None
+    for row in data_from_file:
+        for key, value in row.items():
+            if pd.isna(value):
+                row[key] = None
+
+    # Datei prüfen
+    defect_error = FileReadError('Die Excel-Datei ist defekt und kann nicht gelesen werden!')
+    if not data_from_file:
+        raise defect_error
+    if None in list(file_row.values() for file_row in data_from_file):
+        raise defect_error
+
+    n_columns = len(data_from_file[0])
+    for file_row in data_from_file:
+        if len(file_row) != n_columns:
+            raise defect_error
+
+    return data_from_file
+
 def read_csv(address: str, delimiter: str = ';') -> List[Dict[str, str]]:
     """Liest CSV-Datei, und gibt die Liste von Dicts für jede Reihe."""
 
@@ -382,15 +411,15 @@ def read_saved_session_data_from_file(address: str = 'data/saved_session_data.cs
 def __transform_raw_input_data(raw_config_data: List[dict], communicator: ContrCommunicator) -> List[dict]:
     for motor_line in raw_config_data:
 
-        if motor_line['Mit Initiatoren(0 oder 1)'] != '':
-            motor_line['Mit Initiatoren(0 oder 1)'] = int(motor_line['Mit Initiatoren(0 oder 1)'])
+        if motor_line['Mit Initiatoren(0/1)'] != '':
+            motor_line['Mit Initiatoren(0/1)'] = int(motor_line['Mit Initiatoren(0/1)'])
         else:
-            motor_line['Mit Initiatoren(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['with_initiators']
+            motor_line['Mit Initiatoren(0/1)'] = Motor.DEFAULT_MOTOR_CONFIG['with_initiators']
 
-        if motor_line['Mit Encoder(0 oder 1)'] != '':
-            motor_line['Mit Encoder(0 oder 1)'] = int(motor_line['Mit Encoder(0 oder 1)'])
+        if motor_line['Mit Encoder(0/1)'] != '':
+            motor_line['Mit Encoder(0/1)'] = int(motor_line['Mit Encoder(0/1)'])
         else:
-            motor_line['Mit Encoder(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['with_encoder']
+            motor_line['Mit Encoder(0/1)'] = Motor.DEFAULT_MOTOR_CONFIG['with_encoder']
 
         if motor_line['Einheiten'] != '':
             motor_line['Einheiten'] = motor_line['Einheiten']
@@ -402,13 +431,13 @@ def __transform_raw_input_data(raw_config_data: List[dict], communicator: ContrC
         else:
             motor_line['Umrechnungsfaktor'] = Motor.DEFAULT_MOTOR_CONFIG['displ_per_contr']
 
-        if 'Inversion(0 oder 1)' in motor_line.keys():
-            if motor_line['Inversion(0 oder 1)'] != '':
-                motor_line['Inversion(0 oder 1)'] = bool(int(motor_line['Inversion(0 oder 1)']))
+        if 'Inversion(0/1)' in motor_line.keys():
+            if motor_line['Inversion(0/1)'] != '':
+                motor_line['Inversion(0/1)'] = bool(int(motor_line['Inversion(0/1)']))
             else:
-                motor_line['Inversion(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['inversion']
+                motor_line['Inversion(0/1)'] = Motor.DEFAULT_MOTOR_CONFIG['inversion']
         else:
-            motor_line['Inversion(0 oder 1)'] = Motor.DEFAULT_MOTOR_CONFIG['inversion']
+            motor_line['Inversion(0/1)'] = Motor.DEFAULT_MOTOR_CONFIG['inversion']
 
         for parameter_name in communicator.PARAMETER_DEFAULT.keys():
             if parameter_name not in motor_line.keys():
@@ -446,9 +475,9 @@ def read_input_config_from_file(communicator: ContrCommunicator, address: str = 
             controllers_to_init.append(motor_coord[0])
 
         motor_config = {'name': motor_line['Motor Name'],
-                        'with_initiators': motor_line['Mit Initiatoren(0 oder 1)'],
-                        'with_encoder': motor_line['Mit Encoder(0 oder 1)'],
-                        'inversion': motor_line['Inversion(0 oder 1)'],
+                        'with_initiators': motor_line['Mit Initiatoren(0/1)'],
+                        'with_encoder': motor_line['Mit Encoder(0/1)'],
+                        'inversion': motor_line['Inversion(0/1)'],
                         'display_units': motor_line['Einheiten'],
                         'displ_per_contr': motor_line['Umrechnungsfaktor']}
         motors_config[motor_coord] = motor_config
@@ -1284,25 +1313,24 @@ class MotorsCluster:
             rows.append([name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits])
 
         # Daten der vorhandenen Motoren in die Datei schreiben
-        self.__mutex.acquire()
-        f = open(address, "wt")
+        with self.__mutex:
+            f = open(address, "wt")
 
-        header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
-        f.write(make_csv_row(header))
+            header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
+            f.write(make_csv_row(header))
 
-        for row in rows:
-            f.write(make_csv_row(row))
-
-        # Daten von den abwesenden Motoren zurück in die Datei schreiben
-        if saved_data:
-            absent_motors = set(saved_data.keys()) - set(self.motors.keys())
-            for name in absent_motors:
-                position, norm_per_contr, soft_limits = saved_data[name]
-                row = [name, position, norm_per_contr, *soft_limits]
+            for row in rows:
                 f.write(make_csv_row(row))
 
-        f.close()
-        self.__mutex.release()
+            # Daten von den abwesenden Motoren zurück in die Datei schreiben
+            if saved_data:
+                absent_motors = set(saved_data.keys()) - set(self.motors.keys())
+                for name in absent_motors:
+                    position, norm_per_contr, soft_limits = saved_data[name]
+                    row = [name, position, norm_per_contr, *soft_limits]
+                    f.write(make_csv_row(row))
+
+            f.close()
 
         logging.info(f'Die Sitzungsdaten wurde in "{address}" gespeichert.')
 
@@ -1349,7 +1377,7 @@ def make_empty_input_file(communicator: ContrCommunicator,
     separator = ';'
 
     # Motor liste schreiben
-    header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0 oder 1)', 'Mit Encoder(0 oder 1)',
+    header = ['Motor Name', 'Bus', 'Achse', 'Mit Initiatoren(0/1)', 'Mit Encoder(0/1)',
               'Einheiten', 'Umrechnungsfaktor']
     for parameter_name in communicator.PARAMETER_DEFAULT.keys():
         header.append(parameter_name)

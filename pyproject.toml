@@ -11,6 +11,10 @@ pyserial = ">=3"
 timeout-decorator = "*"
 #PyQt5 = "^5"
 pyqt-led = "*"
+thorlabs-apt-device = "^0.3.5"
+thorlabs-apt = "^0.2"
+pandas = "^2.2.0"
+openpyxl = "^3.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"

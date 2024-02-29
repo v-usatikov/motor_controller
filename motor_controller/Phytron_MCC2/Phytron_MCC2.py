@@ -156,10 +156,9 @@ class MCC2Communicator(ContrCommunicator):
     def command_to_box(self, command: bytes) -> (bool, Union[bytes, None]):
         """Ausführt ein Befehl ohne Adressieren und gibt die Antwort zurück."""
 
-        self.__mutex.acquire()
-        self.connector.send(command)
-        reply = self.read_reply()
-        self.__mutex.release()
+        with self.__mutex:
+            self.connector.send(command)
+            reply = self.read_reply()
         return reply
 
     def command_to_modul(self, command: bytes, bus: int) -> (bool, Union[bytes, None]):
