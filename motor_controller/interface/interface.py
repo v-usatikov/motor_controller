@@ -449,9 +449,18 @@ def __transform_raw_input_data(raw_config_data: List[dict], communicator: ContrC
     return raw_config_data
 
 
-def read_input_config_from_file(communicator: ContrCommunicator, address: str = 'input/Phytron_Motoren_config.csv') \
+def read_input_config_from_file(communicator: ContrCommunicator, input_file: str | Tuple[str, str] = 'input/Phytron_Motoren_config.csv') \
         -> (List[int], List[M_Coord], Dict[M_Coord, dict], Dict[M_Coord, Param_Val]):
-    raw_config_data = read_csv(address)
+    """Liest die Konfigurations-Datei und gibt die Daten für die Initialisierung der Motoren zurück.
+    input_file: str | Tuple[str, str] - Adresse der csv-Datei oder Tuple mit Adresse der Excel-Datei und Name des Blattes.
+    """
+
+    if isinstance(input_file, tuple):
+        raw_config_data = read_excel(input_file[0], input_file[1])
+    elif isinstance(input_file, str):
+        raw_config_data = read_csv(input_file)
+    else:
+        raise TypeError(f'Der Typ von input_file ist nicht korrekt! Erwartet wird str oder Tuple[str, str]! Erhalten: {type(input_file)}.')
 
     correct, message = communicator.check_raw_input_data(raw_config_data)
     if not correct:
@@ -1399,7 +1408,7 @@ def make_empty_input_file(communicator: ContrCommunicator,
 class Box:
     """Diese Klasse entspricht einer Box, die mehrere Controller-Modulen im Busbetrieb enthaltet."""
 
-    def __init__(self, communicator: ContrCommunicator, input_file: str = None, tolerance: float = None):
+    def __init__(self, communicator: ContrCommunicator, input_file: str | Tuple[str, str] = None, tolerance: float = None):
         self.communicator = communicator
 
         self.report = ""
@@ -1463,7 +1472,7 @@ class Box:
         self.report = report
         return report
 
-    def initialize_with_input_file(self, config_file: str = 'input/Phytron_Motoren_config.csv'):
+    def initialize_with_input_file(self, config_file: str | Tuple[str, str] = 'input/Phytron_Motoren_config.csv'):
         """Sucht und macht Objekte für alle verfügbare Controller und Motoren. Gibt ein Bericht zurück."""
 
         def del_motor_from_init(bus: int, axis: int):
