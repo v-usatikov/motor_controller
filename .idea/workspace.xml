@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="Merge remote-tracking branch 'motor_controller_rem/master'">
+      <change beforePath="$PROJECT_DIR$/motor_controller/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -436,7 +435,7 @@
       <workItem from="1711561177562" duration="537000" />
       <workItem from="1711591243156" duration="1249000" />
       <workItem from="1711976771459" duration="599000" />
-      <workItem from="1711979566200" duration="3933000" />
+      <workItem from="1711979566200" duration="5336000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -765,7 +764,31 @@
       <option name="project" value="LOCAL" />
       <updated>1712003455589</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt.">
+      <option name="closed" value="true" />
+      <created>1712004481577</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1712004481577</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt.">
+      <option name="closed" value="true" />
+      <created>1712006402962</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1712006402962</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Merge remote-tracking branch 'motor_controller_rem/master'">
+      <option name="closed" value="true" />
+      <created>1712006612542</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1712006612542</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -819,7 +842,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Motor.go: wenn shift=0 einfach nichts machen." />
     <MESSAGE value="+ Parameter &quot;with_encoder&quot;&#10;motor.at_the_end()/.at_the_beginning() geändert, können jetzt mit einem Encoder funktionieren." />
     <MESSAGE value="Die Unterschtützung von SmarAct MCS Controller addiert." />
     <MESSAGE value="Addiert: MCSBoxSerial, MCS2_EthernetConnector, MCS2BoxEthernet" />
@@ -844,7 +866,8 @@
     <MESSAGE value="edit dep" />
     <MESSAGE value="schutz gegen deadlocks mit &quot;with mutex:&quot;-Konstruktion" />
     <MESSAGE value="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt." />
-    <option name="LAST_COMMIT_MESSAGE" value="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt." />
+    <MESSAGE value="Merge remote-tracking branch 'motor_controller_rem/master'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'motor_controller_rem/master'" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

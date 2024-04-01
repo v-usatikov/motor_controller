@@ -15,7 +15,7 @@ class TDC001Communicator(ContrCommunicator):
     tolerance: float  # Für diese Controller akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
     calibration_shift: float = 1
 
-    def __init__(self, serial_number: int):
+    def __init__(self):
 
         self._axes_list = apt.list_available_devices()
         self.apt_motor: Dict[int, apt.Motor] = {}
