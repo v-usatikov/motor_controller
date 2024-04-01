@@ -1,8 +1,13 @@
 # coding= utf-8
+import platform
 import threading
 from motor_controller.interface import *
-import thorlabs_apt as apt
 from motor_controller.interface import ContrCommunicator
+
+if platform.system() == 'Windows':
+    import thorlabs_apt as apt
+else:
+    apt = None
 
 if __name__ == '__main__':
     logscolor.init_config()
@@ -16,6 +21,9 @@ class TDC001Communicator(ContrCommunicator):
     calibration_shift: float = 1
 
     def __init__(self):
+
+        if apt is None:
+            raise ImportError('Die Thorlabs APT-Bibliothek ist auf dieser Plattform nicht verfügbar.')
 
         self._axes_list = apt.list_available_devices()
         self.apt_motor: Dict[int, apt.Motor] = {}
