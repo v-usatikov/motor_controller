@@ -186,11 +186,11 @@ class MCC2Communicator(ContrCommunicator):
         """Prüft ob die rohe Daten aus der input-Datei kompatibel sind."""
 
         for motor_line in raw_input_data:
-            init_status = motor_line['Mit Initiatoren(0 oder 1)']
+            init_status = motor_line['Mit Initiatoren(0/1)']
             message = f'"Mit Initiatoren" muss 0 oder 1 sein, und kein "{init_status}"'
             if init_status != '':
                 try:
-                    init_status = bool(int(motor_line['Mit Initiatoren(0 oder 1)']))
+                    init_status = bool(int(motor_line['Mit Initiatoren(0/1)']))
                 except ValueError:
                     return False, message
                 if init_status not in (0, 1):
@@ -200,7 +200,7 @@ class MCC2Communicator(ContrCommunicator):
             message = f'"Einheiten pro Schritt" muss ein float Wert haben, und kein "{units_per_step}"'
             if units_per_step != '':
                 try:
-                    float(motor_line['Mit Initiatoren(0 oder 1)'])
+                    float(motor_line['Mit Initiatoren(0/1)'])
                 except ValueError:
                     return False, message
 
