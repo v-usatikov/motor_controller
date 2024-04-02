@@ -12,6 +12,21 @@ else:
 if __name__ == '__main__':
     logscolor.init_config()
 
+
+def get_list_of_available_devices() -> List[int]:
+    """Gibt die Liste der Seriennummern aller verfügbaren Geräte zurück.
+    Wenn keine Geräte gefunden wurden, gibt eine leere Liste zurück.
+    """
+
+    if apt is None:
+        return []
+    apt_list = apt.list_available_devices()
+    serial_list = []
+    for apt_device in apt_list:
+        serial_list.append(apt_device[1])
+    return serial_list
+
+
 class TDC001Communicator(ContrCommunicator):
     """Diese Klasse beschreibt die Sprache, die man braucht, um mit einem Thorlabs TDC001 Controller zu kommunizieren.
     Hier sind alle herstellerspezifische Eigenschaften und Algorithmen zusammen gesammelt"""
@@ -25,7 +40,7 @@ class TDC001Communicator(ContrCommunicator):
         if apt is None:
             raise ImportError('Die Thorlabs APT-Bibliothek ist auf dieser Plattform nicht verfügbar.')
 
-        self._axes_list = apt.list_available_devices()
+        self._axes_list = get_list_of_available_devices()
         self.apt_motor: Dict[int, apt.Motor] = {}
         self.parameters: Dict[int, Dict] = {}
         for axis in self._axes_list:

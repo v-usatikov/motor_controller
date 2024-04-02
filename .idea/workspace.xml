@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="Merge remote-tracking branch 'motor_controller_rem/master'">
-      <change beforePath="$PROJECT_DIR$/motor_controller/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/__init__.py" afterDir="false" />
+    <list default="true" id="ac4d878a-5b8d-4138-9b9e-e3b56fe49d4d" name="Default Changelist" comment="replace Nan with '' in read_excel()">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/motor_controller/Thorlabs/Thorlabs.py" beforeDir="false" afterPath="$PROJECT_DIR$/motor_controller/Thorlabs/Thorlabs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -435,7 +436,7 @@
       <workItem from="1711561177562" duration="537000" />
       <workItem from="1711591243156" duration="1249000" />
       <workItem from="1711976771459" duration="599000" />
-      <workItem from="1711979566200" duration="5336000" />
+      <workItem from="1711979566200" duration="9584000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1593197450933</created>
@@ -724,38 +725,6 @@
       <option name="project" value="LOCAL" />
       <updated>1668628142557</updated>
     </task>
-    <task id="LOCAL-00042" summary="bug fix">
-      <option name="closed" value="true" />
-      <created>1693488671187</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1693488671187</updated>
-    </task>
-    <task id="LOCAL-00043" summary="edit dep">
-      <option name="closed" value="true" />
-      <created>1694700930068</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1694700930068</updated>
-    </task>
-    <task id="LOCAL-00044" summary="schutz gegen deadlocks mit &quot;with mutex:&quot;-Konstruktion">
-      <option name="closed" value="true" />
-      <created>1709247179787</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1709247179787</updated>
-    </task>
-    <task id="LOCAL-00045" summary="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt.">
-      <option name="closed" value="true" />
-      <created>1712001831472</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1712001831472</updated>
-    </task>
     <task id="LOCAL-00046" summary="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt.">
       <option name="closed" value="true" />
       <created>1712003455589</created>
@@ -788,7 +757,39 @@
       <option name="project" value="LOCAL" />
       <updated>1712006612542</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Thorlabs in _input_ einngefügt">
+      <option name="closed" value="true" />
+      <created>1712009265053</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1712009265054</updated>
+    </task>
+    <task id="LOCAL-00051" summary="bug fix">
+      <option name="closed" value="true" />
+      <created>1712009497506</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1712009497506</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add platform check in Thorlabs.py">
+      <option name="closed" value="true" />
+      <created>1712013706552</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1712013706552</updated>
+    </task>
+    <task id="LOCAL-00053" summary="replace Nan with '' in read_excel()">
+      <option name="closed" value="true" />
+      <created>1712036622311</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1712036622311</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -842,9 +843,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="+ Parameter &quot;with_encoder&quot;&#10;motor.at_the_end()/.at_the_beginning() geändert, können jetzt mit einem Encoder funktionieren." />
-    <MESSAGE value="Die Unterschtützung von SmarAct MCS Controller addiert." />
-    <MESSAGE value="Addiert: MCSBoxSerial, MCS2_EthernetConnector, MCS2BoxEthernet" />
     <MESSAGE value="Funktionen von Box in MotorsCluster abgewandert. Das Box-Objekt dient jetzt nur für eine erste Einstellung der Motoren." />
     <MESSAGE value="bus_check() als Method von ContrCommunicator addiert." />
     <MESSAGE value="StandardStopIndicator, make_empty_input_file und kleine Änderungen" />
@@ -862,12 +860,15 @@
     <MESSAGE value="save_session_data() absturzsicher gemacht, bug fix" />
     <MESSAGE value="threading.Lock in save_session_data() eingefügt" />
     <MESSAGE value="save_session_data() exeptions handhaben" />
-    <MESSAGE value="bug fix" />
     <MESSAGE value="edit dep" />
     <MESSAGE value="schutz gegen deadlocks mit &quot;with mutex:&quot;-Konstruktion" />
     <MESSAGE value="Unterstützung von excel-Tabellen als Input. &#10;Thorlabs motoren eingefügt." />
     <MESSAGE value="Merge remote-tracking branch 'motor_controller_rem/master'" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'motor_controller_rem/master'" />
+    <MESSAGE value="Thorlabs in _input_ einngefügt" />
+    <MESSAGE value="bug fix" />
+    <MESSAGE value="add platform check in Thorlabs.py" />
+    <MESSAGE value="replace Nan with '' in read_excel()" />
+    <option name="LAST_COMMIT_MESSAGE" value="replace Nan with '' in read_excel()" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
