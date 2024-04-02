@@ -31,9 +31,9 @@ class TDC001Communicator(ContrCommunicator):
     """Diese Klasse beschreibt die Sprache, die man braucht, um mit einem Thorlabs TDC001 Controller zu kommunizieren.
     Hier sind alle herstellerspezifische Eigenschaften und Algorithmen zusammen gesammelt"""
 
-    PARAMETER_DEFAULT: Dict = {"min_pos": 5, "max_pos": 50, "units": 1, "pitch": 0.5, "accn": 0, "max_vel": 0}
+    PARAMETER_DEFAULT: Dict = {"min_pos": -50, "max_pos": 50, "units": 1, "pitch": 0.5, "accn": 0.4, "max_vel": 0.3}
     tolerance: float = 0.001 # Für diese Controller akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
-    calibration_shift: float = 1
+    calibration_shift: float = 20
 
     def __init__(self):
 
