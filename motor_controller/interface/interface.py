@@ -292,14 +292,14 @@ def read_excel(address: str, sheet_name: str = 'Sheet1') -> List[Dict[str, str]]
 
     data_from_file = pd.read_excel(address, sheet_name=sheet_name)
 
-    # Преобразование DataFrame в список словарей
+    # convert DataFrame in list of dicts
     data_from_file = data_from_file.to_dict('records')
 
-    # замена Nan на None
+    # replace Nan with ''
     for row in data_from_file:
         for key, value in row.items():
             if pd.isna(value):
-                row[key] = None
+                row[key] = ''
 
     # Datei prüfen
     defect_error = FileReadError('Die Excel-Datei ist defekt und kann nicht gelesen werden!')
