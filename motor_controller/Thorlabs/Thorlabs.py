@@ -32,7 +32,7 @@ class TDC001Communicator(ContrCommunicator):
     Hier sind alle herstellerspezifische Eigenschaften und Algorithmen zusammen gesammelt"""
 
     PARAMETER_DEFAULT: Dict = {"min_pos": 5, "max_pos": 50, "units": 1, "pitch": 0.5, "accn": 0, "max_vel": 0}
-    tolerance: float  # Für diese Controller akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
+    tolerance: float = 0.001 # Für diese Controller akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
     calibration_shift: float = 1
 
     def __init__(self):
