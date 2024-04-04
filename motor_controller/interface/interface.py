@@ -347,7 +347,7 @@ def write_csv_from_dict(addres: str, dict_to_save: dict, delimiter: str = ';'):
 
 
 def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
-    right_header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
+    right_header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit', 'displ_null']
     if list(raw_motors_data[0].keys()) != right_header:
         return False
 
@@ -381,7 +381,7 @@ def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
 
 
 def __transform_raw_saved_session_data(raw_motors_data: List[dict]) \
-        -> Dict[str, Tuple[float, float, tuple]]:
+        -> Dict[str, Tuple[float, float, tuple, float]]:
 
     transformed_motors_data = {}
     for motor_line in raw_motors_data:
@@ -393,13 +393,15 @@ def __transform_raw_saved_session_data(raw_motors_data: List[dict]) \
         max_limit = float(motor_line['max_limit']) if motor_line['max_limit'] != 'None' else None
         soft_limits = (min_limit, max_limit)
 
-        transformed_motors_data[name] = (position, norm_per_contr, soft_limits)
+        displ_null = float(motor_line['displ_null'])
+
+        transformed_motors_data[name] = (position, norm_per_contr, soft_limits, displ_null)
 
     return transformed_motors_data
 
 
 def read_saved_session_data_from_file(address: str = 'data/saved_session_data.csv') \
-        -> Dict[str, Tuple[float, float, tuple]]:
+        -> Dict[str, Tuple[float, float, tuple, float]]:
 
     raw_data = read_csv(address)
     if __raw_saved_session_data_is_ok(raw_data):
@@ -886,7 +888,7 @@ class Motor:
             time.sleep(0.2)
 
     def set_display_null(self, displ_null: float = None):
-        """Anzeiger Null in Normierte Einheiten einstellen"""
+        """Anzeiger Null in normierte Einheiten einstellen"""
 
         if displ_null is None:
             self.config['displ_null'] = self.position()
@@ -947,17 +949,18 @@ class Motor:
     def transform_units(self, value: float, current_u: str, to: str, rel: bool = False) -> float:
         """Transformiert einen Wert in andere Einheiten.
 
-        Durch diese Funktion erfolgt die Transformation zwischen 3 Einheiten:
+        Durch diese Funktion erfolgt die Transformation zwischen 4 Einheiten:
         'contr' - Einheiten des Controllers
         'norm' - normierte Einheiten
-        'displ' - Anzeiger Einheiten, die durch Benutzer eingestellt werden können.
+        'displ' - Anzeiger Einheiten, die durch Benutzer eingestellt werden können. Null ist frei wählbar.
+        'displ_centr' - Anzeiger Einheiten, die durch Benutzer eingestellt werden können, aber mit Null immer bei 500 in normierten Einheiten.
 
         Außerdem, wenn rel=False, erfolgt eine vollständige Koordinatentransformation
         mit Berücksichtigung von den Nullstellen des Controllers, des normierten Systems
         und des durch Benutzer eingestellten Anzeiger-Systems.
         """
 
-        units_list = ["norm", "displ", "contr"]
+        units_list = ["norm", "displ", "displ_centr", "contr"]
         if current_u not in units_list:
             raise ValueError(f'Unbekante Einheiten! {units_list} wurde erwartet und kein: "{current_u}".')
         elif to not in units_list:
@@ -965,20 +968,35 @@ class Motor:
         if current_u == to:
             return value
 
+        if current_u == "displ_centr":
+            current_u = "displ"
+            curr_centered = True
+        else:
+            curr_centered = False
+
+        if to == "displ_centr":
+            to = "displ"
+            to_centered = True
+        else:
+            to_centered = False
+
         if current_u == "contr" and to == "norm":
             return self.__contr_to_norm(value, rel)
         elif current_u == "norm" and to == "contr":
             return self.__norm_to_contr(value, rel)
         elif current_u == "norm" and to == "displ":
             value = self.__norm_to_contr(value, rel)
-            return self.__contr_to_displ(value, rel)
+            return self.__contr_to_displ(value, rel, to_centered)
         elif current_u == "displ" and to == "norm":
-            value = self.__displ_to_contr(value, rel)
+            value = self.__displ_to_contr(value, rel, curr_centered)
             return self.__contr_to_norm(value, rel)
         elif current_u == "contr" and to == "displ":
-            return self.__contr_to_displ(value, rel)
+            return self.__contr_to_displ(value, rel, to_centered)
         elif current_u == "displ" and to == "contr":
-            return self.__displ_to_contr(value, rel)
+            return self.__displ_to_contr(value, rel, curr_centered)
+        elif current_u == "displ" and to == "displ":
+            value = self.__displ_to_contr(value, rel, curr_centered)
+            return self.__contr_to_displ(value, rel, to_centered)
 
     def __contr_to_norm(self, value: float, rel: bool = False) -> float:
         if not rel:
@@ -992,13 +1010,25 @@ class Motor:
             value = value + self.config['null_position']
         return value
 
-    def __contr_to_displ(self, value: float, rel: bool = False) -> float:
+    def __contr_to_displ(self, value: float, rel: bool = False, centered: bool = False) -> float:
+
+        if centered:
+            displ_null = 500
+        else:
+            displ_null = self.config['displ_null']
+
         if not rel:
-            value = value - self.__norm_to_contr(self.config['displ_null'])
+            value = value - self.__norm_to_contr(displ_null)
         value *= self.config['displ_per_contr']
         return value
 
-    def __displ_to_contr(self, value: float, rel: bool = False) -> float:
+    def __displ_to_contr(self, value: float, rel: bool = False, centered: bool = False) -> float:
+
+        if centered:
+            displ_null = 500
+        else:
+            displ_null = self.config['displ_null']
+
         value /= self.config['displ_per_contr']
         if not rel:
             value = value + self.__norm_to_contr(self.config['displ_null'])
@@ -1319,13 +1349,13 @@ class MotorsCluster:
         # Erstmal Positionen und andere Daten von Motoren ablesen, bevor Datei zu ändern (für Sicherheit)
         rows = []
         for name, motor in self.motors.items():
-            rows.append([name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits])
+            rows.append([name, motor.position('norm'), motor.config['norm_per_contr'], *motor.soft_limits, motor.config['displ_null']])
 
         # Daten der vorhandenen Motoren in die Datei schreiben
         with self.__mutex:
             f = open(address, "wt")
 
-            header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit']
+            header = ['name', 'position', 'norm_per_contr', 'min_limit', 'max_limit', 'displ_null']
             f.write(make_csv_row(header))
 
             for row in rows:
@@ -1335,8 +1365,8 @@ class MotorsCluster:
             if saved_data:
                 absent_motors = set(saved_data.keys()) - set(self.motors.keys())
                 for name in absent_motors:
-                    position, norm_per_contr, soft_limits = saved_data[name]
-                    row = [name, position, norm_per_contr, *soft_limits]
+                    position, norm_per_contr, soft_limits, displ_null = saved_data[name]
+                    row = [name, position, norm_per_contr, *soft_limits, displ_null]
                     f.write(make_csv_row(row))
 
             f.close()

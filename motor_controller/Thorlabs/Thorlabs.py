@@ -13,6 +13,9 @@ if __name__ == '__main__':
     logscolor.init_config()
 
 
+STATUS_IS_AVAILABLE: bool = True
+
+
 def get_list_of_available_devices() -> List[int]:
     """Gibt die Liste der Seriennummern aller verfügbaren Geräte zurück.
     Wenn keine Geräte gefunden wurden, gibt eine leere Liste zurück.
@@ -31,7 +34,7 @@ class TDC001Communicator(ContrCommunicator):
     """Diese Klasse beschreibt die Sprache, die man braucht, um mit einem Thorlabs TDC001 Controller zu kommunizieren.
     Hier sind alle herstellerspezifische Eigenschaften und Algorithmen zusammen gesammelt"""
 
-    PARAMETER_DEFAULT: Dict = {"min_pos": -50, "max_pos": 50, "units": 1, "pitch": 0.5, "accn": 0.4, "max_vel": 0.3}
+    PARAMETER_DEFAULT: Dict = {"min_pos": -1000, "max_pos": 1000, "units": 1, "pitch": 0.5, "accn": 0.4, "max_vel": 0.3}
     tolerance: float = 0.001 # Für diese Controller akzeptabele Abweichung bei Positionierung der Motoren (in Controller Einheiten)
     calibration_shift: float = 20
 
@@ -112,19 +115,28 @@ class TDC001Communicator(ContrCommunicator):
     def motor_stand(self, bus: int, axis: int) -> bool:
         """Zeigt, ob der Motor im Moment steht(True) oder fährt(False)."""
 
-        self._check_bus_axis(bus, axis)
-        return not self.apt_motor[axis].is_in_motion
+        if STATUS_IS_AVAILABLE:
+            self._check_bus_axis(bus, axis)
+            return not self.apt_motor[axis].is_in_motion
+        else:
+            return True
 
     def motor_at_the_beg(self, bus: int, axis: int) -> bool:
         """Zeigt, ob der Anfang-Initiator im Moment aktiviert ist."""
 
-        self._check_bus_axis(bus, axis)
-        return self.apt_motor[axis].is_reverse_hardware_limit_switch_active
+        if STATUS_IS_AVAILABLE:
+            self._check_bus_axis(bus, axis)
+            return self.apt_motor[axis].is_reverse_hardware_limit_switch_active
+        else:
+            return False
 
     def motor_at_the_end(self, bus: int, axis: int) -> bool:
         """Zeigt, ob der End-Initiator im Moment aktiviert ist."""
 
-        return self.apt_motor[axis].is_reverse_hardware_limit_switch_active
+        if STATUS_IS_AVAILABLE:
+            return self.apt_motor[axis].is_reverse_hardware_limit_switch_active
+        else:
+            return False
 
     def bus_check(self, bus: int) -> (bool, str):
         """Prüft ob ein Modul mit angegebenen Bus-Nummer vorhanden/verbunden ist. Gibt ein bool-Wert
