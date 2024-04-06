@@ -364,7 +364,7 @@ def __raw_saved_session_data_is_ok(raw_motors_data: List[dict]) -> bool:
                 return False
 
         for key, value in motor_line.items():
-            if key not in ['name', 'min_limit', 'max_limit']:
+            if key not in ['name', 'min_limit', 'max_limit', 'displ_null']:
                 try:
                     float(motor_line[key])
                 except ValueError:
@@ -1384,11 +1384,12 @@ class MotorsCluster:
 
         for name, motor in self.motors.items():
             if name in saved_data.keys():
-                position, norm_per_contr, soft_limits = saved_data[name]
+                position, norm_per_contr, soft_limits, displ_null = saved_data[name]
 
                 motor.config['norm_per_contr'] = norm_per_contr
                 motor.config['null_position'] = motor.position('contr') - position / norm_per_contr
                 motor.soft_limits = soft_limits
+                motor.config['displ_null'] = displ_null
 
                 success_list.append(motor.coord())
             else:
