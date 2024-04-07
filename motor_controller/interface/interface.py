@@ -1031,7 +1031,7 @@ class Motor:
 
         value /= self.config['displ_per_contr']
         if not rel:
-            value = value + self.__norm_to_contr(self.config['displ_null'])
+            value = value + self.__norm_to_contr(displ_null)
         return value
 
 

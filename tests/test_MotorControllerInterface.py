@@ -275,8 +275,21 @@ class TestMotor(TestCase):
 
         self.assertEqual(-50, round(motor.transform_units(223.15 * 0.123, 'contr', to='norm'), 4))
 
+        # displ_centr
+        # null ist 500 in normierte Einheiten, 500 Celsius ist 932 Fahrenheit
+        self.assertEqual(0, round(motor.transform_units(500, 'norm', to='displ_centr'), 4))
+        self.assertEqual(932, round(motor.transform_units(0, 'displ_centr', to='displ'), 4))
+
+        self.assertEqual(212 - 932, round(motor.transform_units(100, 'norm', to='displ_centr'), 4))
+        self.assertEqual(100, round(motor.transform_units(212 - 932, 'displ_centr', to='norm'), 4))
+
+        self.assertEqual(212 - 932, round(motor.transform_units(373.15 * 0.123, 'contr', to='displ_centr'), 4))
+        self.assertEqual(373.15 * 0.123, round(motor.transform_units(212 - 932, 'displ_centr', to='contr'), 6))
+
+        # Rundgang test
         value = 3567.345
-        value = motor.transform_units(value, 'contr', to='norm')
+        value = motor.transform_units(value, 'contr', to='displ_centr')
+        value = motor.transform_units(value, 'displ_centr', to='norm')
         value = motor.transform_units(value, 'norm', to='displ')
         value = motor.transform_units(value, 'displ', to='contr')
         self.assertEqual(3567.345, round(value, 4))
